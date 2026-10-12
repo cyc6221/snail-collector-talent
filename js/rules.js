@@ -16,36 +16,34 @@ export function setLevel(id, target) {
   const cur = lv(id);
   if (target === cur) return;
 
-  if (state.strict) {
-    if (target > cur) {
-      const fb = firstBlock(b);
-      if (fb >= 0 && f.li > fb) {
-        toast('第 ' + (f.li + 1) + ' 層尚未解鎖：請先讓第 ' + (fb + 1) + ' 層合計達 ' + effThr(b.layers[fb]) + ' 級。');
-        return;
-      }
-      const own = ownedNum(n.color);
-      if (own !== null && n.cost > 0) {
-        const remain = own - usedByColor()[n.color];
-        const afford = Math.max(0, Math.floor(remain / n.cost));
-        const allowed = cur + afford;
-        if (allowed < target) {
-          if (allowed <= cur) {
-            toast(CN[n.color] + '點數不足，無法再升級「' + n.name + '」。');
-            return;
-          }
-          target = allowed;
-          toast(CN[n.color] + '點數不足，「' + n.name + '」只升到 ' + target + ' 級。');
-        }
-      }
-    } else {
-      const next = Object.assign({}, state.alloc);
-      if (target > 0) next[id] = target; else delete next[id];
-      const before = unlockFlags(b), after = unlockFlags(b, next);
-      for (let j = f.li + 1; j < b.layers.length; j++) {
-        if (before[j] && !after[j] && layerSum(b.layers[j], next) > 0) {
-          toast('無法降級：第 ' + (f.li + 1) + ' 層合計會低於 ' + effThr(l) + ' 級，讓第 ' + (j + 1) + ' 層（已有配點）失去解鎖。請先減少後面層級的點數。');
+  if (target > cur) {
+    const fb = firstBlock(b);
+    if (fb >= 0 && f.li > fb) {
+      toast('第 ' + (f.li + 1) + ' 層尚未解鎖：請先讓第 ' + (fb + 1) + ' 層合計達 ' + effThr(b.layers[fb]) + ' 級。');
+      return;
+    }
+    const own = ownedNum(n.color);
+    if (own !== null && n.cost > 0) {
+      const remain = own - usedByColor()[n.color];
+      const afford = Math.max(0, Math.floor(remain / n.cost));
+      const allowed = cur + afford;
+      if (allowed < target) {
+        if (allowed <= cur) {
+          toast(CN[n.color] + '點數不足，無法再升級「' + n.name + '」。');
           return;
         }
+        target = allowed;
+        toast(CN[n.color] + '點數不足，「' + n.name + '」只升到 ' + target + ' 級。');
+      }
+    }
+  } else {
+    const next = Object.assign({}, state.alloc);
+    if (target > 0) next[id] = target; else delete next[id];
+    const before = unlockFlags(b), after = unlockFlags(b, next);
+    for (let j = f.li + 1; j < b.layers.length; j++) {
+      if (before[j] && !after[j] && layerSum(b.layers[j], next) > 0) {
+        toast('無法降級：第 ' + (f.li + 1) + ' 層合計會低於 ' + effThr(l) + ' 級，讓第 ' + (j + 1) + ' 層（已有配點）失去解鎖。請先減少後面層級的點數。');
+        return;
       }
     }
   }

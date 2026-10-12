@@ -62,13 +62,12 @@ export function sanitizeOwned(src, fallback) {
   return out;
 }
 
-export function restore(o, owned, strict = true) {
+export function restore(o, owned) {
   if (!o || typeof o !== 'object') throw new Error('內容不是設定物件');
   const data = sanitizeData(o.data && typeof o.data === 'object' ? o.data : o);
   return {
     data,
     alloc: sanitizeAlloc(o.alloc, data),
-    owned: sanitizeOwned(o.owned, owned),
-    strict: typeof o.strict === 'boolean' ? o.strict : strict
+    owned: sanitizeOwned(o.owned, owned)
   };
 }

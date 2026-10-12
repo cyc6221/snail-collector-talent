@@ -30,7 +30,7 @@ function loadSaved() {
   } catch (e) { return null; }
 }
 export function snapshot() {
-  return { app: 'snail-collector-sim', version: 1, strict: state.strict, owned: state.owned, alloc: state.alloc, data: state.data };
+  return { app: 'snail-collector-sim', version: 1, owned: state.owned, alloc: state.alloc, data: state.data };
 }
 export function save() {
   try {
@@ -46,7 +46,7 @@ export function save() {
 const saved = loadSaved();
 export const hadSaved = !!saved;
 export const state = Object.assign(
-  { data: defaultData(), alloc: {}, owned: defaultOwned(), strict: true },
+  { data: defaultData(), alloc: {}, owned: defaultOwned() },
   saved || {},
   { edit: false, tab: 0 }
 );

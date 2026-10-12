@@ -56,7 +56,7 @@ function connHTML(b, bi, li, row, flags) {
   const l = b.layers[li], next = b.layers[li + 1];
   const sum = layerSum(l), thr = effThr(l);
   const pass = sum >= thr;
-  const lit = pass && !(state.strict && !flags[li]);
+  const lit = pass && flags[li];
   const gate = state.edit
     ? '<label class="gate-in">門檻 <input type="number" class="thr-in" min="0" max="999" step="1" inputmode="numeric" value="' + l.threshold +
       '" data-thr data-b="' + bi + '" data-l="' + li + '" data-fk="thr:' + bi + ':' + li + '" aria-label="第 ' + (li + 1) + ' 層解鎖門檻"></label>' +
@@ -97,7 +97,7 @@ export function gridHTML() {
     bs.forEach((b, bi) => {
       const l = b.layers[li];
       if (!l) return;
-      const locked = state.strict && !flags[bi][li];
+      const locked = !flags[bi][li];
       const delLayer = isArmed('layer:' + bi + ':' + li);
       h += '<div class="g-cell g-layer' + (locked ? ' locked' : '') + tabCls(bi) + '" style="grid-column:' + (bi + 2) + ';grid-row:' + row + '">' +
         '<div class="nodes n' + l.nodes.length + '">' + l.nodes.map(n => nodeHTML(n, l)).join('') + '</div>' +

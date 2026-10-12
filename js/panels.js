@@ -47,7 +47,6 @@ export function syncOwnedInputs() {
 
 /* ---------- 工具列 ---------- */
 export function updateTools() {
-  $('#optStrict').checked = state.strict;
   $('#optEdit').checked = state.edit;
   document.body.classList.toggle('editing', state.edit);
   const bc = $('#btnClear'), br = $('#btnReset');

@@ -52,12 +52,6 @@ $('#tabs').addEventListener('click', e => {
 });
 
 /* ---------- 工具列 ---------- */
-$('#optStrict').addEventListener('change', e => {
-  state.strict = e.target.checked;
-  save();
-  render();
-  toast(state.strict ? '已開啟：遵守解鎖順序與點數上限。' : '已關閉：完全自由配點。');
-});
 $('#optEdit').addEventListener('change', e => {
   state.edit = e.target.checked;
   render();
