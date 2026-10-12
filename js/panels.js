@@ -7,15 +7,12 @@ import { isArmed } from './rules.js';
 export function buildPoints() {
   $('#chips').innerHTML = COLOR_ORDER.map(c => (
     '<div class="chip c-' + c + '" id="chip-' + c + '">' +
-      '<span class="orb lg" aria-hidden="true"></span>' +
-      '<div class="chip-main"><div class="chip-name">' + CN[c] + '點</div>' +
-        '<div class="chip-used">已用 <b id="used-' + c + '">0</b></div></div>' +
-      '<div class="chip-side">' +
-        '<label class="chip-own"><span>擁有</span><span class="sr">' + CN[c] + '點數擁有量（留空＝不限）</span>' +
-          '<input type="number" min="0" step="1" inputmode="numeric" placeholder="不限" id="own-' + c + '"></label>' +
-        '<div class="chip-rem" id="rem-' + c + '"></div>' +
-      '</div>' +
-      '<div class="chip-bar" aria-hidden="true"><i id="bar-' + c + '"></i></div>' +
+      '<span class="orb" aria-hidden="true"></span>' +
+      '<span class="sr">' + CN[c] + '珠</span>' +
+      '<label class="cf cf-own"><span class="k" aria-hidden="true">有</span><span class="sr">' + CN[c] + '珠擁有量（留空＝不限）</span>' +
+        '<input type="number" min="0" step="1" inputmode="numeric" placeholder="不限" id="own-' + c + '"></label>' +
+      '<div class="cf cf-used"><span class="k" aria-hidden="true">用</span><span class="sr">已用</span><b id="used-' + c + '">0</b></div>' +
+      '<div class="cf cf-rem"><span class="k" id="remk-' + c + '" aria-hidden="true">剩</span><span class="sr" id="remsr-' + c + '">剩餘</span><b id="rem-' + c + '"></b></div>' +
     '</div>'
   )).join('');
   COLORS.forEach(c => {
@@ -35,13 +32,13 @@ export function updatePoints() {
   COLORS.forEach(c => {
     $('#used-' + c).textContent = used[c];
     const own = ownedNum(c);
-    const chip = $('#chip-' + c), rem = $('#rem-' + c);
-    $('#bar-' + c).style.width = (own === null ? 0 : own === 0 ? (used[c] > 0 ? 100 : 0) : Math.min(100, used[c] / own * 100)) + '%';
-    chip.classList.toggle('over', own !== null && used[c] > own);
+    const chip = $('#chip-' + c), rem = $('#rem-' + c), remk = $('#remk-' + c), remsr = $('#remsr-' + c);
+    const over = own !== null && used[c] > own;
+    chip.classList.toggle('over', over);
     chip.classList.toggle('unlimited', own === null);
-    if (own === null) rem.textContent = '不限';
-    else if (used[c] > own) rem.textContent = '超出 ' + (used[c] - own);
-    else rem.textContent = '剩餘 ' + (own - used[c]);
+    remk.textContent = over ? '超' : '剩';
+    remsr.textContent = over ? '超出' : '剩餘';
+    rem.textContent = own === null ? '不限' : Math.abs(own - used[c]);
   });
 }
 

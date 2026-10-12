@@ -53,11 +53,11 @@ export function setLevel(id, target) {
     }
     if (shortColor) {
       if (canAdd <= 0) {
-        toast(CN[shortColor] + '點數不足，無法再升級「' + n.name + '」。');
+        toast(CN[shortColor] + '珠不足，無法再升級「' + n.name + '」。');
         return;
       }
       target = cur + canAdd;
-      toast(CN[shortColor] + '點數不足，「' + n.name + '」只升到 ' + target + ' 級。');
+      toast(CN[shortColor] + '珠不足，「' + n.name + '」只升到 ' + target + ' 級。');
     }
   } else {
     const next = Object.assign({}, state.alloc);
