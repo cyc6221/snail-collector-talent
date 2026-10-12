@@ -390,5 +390,34 @@ window.SNAIL_DATA.top = {
         { stat: "風元素傷害", per: 2, unit: "%" },
       ]
     },
+    {
+      id: "res-29a", name: "鐘擺學徒", color: "blue", floor: 29, lane: 0, max: 5,
+      cost: 6,
+      unlock: { from: ["red-28a"], need: 3 },
+      note: "",
+      effects: [
+        { stat: "失落的鐘擺獲得雙倍藍色幸運加禮機率", per: 1, unit: "%" },
+      ]
+    },
+    {
+      id: "pow-29a", name: "生存大師", color: "blue", floor: 29, lane: 1, max: 5,
+      cost: 6,
+      unlock: { from: ["red-28a"], need: 3 },
+      note: "",
+      effects: [
+        { stat: "蝸牛生命", per: 720, unit: "" },
+        { stat: "蝸牛追擊", per: 72, unit: "" },
+        { stat: "弱點判定成功對敵人傷害", per: 0.5, unit: "%" },
+      ]
+    },
+    {
+      id: "arm-29a", name: "領導力", color: "blue", floor: 29, lane: 2, max: 5,
+      cost: 6,
+      unlock: { from: ["red-28a"], need: 3 },
+      note: "",
+      effects: [
+        { stat: "蝸牛領導力", per: 2, unit: "" },
+      ]
+    },
   ]
 };
