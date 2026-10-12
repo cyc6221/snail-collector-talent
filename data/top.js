@@ -171,5 +171,53 @@ window.SNAIL_DATA.top = {
         { stat: "蝸牛領導力", per: 2, unit: "" },
       ]
     },
+    {
+      id: "res-22b", name: "催化大師", color: "orange", floor: 22, lane: 0, max: 5,
+      cost: 6,
+      unlock: { from: ["res-21a"], need: 5 },
+      note: "",
+      effects: [
+        { stat: "催化紫孢子轉橘孢子機率", per: 0.3, unit: "%" },
+      ]
+    },
+    {
+      id: "res-22a", name: "部落菁英", color: "purple", floor: 22, lane: 0, max: 5,
+      cost: 6,
+      unlock: { from: ["res-21a"], need: 5 },
+      note: "",
+      effects: [
+        { stat: "催化藍孢子轉紫孢子機率", per: 0.6, unit: "%" },
+      ]
+    },
+    {
+      id: "pow-22a", name: "破敵先鋒", color: "purple", floor: 22, lane: 1, max: 5,
+      cost: 6,
+      unlock: { from: ["pow-21a"], need: 5 },
+      note: "",
+      effects: [
+        { stat: "戰鬥首回合對敵人傷害", per: 1.2, unit: "%" },
+        { stat: "對敵人傷害", per: 0.6, unit: "%" },
+      ]
+    },
+    {
+      id: "arm-22a", name: "防禦指揮", color: "purple", floor: 22, lane: 2, max: 5,
+      cost: 6,
+      unlock: { from: ["arm-21a"], need: 5 },
+      note: "",
+      effects: [
+        { stat: "所有兵種生命", per: 1, unit: "" },
+        { stat: "所有兵種防禦", per: 1, unit: "" },
+      ]
+    },
+    {
+      id: "arm-22b", name: "戰鬥指揮", color: "orange", floor: 22, lane: 2, max: 5,
+      cost: 6,
+      unlock: { from: ["arm-21a"], need: 5 },
+      note: "",
+      effects: [
+        { stat: "所有兵種攻擊", per: 1, unit: "" },
+        { stat: "所有兵種追擊", per: 1, unit: "" },
+      ]
+    },
   ]
 };
