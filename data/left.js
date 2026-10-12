@@ -25,17 +25,17 @@ window.SNAIL_DATA.left = {
       threshold: 5,
       nodes: [
         {
-          id: "res-2a", name: "珠寶專家", color: "purple", cost: 1, max: 5,
-          note: "",
-          effects: [
-            { stat: "抽到藍珠轉紫珠機率", per: 1, unit: "%" },
-          ]
-        },
-        {
           id: "res-2b", name: "珠寶大師", color: "orange", cost: 1, max: 5,
           note: "",
           effects: [
             { stat: "抽到紫珠轉橙珠機率", per: 1, unit: "%" },
+          ]
+        },
+        {
+          id: "res-2a", name: "珠寶專家", color: "purple", cost: 1, max: 5,
+          note: "",
+          effects: [
+            { stat: "抽到藍珠轉紫珠機率", per: 1, unit: "%" },
           ]
         },
       ]
@@ -58,19 +58,19 @@ window.SNAIL_DATA.left = {
       threshold: 5,
       nodes: [
         {
-          id: "res-4a", name: "時空管理員", color: "purple", cost: 2, max: 5,
-          note: "",
-          effects: [
-            { stat: "時光機探索產量", per: 5, unit: "%" },
-            { stat: "時光機容量", per: 5, unit: "%" },
-          ]
-        },
-        {
           id: "res-4b", name: "黑蝌蚪養殖", color: "orange", cost: 2, max: 5,
           note: "",
           effects: [
             { stat: "黑蝌蚪池產量", per: 5, unit: "%" },
             { stat: "黑蝌蚪池容量", per: 5, unit: "%" },
+          ]
+        },
+        {
+          id: "res-4a", name: "時空管理員", color: "purple", cost: 2, max: 5,
+          note: "",
+          effects: [
+            { stat: "時光機探索產量", per: 5, unit: "%" },
+            { stat: "時光機容量", per: 5, unit: "%" },
           ]
         },
       ]
@@ -95,18 +95,18 @@ window.SNAIL_DATA.left = {
       threshold: 5,
       nodes: [
         {
+          id: "res-6b", name: "基因研究 II", color: "orange", cost: 3, max: 5,
+          note: "",
+          effects: [
+            { stat: "DNA研究加速", per: 3, unit: "%" },
+          ]
+        },
+        {
           id: "res-6a", name: "基因研究 I", color: "purple", cost: 3, max: 5,
           note: "",
           effects: [
             { stat: "DNA研究加速", per: 3, unit: "%" },
             { stat: "免費加速時間", per: 30, unit: "分鐘" },
-          ]
-        },
-        {
-          id: "res-6b", name: "基因研究 II", color: "orange", cost: 3, max: 5,
-          note: "",
-          effects: [
-            { stat: "DNA研究加速", per: 3, unit: "%" },
           ]
         },
       ]
@@ -130,18 +130,18 @@ window.SNAIL_DATA.left = {
       threshold: 5,
       nodes: [
         {
+          id: "res-8b", name: "供奉 II", color: "orange", cost: 4, max: 5,
+          note: "",
+          effects: [
+            { stat: "獻祭速度", per: 1, unit: "%" },
+          ]
+        },
+        {
           id: "res-8a", name: "供奉 I", color: "purple", cost: 4, max: 5,
           note: "",
           effects: [
             { stat: "獻祭速度", per: 1, unit: "%" },
             { stat: "每次獻祭食物／石材／木材", per: 3, unit: "%" },
-          ]
-        },
-        {
-          id: "res-8b", name: "供奉 II", color: "orange", cost: 4, max: 5,
-          note: "",
-          effects: [
-            { stat: "獻祭速度", per: 1, unit: "%" },
           ]
         },
       ]
@@ -164,18 +164,18 @@ window.SNAIL_DATA.left = {
       threshold: 5,
       nodes: [
         {
+          id: "res-10b", name: "克隆 II", color: "orange", cost: 5, max: 5,
+          note: "",
+          effects: [
+            { stat: "克隆速度", per: 3, unit: "%" },
+          ]
+        },
+        {
           id: "res-10a", name: "克隆 I", color: "purple", cost: 5, max: 5,
           note: "",
           effects: [
             { stat: "克隆速度", per: 3, unit: "%" },
             { stat: "克隆黑蝌蚪消耗", per: -2, unit: "%" },
-          ]
-        },
-        {
-          id: "res-10b", name: "克隆 II", color: "orange", cost: 5, max: 5,
-          note: "",
-          effects: [
-            { stat: "克隆速度", per: 3, unit: "%" },
           ]
         },
       ]
@@ -198,18 +198,18 @@ window.SNAIL_DATA.left = {
       threshold: 5,
       nodes: [
         {
+          id: "res-12b", name: "基因研究 IV", color: "orange", cost: 6, max: 5,
+          note: "",
+          effects: [
+            { stat: "DNA研究加速", per: 4, unit: "%" },
+          ]
+        },
+        {
           id: "res-12a", name: "基因研究 III", color: "purple", cost: 6, max: 5,
           note: "",
           effects: [
             { stat: "DNA研究加速", per: 4, unit: "%" },
             { stat: "免費加速時間", per: 60, unit: "分鐘" },
-          ]
-        },
-        {
-          id: "res-12b", name: "基因研究 IV", color: "orange", cost: 6, max: 5,
-          note: "",
-          effects: [
-            { stat: "DNA研究加速", per: 4, unit: "%" },
           ]
         },
       ]
