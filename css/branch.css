@@ -5,7 +5,7 @@ main { max-width: var(--page-w); margin: 0 auto; padding: 16px 16px 40px; }
   --ng: 10px;                       /* 同一層兩個節點之間的間距（連線位置會用到） */
   --lw: 3px;                        /* 連線粗細 */
   display: grid;
-  grid-template-columns: 34px repeat(var(--cols, 3), minmax(0, 1fr));
+  grid-template-columns: 34px var(--lanes, repeat(3, minmax(0, 1fr)));   /* 欄寬依各分支單層最多節點數等比分配 */
   column-gap: 16px;
   row-gap: 0;
 }
@@ -34,7 +34,7 @@ main { max-width: var(--page-w); margin: 0 auto; padding: 16px 16px 40px; }
 /* ---------- 層：1～2 個節點並排 ---------- */
 .g-layer { display: flex; flex-direction: column; }
 .nodes { display: flex; justify-content: center; gap: var(--ng); flex: 1; }
-.nodes > .node { flex: 0 0 calc(50% - var(--ng) / 2); min-width: 0; }
+.nodes > .node { flex: 0 0 calc((100% - (var(--slots, 2) - 1) * var(--ng)) / var(--slots, 2)); min-width: 0; }
 .g-layer.locked .nodes { opacity: .5; }
 
 /* ---------- 連線 ---------- */

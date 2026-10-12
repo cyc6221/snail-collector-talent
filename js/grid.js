@@ -60,12 +60,18 @@ function connHTML(b, bi, li, row, flags) {
   );
 }
 
+/** 每個分支欄位需要的「卡片格數」＝該分支單層最多幾個節點；欄寬依此等比分配，所有卡片寬度相同 */
+export function laneSlots() {
+  return state.data.branches.map(b => Math.max(1, ...b.layers.map(l => l.nodes.length)));
+}
+
 /** 全部分支排成一張對齊的網格：每一列是一層，每一欄是一個分支 */
 export function gridHTML() {
   const bs = state.data.branches;
   const rows = Math.max(0, ...bs.map(b => b.layers.length));
   const flags = bs.map(b => unlockFlags(b));
   const tabCls = bi => (bi === state.tab ? ' on-tab' : '');
+  const slots = laneSlots();
   let h = '';
 
   bs.forEach((b, bi) => {
@@ -86,7 +92,7 @@ export function gridHTML() {
       const l = b.layers[li];
       if (!l) return;
       const locked = !flags[bi][li];
-      h += '<div class="g-cell g-layer' + (locked ? ' locked' : '') + tabCls(bi) + '" style="grid-column:' + (bi + 2) + ';grid-row:' + row + '">' +
+      h += '<div class="g-cell g-layer' + (locked ? ' locked' : '') + tabCls(bi) + '" style="grid-column:' + (bi + 2) + ';grid-row:' + row + ';--slots:' + slots[bi] + '">' +
         '<div class="nodes n' + l.nodes.length + '">' + l.nodes.map(nodeHTML).join('') + '</div>' +
       '</div>';
       if (b.layers[li + 1]) h += connHTML(b, bi, li, row + 1, flags[bi]);

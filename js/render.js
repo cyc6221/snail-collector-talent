@@ -1,7 +1,7 @@
 // 總繪製：整張網格重畫，並保留鍵盤焦點
 import { $ } from './util.js';
 import { state } from './state.js';
-import { gridHTML, renderTabs } from './grid.js';
+import { gridHTML, renderTabs, laneSlots } from './grid.js';
 import { renderSummary, updatePoints, updateTools } from './panels.js';
 
 export function render() {
@@ -9,7 +9,7 @@ export function render() {
   const fk = ae && ae !== document.body && ae.dataset && ae.dataset.fk && ae.closest('#tabs, #branches') ? ae.dataset.fk : null;
 
   const branchesEl = $('#branches');
-  branchesEl.style.setProperty('--cols', state.data.branches.length);
+  branchesEl.style.setProperty('--lanes', laneSlots().map(s => 'minmax(0, ' + s + 'fr)').join(' '));
   if (state.tab >= state.data.branches.length) state.tab = 0;
   renderTabs();
   branchesEl.innerHTML = gridHTML();
