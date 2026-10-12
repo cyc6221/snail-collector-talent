@@ -7,11 +7,15 @@ import { isArmed } from './rules.js';
 export function buildPoints() {
   $('#chips').innerHTML = COLORS.map(c => (
     '<div class="chip c-' + c + '" id="chip-' + c + '">' +
-      '<div class="chip-top"><span class="orb" aria-hidden="true"></span><span class="chip-name">' + CN[c] + '</span>' +
-      '<span class="chip-used">已用 <b id="used-' + c + '">0</b></span></div>' +
-      '<label class="chip-own"><span>擁有</span><span class="sr">' + CN[c] + '點數擁有量（留空＝不限）</span>' +
-      '<input type="number" min="0" step="1" inputmode="numeric" placeholder="不限" id="own-' + c + '"></label>' +
-      '<div class="chip-rem" id="rem-' + c + '" aria-live="off"></div>' +
+      '<span class="orb lg" aria-hidden="true"></span>' +
+      '<div class="chip-main"><div class="chip-name">' + CN[c] + '點</div>' +
+        '<div class="chip-used">已用 <b id="used-' + c + '">0</b></div></div>' +
+      '<div class="chip-side">' +
+        '<label class="chip-own"><span>擁有</span><span class="sr">' + CN[c] + '點數擁有量（留空＝不限）</span>' +
+          '<input type="number" min="0" step="1" inputmode="numeric" placeholder="不限" id="own-' + c + '"></label>' +
+        '<div class="chip-rem" id="rem-' + c + '"></div>' +
+      '</div>' +
+      '<div class="chip-bar" aria-hidden="true"><i id="bar-' + c + '"></i></div>' +
     '</div>'
   )).join('');
   COLORS.forEach(c => {
@@ -32,6 +36,7 @@ export function updatePoints() {
     $('#used-' + c).textContent = used[c];
     const own = ownedNum(c);
     const chip = $('#chip-' + c), rem = $('#rem-' + c);
+    $('#bar-' + c).style.width = (own === null ? 0 : own === 0 ? (used[c] > 0 ? 100 : 0) : Math.min(100, used[c] / own * 100)) + '%';
     chip.classList.toggle('over', own !== null && used[c] > own);
     chip.classList.toggle('unlimited', own === null);
     if (own === null) rem.textContent = '不限';

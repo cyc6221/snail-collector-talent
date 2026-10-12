@@ -25,7 +25,12 @@
   .top { padding: 16px 12px 10px; }
   .pointsbar .inner { padding: 6px 8px; }
   .chips { gap: 5px; }
-  .chip { padding: 5px 5px; font-size: 12px; }
+  .chip { grid-template-columns: auto minmax(0, 1fr); column-gap: 8px; row-gap: 4px; padding: 6px 8px 9px; border-left-width: 4px; }
+  .chip-side { grid-column: 1 / -1; justify-items: stretch; }
+  .chip-own input { width: 100%; }
+  .chip-rem { text-align: center; }
+  .orb.lg { width: 22px; height: 22px; }
+  .chip-used b { font-size: 18px; }
   .chip-own > span:first-child { display: none; }
   main { padding-left: 10px; padding-right: 10px; }
   .tabs { padding: 0 10px; }
