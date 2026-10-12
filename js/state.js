@@ -14,7 +14,7 @@ export function defaultData() {
   }
   return JSON.parse(JSON.stringify({ branches }));
 }
-export const defaultOwned = () => ({ blue: 132, purple: 107, orange: '' });
+export const defaultOwned = () => ({ blue: '', purple: '', orange: '' });
 
 /* ---------- 儲存（讀寫都包 try/catch，失敗時照常運作） ---------- */
 let storageWarned = false;
