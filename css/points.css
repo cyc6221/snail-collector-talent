@@ -9,7 +9,7 @@
 .pointsbar .inner { max-width: var(--page-w); margin: 0 auto; padding: 8px 16px; }
 /* 頁面切換、匯出／匯入、清空配點排成同一排，清空配點靠右 */
 .barrow { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-bottom: 6px; }
-.barrow .btn { min-height: 36px; padding-top: 2px; padding-bottom: 2px; }
+.barrow .btn { width: 112px; height: 36px; min-height: 36px; padding: 0; }   /* 匯出／匯入 與 清空配點 同尺寸 */
 .push-right { margin-left: auto; }
 .viewnav { display: flex; gap: 6px; }
 .vbtn {
