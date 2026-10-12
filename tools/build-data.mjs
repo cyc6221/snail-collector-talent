@@ -113,7 +113,7 @@ function buildBranch(rows, file, laneIdx) {
     const nodeName = cell(r, 'name');
     if (!nodeName) fail('「名稱」不能空白。');
     const color = COLOR[cell(r, 'color').toLowerCase()];
-    if (!color) fail(`顏色「${cell(r, 'color')}」看不懂，請填：藍／紫／橙。`);
+    if (!color) fail(`顏色「${cell(r, 'color')}」看不懂，請填：藍／紫／橘。`);
     const cost = Number(cell(r, 'cost'));
     if (cell(r, 'cost') === '' || !Number.isInteger(cost) || cost < 0) fail('「每級消耗」要是 0 以上的整數。');
     const maxCell = cell(r, 'max');
@@ -152,7 +152,7 @@ const TOP_REQUIRED = ['floor', 'name', 'color', 'costs', 'effects'];
 
 /**
  * 預設規則（第 16 層以後的樓層幾乎都一樣，不必每個節點都手寫）：
- * - 節點ID：紅色節點 red-<樓層>a；分支節點 <分支前綴>-<樓層>a。同一層同一分支有兩個節點時，紫色為 a、橙色為 b
+ * - 節點ID：紅色節點 red-<樓層>a；分支節點 <分支前綴>-<樓層>a。同一層同一分支有兩個節點時，紫色為 a、橘色為 b
  * - 解鎖來源節點：上一層「同一分支」的所有節點；沒有同分支的（例如上一層是紅色節點，或這個節點不屬於任何分支）就用上一層全部節點
  * - 解鎖所需等級合計：5，但不超過來源節點最高等級的總和（例如來源是 1 個最高 3 級的紅色節點，就是 3）
  * 填了的欄位一律優先，所以遇到規則不同的樓層，在那一列明確填寫即可。
@@ -229,7 +229,7 @@ function buildTop(rows, file, builtBranches) {
     const colorCell = cell(r, 'color').toLowerCase();
     const COLOR_TOP = { '紅': 'red', red: 'red', ...COLOR };
     const color = COLOR_TOP[colorCell];
-    if (!color) fail(`顏色看不懂：「${cell(r, 'color')}」，請填：紅／藍／紫／橙。`);
+    if (!color) fail(`顏色看不懂：「${cell(r, 'color')}」，請填：紅／藍／紫／橘。`);
 
     const laneCell = cell(r, 'lane');
     let lane = null;

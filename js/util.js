@@ -1,6 +1,6 @@
 // 常數與純函式小工具（不碰 DOM 狀態）
 export const COLORS = ['blue', 'purple', 'orange'];
-export const CN = { blue: '藍', purple: '紫', orange: '橙', red: '紅' };   // red 不是點數顏色，只用來標示紅色天賦
+export const CN = { blue: '藍', purple: '紫', orange: '橘', red: '紅' };   // red 不是點數顏色，只用來標示紅色天賦
 export const COLOR_ORDER = ['orange', 'purple', 'blue'];   // 畫面上顯示各色點數時的由左到右順序
 export const KEY = 'snail-collector-sim:v1';
 
