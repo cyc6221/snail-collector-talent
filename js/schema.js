@@ -1,5 +1,5 @@
 // 驗證與還原（匯入、localStorage 共用）：任何外來資料都先過這裡
-import { COLORS, hasOwn, toInt, toStr, newId } from './util.js';
+import { COLORS, MAX_OWNED, hasOwn, toInt, toStr, newId } from './util.js';
 
 export const MAX_EXTRAS = 300;    // 額外樓層（第 16 層以後）節點數量上限
 
@@ -98,7 +98,7 @@ export function sanitizeOwned(src, fallback) {
   COLORS.forEach(c => {
     if (!src || typeof src !== 'object' || !hasOwn(src, c)) { out[c] = fallback[c]; return; }
     const v = src[c];
-    out[c] = (v === '' || v === null || v === undefined) ? '' : toInt(v, 0, 1e6, '');
+    out[c] = (v === '' || v === null || v === undefined || Number(v) > MAX_OWNED) ? '' : toInt(v, 0, MAX_OWNED, '');
   });
   return out;
 }
