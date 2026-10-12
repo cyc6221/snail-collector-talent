@@ -34,11 +34,34 @@ $('#tabs').addEventListener('click', e => {
   window.scrollTo({ top: 0 });
 });
 
-/* ---------- 工具列 ---------- */
+/* ---------- 右上角選單（☰）：匯出／匯入、清空配點 ---------- */
+const menuBtn = $('#btnMenu'), menuPop = $('#menuPop'), menuBox = $('#menu');
+const menuItems = () => [...menuPop.querySelectorAll('[role="menuitem"]')];
+function setMenu(open, focus) {
+  menuPop.hidden = !open;
+  menuBtn.setAttribute('aria-expanded', String(open));
+  if (open && focus === 'first') menuItems()[0].focus();
+  else if (!open && focus === 'button') menuBtn.focus();
+}
+menuBtn.addEventListener('click', () => setMenu(menuPop.hidden));
+menuBtn.addEventListener('keydown', e => { if (e.key === 'ArrowDown') { e.preventDefault(); setMenu(true, 'first'); } });
+// 點選單以外的地方、按 Esc 都會收起來
+document.addEventListener('pointerdown', e => { if (!menuPop.hidden && !menuBox.contains(e.target)) setMenu(false); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && !menuPop.hidden) setMenu(false, 'button'); });
+menuPop.addEventListener('keydown', e => {
+  const items = menuItems(), i = items.indexOf(document.activeElement);
+  const to = { ArrowDown: (i + 1) % items.length, ArrowUp: (i - 1 + items.length) % items.length, Home: 0, End: items.length - 1 }[e.key];
+  if (to !== undefined) { e.preventDefault(); items[to].focus(); }
+  else if (e.key === 'Tab') setMenu(false);
+});
+// 匯出／匯入：先收起選單、焦點回到 ☰，對話框關閉後焦點才有地方回去（在對話框自己的處理之前執行）
+menuPop.addEventListener('click', e => { if (e.target.closest('#btnIO')) setMenu(false, 'button'); }, true);
+
 $('#btnClear').addEventListener('click', () => confirmTwice('clear', () => {
   clearAlloc();
+  setMenu(false, 'button');
   toast('已清空所有配點。');
-}, '再按一次以清空所有配點。'));
+}, '再按一次以清空所有配點。'));   // 第一次只會標示要確認，選單保持打開；第二次才真的清空並收起選單
 
 /* ---------- 頁面切換：天賦配點 ⇄ 能力加總（各自記住捲動位置） ---------- */
 const scrollPos = {};

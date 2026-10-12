@@ -37,9 +37,16 @@
         <button type="button" class="vbtn" data-view="build" aria-current="true">天賦配點</button>
         <button type="button" class="vbtn" data-view="summary" aria-current="false">能力加總</button>
       </nav>
-      <button type="button" class="btn" id="btnIO">匯出／匯入</button>
       <div class="chips" id="chips"></div>
-      <button type="button" class="btn danger" id="btnClear" title="把所有節點的等級歸零（擁有點數不變）">清空配點</button>
+      <div class="menu" id="menu">
+        <button type="button" class="menu-btn" id="btnMenu" title="選單" aria-label="選單" aria-haspopup="menu" aria-expanded="false" aria-controls="menuPop">
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="menu-pop" id="menuPop" role="menu" aria-label="選單" hidden>
+          <button type="button" class="menu-item" role="menuitem" id="btnIO">匯出／匯入</button>
+          <button type="button" class="menu-item danger" role="menuitem" id="btnClear" title="把所有節點的等級歸零（擁有點數不變）">清空配點</button>
+        </div>
+      </div>
     </div>
     <div class="sumstrip" id="sumstrip" role="group" aria-label="各分支的點數：全點滿需要與目前已配"></div>
   </div>

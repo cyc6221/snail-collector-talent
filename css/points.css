@@ -7,12 +7,11 @@
   border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
 }
 .pointsbar .inner { max-width: var(--page-w); margin: 0 auto; padding: 8px 16px; }
-/* 頁面切換、匯出／匯入、橘／紫／藍珠、清空配點排成同一排（清空配點靠右）；四顆按鈕同一個尺寸 */
+/* 頁面切換、橘／紫／藍珠、右上角的選單（☰）排成同一排；兩顆頁面切換按鈕同一個尺寸 */
 .barrow {
   --bar-btn-w: 112px; --bar-btn-h: 36px;
-  display: grid; grid-template-columns: auto auto minmax(0, 1fr) auto; align-items: center; gap: 6px;
+  display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 6px;
 }
-.barrow .btn { width: var(--bar-btn-w); height: var(--bar-btn-h); min-height: var(--bar-btn-h); padding: 0; }
 .viewnav { display: flex; gap: 6px; }
 .vbtn {
   flex: 1 1 0; min-width: 0; height: var(--bar-btn-h); padding: 0;
@@ -23,9 +22,33 @@
 .vbtn[aria-current="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); font-weight: 700; }
 @media (min-width: 700px) { .vbtn { flex: 0 0 var(--bar-btn-w); } }
 
+/* ---------- 右上角選單（☰）：匯出／匯入、清空配點 ---------- */
+.menu { grid-column: 3; position: relative; }
+.menu-btn {
+  display: grid; place-items: center; width: var(--bar-btn-h); height: var(--bar-btn-h); padding: 0;
+  border: 1px solid var(--line); border-radius: 10px; background: var(--surface); color: var(--ink);
+}
+.menu-btn:hover { border-color: var(--accent); }
+.menu-btn[aria-expanded="true"] { background: var(--accent-soft); border-color: var(--accent); }
+.menu-pop {
+  position: absolute; right: 0; top: calc(100% + 6px); z-index: 40;
+  display: flex; flex-direction: column; gap: 2px; min-width: 168px; padding: 4px;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, .18);
+}
+.menu-pop[hidden] { display: none; }
+.menu-item {
+  display: block; width: 100%; height: 38px; padding: 0 12px; text-align: left;
+  border: 0; border-radius: 8px; background: none; font-size: 14px; font-weight: 500;
+}
+.menu-item:hover, .menu-item:focus-visible { background: var(--surface2); }
+.menu-item.danger { color: var(--danger); }
+.menu-item.danger:hover, .menu-item.danger:focus-visible { background: var(--danger-soft); }
+.menu-item.danger.armed, .menu-item.danger.armed:hover, .menu-item.danger.armed:focus-visible { background: var(--danger); color: #fff; font-weight: 700; }   /* 確認狀態：滑過也維持紅底 */
+
 /* ---------- 橘／紫／藍珠：只記有多少、用多少、剩多少 ---------- */
 /* 每顆珠排成一行：珠子　有 [＿＿]　用 123　剩 55 */
-.chips { grid-column: 3; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; min-width: 0; margin: 0 6px; }
+.chips { grid-column: 2; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; min-width: 0; margin: 0 6px; }
 .chip {
   min-width: 0; height: 36px;
   display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 0 10px 0 9px; line-height: 1;
@@ -49,19 +72,17 @@
 .chip.over .cf-rem .k, .chip.over .cf-rem b { color: var(--danger); }
 .chip.over .cf-rem b { font-weight: 800; }
 
-/* 中等寬度（< 1280px）：三顆珠放到按鈕下面一整排 */
-@media (max-width: 1279.98px) {
-  .viewnav, #btnIO, #btnClear { grid-row: 1; }
+/* 中等寬度（< 1100px）：三顆珠放到按鈕下面一整排，選單仍在右上角 */
+@media (max-width: 1099.98px) {
+  .viewnav, .menu { grid-row: 1; }
   .chips { grid-column: 1 / -1; grid-row: 2; margin: 0; }
-  #btnClear { grid-column: 4; }
 }
-/* 窄螢幕：四顆按鈕排成 2 × 2，同樣大小；珠子再下面一排，每顆改成直式 */
+/* 窄螢幕：頁面切換兩顆按鈕＋選單同一排；珠子再下面一排，每顆改成直式 */
 @media (max-width: 699.98px) {
-  .barrow { grid-template-columns: 1fr 1fr; }
+  .barrow { grid-template-columns: 1fr 1fr auto; }
   .viewnav { display: contents; }
-  .viewnav, #btnIO, #btnClear { grid-row: auto; }
-  #btnClear { grid-column: auto; }
-  .barrow .btn, .vbtn { width: 100%; }
+  .viewnav, .menu { grid-row: auto; }
+  .vbtn { width: 100%; }
   .chips { grid-column: 1 / -1; grid-row: auto; order: 1; }
   .chip {
     height: auto; display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 4px 6px; padding: 6px 8px;
