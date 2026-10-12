@@ -116,6 +116,16 @@ export function branchCost(b, useLevel) {
   return c;
 }
 
+/** 不屬於任何分支的額外節點（紅色天賦）的各色點數 */
+export function freeCost(useLevel) {
+  const c = { blue: 0, purple: 0, orange: 0 };
+  state.data.extras.filter(e => e.lane === null).forEach(n => {
+    const nc = nodeCost(n), x = useLevel ? lv(n.id) : n.max;
+    for (const k in c) c[k] += nc[k] * x;
+  });
+  return c;
+}
+
 /** 額外樓層節點的解鎖進度：指定來源節點的等級合計是否達到需求 */
 export function extraProgress(e, a = state.alloc) {
   const cur = e.unlock.from.reduce((s, id) => s + lv(id, a), 0);

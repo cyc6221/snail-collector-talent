@@ -1,12 +1,31 @@
 // 天賦網格：每一列是一層、每一欄是一個分支；節點卡片與層間連線
 import { COLOR_ORDER, CN, $, esc, fmtVal, nodeCost } from './util.js';
-import { state, lv, layerCap, layerProgress, extraProgress, unlockFlags, branchCost, findNode } from './state.js';
+import { state, lv, layerCap, layerProgress, extraProgress, unlockFlags, branchCost, freeCost, findNode } from './state.js';
 
 /** 各色點數；colors 指定要顯示哪幾色（沒有該色點數時顯示 0） */
 function ptsHTML(c, colors) {
   const items = colors.map(k =>
     '<span class="pt c-' + k + '"><span class="orb sm" aria-hidden="true"></span><span class="sr">' + CN[k] + '</span>' + c[k] + '</span>');
   return items.length ? items.join('') : '<span class="pt">0</span>';
+}
+
+/** 「全點滿需要」與「目前已配」兩列；只顯示全點滿時用得到的顏色，已配同樣顯示這幾色 */
+function costRowsHTML(full, cur) {
+  const used = COLOR_ORDER.filter(k => full[k] > 0);
+  return '<div class="b-cost"><span class="lbl">全點滿需要</span>' + ptsHTML(full, used) + '</div>' +
+    '<div class="b-cost"><span class="lbl">目前已配</span>' + ptsHTML(cur, used) + '</div>';
+}
+
+/** 固定列裡的四張卡片：左・資源／中・戰力／右・兵種／紅色天賦，寬度相同；沒有紅色天賦時只有三張 */
+export function renderSumStrip() {
+  const cards = state.data.branches.map(b =>
+    '<section class="sum-mini"><h2>' + esc(b.name) + '</h2>' + costRowsHTML(branchCost(b, false), branchCost(b, true)) + '</section>');
+  if (state.data.extras.some(e => e.lane === null)) {
+    cards.push('<section class="sum-mini red"><h2>紅色天賦</h2>' + costRowsHTML(freeCost(false), freeCost(true)) + '</section>');
+  }
+  const el = $('#sumstrip');
+  el.style.setProperty('--n', cards.length);
+  el.innerHTML = cards.join('');
 }
 
 /** 每級消耗：各色寶珠加數字（一般節點一種顏色，紅色天賦可以多種）。螢幕閱讀器仍會讀出「每級消耗」 */
@@ -89,13 +108,10 @@ export function gridHTML() {
   const slots = laneSlots();
   let h = '';
 
+  // 分支標題只在窄螢幕（分頁模式）顯示；寬螢幕改由固定列裡的四張卡片顯示（見 renderSumStrip）
   bs.forEach((b, bi) => {
-    const full = branchCost(b, false);
-    const used = COLOR_ORDER.filter(k => full[k] > 0);     // 這個分支用到的顏色；「已配」同樣顯示這幾色
     h += '<header class="g-cell g-head' + tabCls(bi) + '" style="grid-column:' + (bi + 2) + ';grid-row:1">' +
-      '<h2>' + esc(b.name) + '</h2>' +
-      '<div class="b-cost"><span class="lbl">全點滿需要</span>' + ptsHTML(full, used) + '</div>' +
-      '<div class="b-cost"><span class="lbl">目前已配</span>' + ptsHTML(branchCost(b, true), used) + '</div>' +
+      '<h2>' + esc(b.name) + '</h2>' + costRowsHTML(branchCost(b, false), branchCost(b, true)) +
     '</header>';
   });
 
