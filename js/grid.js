@@ -36,6 +36,7 @@ function nodeHTML(n) {
         '</div>' +
         '<div class="ctrl-row">' +
           '<button type="button" class="fill" data-act="max" data-id="' + id + '" data-fk="max:' + id + '"' + (cur >= n.max ? ' disabled' : '') + '>點滿</button>' +
+          '<button type="button" class="fill" data-act="zero" data-id="' + id + '" data-fk="zero:' + id + '"' + (cur <= 0 ? ' disabled' : '') + '>歸零</button>' +
           '<span class="lvl">' + cur + '<small> / ' + n.max + '</small></span>' +
         '</div>' +
       '</div>' +

@@ -109,6 +109,7 @@ main { max-width: var(--page-w); margin: 0 auto; padding: 16px 16px 40px; }
 .dot.on i { background: var(--c); }
 .dot:hover i { transform: scale(1.2); }
 .fill { height: 28px; padding: 0 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); font-size: 13px; font-weight: 500; }
+.ctrl-row .fill + .fill { margin-right: auto; }
 .lvl { font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .lvl small { color: var(--muted); font-weight: 400; }
 

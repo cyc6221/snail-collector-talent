@@ -17,6 +17,7 @@ $('#branches').addEventListener('click', e => {
     case 'inc': setLevel(id, lv(id) + 1); break;
     case 'dec': setLevel(id, lv(id) - 1); break;
     case 'max': { const f = findNode(id); if (f) setLevel(id, f.n.max); break; }
+    case 'zero': setLevel(id, 0); break;
     case 'dot': {
       const k = Number(el.dataset.k);
       setLevel(id, k === lv(id) ? k - 1 : k);
