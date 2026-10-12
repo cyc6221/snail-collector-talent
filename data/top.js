@@ -419,5 +419,53 @@ window.SNAIL_DATA.top = {
         { stat: "蝸牛領導力", per: 2, unit: "" },
       ]
     },
+    {
+      id: "res-30b", name: "鐘擺大師", color: "orange", floor: 30, lane: 0, max: 5,
+      cost: 6,
+      unlock: { from: ["res-29a"], need: 5 },
+      note: "",
+      effects: [
+        { stat: "失落的鐘擺獲得雙倍橘色幸運加禮機率", per: 1, unit: "%" },
+      ]
+    },
+    {
+      id: "res-30a", name: "鐘擺專家", color: "purple", floor: 30, lane: 0, max: 5,
+      cost: 6,
+      unlock: { from: ["res-29a"], need: 5 },
+      note: "",
+      effects: [
+        { stat: "失落的鐘擺獲得雙倍紫色幸運加禮機率", per: 1, unit: "%" },
+      ]
+    },
+    {
+      id: "pow-30a", name: "破敵先鋒", color: "purple", floor: 30, lane: 1, max: 5,
+      cost: 6,
+      unlock: { from: ["pow-29a"], need: 5 },
+      note: "",
+      effects: [
+        { stat: "戰鬥首回合對敵人傷害", per: 1.2, unit: "%" },
+        { stat: "對敵人傷害", per: 0.6, unit: "%" },
+      ]
+    },
+    {
+      id: "arm-30a", name: "防禦指揮", color: "purple", floor: 30, lane: 2, max: 5,
+      cost: 6,
+      unlock: { from: ["arm-29a"], need: 5 },
+      note: "",
+      effects: [
+        { stat: "所有兵種生命", per: 1, unit: "" },
+        { stat: "所有兵種防禦", per: 1, unit: "" },
+      ]
+    },
+    {
+      id: "arm-30b", name: "戰鬥指揮", color: "orange", floor: 30, lane: 2, max: 5,
+      cost: 6,
+      unlock: { from: ["arm-29a"], need: 5 },
+      note: "",
+      effects: [
+        { stat: "所有兵種攻擊", per: 1, unit: "" },
+        { stat: "所有兵種追擊", per: 1, unit: "" },
+      ]
+    },
   ]
 };
