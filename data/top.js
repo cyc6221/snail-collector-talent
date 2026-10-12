@@ -496,5 +496,17 @@ window.SNAIL_DATA.top = {
         { stat: "載具技能造成傷害", per: 1, unit: "%" },
       ]
     },
+    {
+      id: "red-32a", name: "武道之王", color: "red", floor: 32, lane: null, max: 3,
+      costs: { blue: 5, purple: 5, orange: 5 },
+      unlock: { from: ["res-31a", "pow-31a", "arm-31a"], need: 5 },
+      note: "",
+      effects: [
+        { stat: "蝸牛生命", per: 2, unit: "%" },
+        { stat: "蝸牛攻擊", per: 2, unit: "%" },
+        { stat: "蝸牛防禦", per: 2, unit: "%" },
+        { stat: "蝸牛追擊", per: 2, unit: "%" },
+      ]
+    },
   ]
 };
