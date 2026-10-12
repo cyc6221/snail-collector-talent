@@ -35,9 +35,9 @@ function nodeHTML(n) {
           '<button type="button" class="step" data-act="inc" data-id="' + id + '" data-fk="inc:' + id + '" aria-label="' + esc(n.name) + ' 升一級"' + (cur >= n.max ? ' disabled' : '') + '>＋</button>' +
         '</div>' +
         '<div class="ctrl-row">' +
-          '<button type="button" class="fill" data-act="max" data-id="' + id + '" data-fk="max:' + id + '"' + (cur >= n.max ? ' disabled' : '') + '>點滿</button>' +
           '<button type="button" class="fill" data-act="zero" data-id="' + id + '" data-fk="zero:' + id + '"' + (cur <= 0 ? ' disabled' : '') + '>歸零</button>' +
           '<span class="lvl">' + cur + '<small> / ' + n.max + '</small></span>' +
+          '<button type="button" class="fill" data-act="max" data-id="' + id + '" data-fk="max:' + id + '"' + (cur >= n.max ? ' disabled' : '') + '>點滿</button>' +
         '</div>' +
       '</div>' +
     '</article>'
