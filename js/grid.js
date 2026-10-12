@@ -49,13 +49,15 @@ function connHTML(b, bi, li, row, flags) {
   const l = b.layers[li], next = b.layers[li + 1];
   const { cur, need, pass, gated } = layerProgress(l);
   const lit = pass && flags[li];
+  // 兩個節點、其中只有一個是「點滿解鎖」的節點：連線只從那個節點出發，另一個不連
+  const gi = gated.length === 1 && l.nodes.length === 2 ? l.nodes.indexOf(gated[0]) : -1;
   const gate = (pass ? '✓ ' : '') + cur + ' / ' + need;
   const title = gated.length
     ? '第 ' + (li + 1) + ' 層的「' + gated.map(n => n.name).join('、') + '」需點滿（' + cur + ' / ' + need + ' 級），才解鎖下一層；其他節點不影響'
     : '第 ' + (li + 1) + ' 層合計 ' + cur + ' 級，達 ' + need + ' 級才解鎖下一層' + (layerCap(l) < l.threshold ? '（本層最高僅 ' + layerCap(l) + ' 級，以此計）' : '');
   return (
     '<div class="g-cell g-conn' + (lit ? ' lit' : '') + (bi === state.tab ? ' on-tab' : '') + '" style="grid-column:' + (bi + 2) + ';grid-row:' + row + '">' +
-      '<i class="zone up u' + l.nodes.length + '"></i>' +
+      '<i class="zone up ' + (gi >= 0 ? 'u2g' + gi : 'u' + l.nodes.length) + '"></i>' +
       '<span class="gate' + (pass ? ' pass' : '') + '" title="' + esc(title) + '">' + gate + '</span>' +
       '<i class="zone dn d' + next.nodes.length + '"></i>' +
     '</div>'

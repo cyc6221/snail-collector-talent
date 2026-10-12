@@ -17,6 +17,7 @@
   .g-cell:not(.on-tab), .g-num:not(.on-tab) { display: none; }
   .nodes { flex-direction: column; align-items: stretch; }
   .nodes > .node { flex-basis: auto; }
+  .zone::before, .zone::after { content: none !important; }
   .zone { background-image: linear-gradient(var(--lc), var(--lc)) !important; background-size: var(--lw) 100% !important; background-position: center !important; }
   main { padding-top: 12px; }
 }

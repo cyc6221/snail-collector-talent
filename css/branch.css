@@ -55,6 +55,19 @@ main { max-width: var(--page-w); margin: 0 auto; padding: 16px 16px 40px; }
   background-size: var(--lw) 50%, var(--lw) 50%, calc(50% + var(--ng) / 2 + var(--lw)) var(--lw), var(--lw) 50%;
   background-position: calc(25% - var(--ng) / 4 - var(--lw) / 4) 0, calc(75% + var(--ng) / 4 + var(--lw) / 4) 0, center, center bottom;
 }
+/* 只有一個節點負責解鎖（u2g0＝左邊那個、u2g1＝右邊那個）：從該節點垂直往下 → 橫線拉到中央 → 中央垂直線 */
+.zone.u2g0, .zone.u2g1 {
+  position: relative;
+  background-image: linear-gradient(var(--lc), var(--lc));
+  background-size: var(--lw) 50%; background-position: center bottom;
+}
+.zone.u2g0::before, .zone.u2g0::after, .zone.u2g1::before, .zone.u2g1::after {
+  content: ''; position: absolute; background: var(--lc);
+}
+.zone.u2g0::before { left: calc(25% - var(--ng) / 4 - var(--lw) / 2); top: 0; width: var(--lw); height: 50%; }
+.zone.u2g0::after  { left: calc(25% - var(--ng) / 4 - var(--lw) / 2); top: calc(50% - var(--lw) / 2); width: calc(25% + var(--ng) / 4 + var(--lw)); height: var(--lw); }
+.zone.u2g1::before { left: calc(75% + var(--ng) / 4 - var(--lw) / 2); top: 0; width: var(--lw); height: 50%; }
+.zone.u2g1::after  { left: calc(50% - var(--lw) / 2); top: calc(50% - var(--lw) / 2); width: calc(25% + var(--ng) / 4 + var(--lw)); height: var(--lw); }
 /* 從中央分岔到兩個節點：中央垂直線 → 橫線 → 左右各一條垂直線 */
 .zone.d2 {
   background-image: linear-gradient(var(--lc), var(--lc)), linear-gradient(var(--lc), var(--lc)),
