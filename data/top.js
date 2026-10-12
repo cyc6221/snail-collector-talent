@@ -219,5 +219,34 @@ window.SNAIL_DATA.top = {
         { stat: "所有兵種追擊", per: 1, unit: "" },
       ]
     },
+    {
+      id: "res-23a", name: "催化宗師", color: "orange", floor: 23, lane: 0, max: 5,
+      cost: 6,
+      unlock: { from: ["res-22b", "res-22a"], need: 5 },
+      note: "",
+      effects: [
+        { stat: "催化獲得究極體源獸機率", per: 0.4, unit: "%" },
+      ]
+    },
+    {
+      id: "pow-23a", name: "源獸契約", color: "orange", floor: 23, lane: 1, max: 5,
+      cost: 6,
+      unlock: { from: ["pow-22a"], need: 5 },
+      note: "",
+      effects: [
+        { stat: "源獸協助蝸牛戰鬥造成傷害", per: 2, unit: "%" },
+        { stat: "源獸協助部落戰鬥造成傷害", per: 2, unit: "%" },
+      ]
+    },
+    {
+      id: "arm-23a", name: "物種霸主", color: "orange", floor: 23, lane: 2, max: 5,
+      cost: 6,
+      unlock: { from: ["arm-22a", "arm-22b"], need: 5 },
+      note: "",
+      effects: [
+        { stat: "物種戰爭部隊傷害減免", per: 1, unit: "%" },
+        { stat: "物種戰爭部隊對敵人傷害", per: 1, unit: "%" },
+      ]
+    },
   ]
 };
