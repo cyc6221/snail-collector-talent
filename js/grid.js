@@ -73,7 +73,11 @@ function connHTML(b, bi, li, row, flags) {
 
 /** 每個分支欄位需要的「卡片格數」＝該分支單層最多幾個節點；欄寬依此等比分配，所有卡片寬度相同 */
 export function laneSlots() {
-  return state.data.branches.map(b => Math.max(1, ...b.layers.map(l => l.nodes.length)));
+  const slots = state.data.branches.map(b => Math.max(1, ...b.layers.map(l => l.nodes.length)));
+  const count = new Map();
+  state.data.extras.forEach(e => { if (e.lane !== null) { const k = e.floor + ':' + e.lane; count.set(k, (count.get(k) || 0) + 1); } });
+  count.forEach((n, k) => { const lane = Number(k.split(':')[1]); slots[lane] = Math.max(slots[lane], n); });
+  return slots;
 }
 
 /** 全部分支排成一張對齊的網格：每一列是一層，每一欄是一個分支 */
@@ -140,6 +144,14 @@ function busRowHTML(S, T, row, p, title) {
   }).join('');
 }
 
+/** 分支內的連線：上一層的節點（1～2 個）→ 標籤（解鎖進度）→ 這一層的節點（1～2 個），與一般的層間連線同形 */
+function laneConnHTML(bi, row, upCount, downCount, p, title) {
+  return '<div class="g-cell g-conn' + (p.pass ? ' lit' : '') + (bi === state.tab ? ' on-tab' : '') + '" style="grid-column:' + (bi + 2) + ';grid-row:' + row + '">' +
+    '<i class="zone up u' + Math.min(2, Math.max(1, upCount)) + '"></i>' +
+    '<span class="gate' + (p.pass ? ' pass' : '') + '" title="' + esc(title) + '">' + (p.pass ? '✓ ' : '') + p.cur + ' / ' + p.need + '</span>' +
+    '<i class="zone dn d' + Math.min(2, Math.max(1, downCount)) + '"></i></div>';
+}
+
 /**
  * 額外樓層（第 16 層以後）：每個節點放在自己的欄位（所在分支；沒有指定就放在解鎖來源欄位的中間），
  * 與上一層之間用匯流排連起來。
@@ -163,19 +175,33 @@ function extrasHTML(rows, slots) {
   floors.forEach((fl, k) => {
     const nodes = ex.filter(e => e.floor === fl);
     const connRow = 2 * rows + 1 + 2 * k, nodeRow = connRow + 1;
-    const S = [...new Set(nodes.flatMap(e => e.unlock.from.map(srcLane)).filter(x => x !== null))].sort((a, b) => a - b);
-    const T = [...new Set(nodes.map(e => laneOf.get(e.id)))].sort((a, b) => a - b);
-    if (S.length) {
+    const byLane = new Map();                                  // 欄位 → 這一層放在這個欄位的節點（1～2 個）
+    nodes.forEach(e => { const l = laneOf.get(e.id); if (!byLane.has(l)) byLane.set(l, []); byLane.get(l).push(e); });
+    const T = [...byLane.keys()].sort((x, y) => x - y);
+    const S = [...new Set(nodes.flatMap(e => e.unlock.from.map(srcLane)).filter(x => x !== null))].sort((x, y) => x - y);
+    const srcNames = e => e.unlock.from.map(id => { const f = findNode(id); return f ? f.n.name : ''; }).filter(Boolean).join('、');
+
+    // 每個節點的解鎖來源都在自己的欄位 → 各分支各自連線；否則用匯流排（匯合或分岔）
+    const laneWise = nodes.every(e => e.unlock.from.length > 0 && e.unlock.from.every(id => srcLane(id) === laneOf.get(e.id)));
+    if (laneWise) {
+      T.forEach(bi => {
+        const group = byLane.get(bi), first = group[0], p = extraProgress(first);
+        const upCount = new Set(group.flatMap(e => e.unlock.from)).size;
+        h += laneConnHTML(bi, connRow, upCount, group.length, p, '第 ' + (fl - 1) + ' 層的「' + srcNames(first) + '」等級 ' + p.cur + ' / ' + p.need + '，才解鎖第 ' + fl + ' 層');
+      });
+    } else if (S.length) {
       const first = nodes[0], p = extraProgress(first);
-      const names = first.unlock.from.map(id => { const f = findNode(id); return f ? f.n.name : ''; }).filter(Boolean).join('、');
-      h += busRowHTML(S, T, connRow, p, '「' + names + '」等級合計 ' + p.cur + ' 級，達 ' + p.need + ' 級才解鎖第 ' + fl + ' 層');
+      h += busRowHTML(S, T, connRow, p, '「' + srcNames(first) + '」等級合計 ' + p.cur + ' 級，達 ' + p.need + ' 級才解鎖第 ' + fl + ' 層');
     }
+
     h += '<div class="g-num on-tab" style="grid-row:' + nodeRow + '"><span>' + fl + '</span><span class="sr">第 ' + fl + ' 層</span></div>';
-    nodes.forEach(e => {
-      const lane = laneOf.get(e.id);
-      const onTab = e.lane === null ? ' on-tab' : (lane === state.tab ? ' on-tab' : '');   // 不屬於任何分支的節點，每個分支分頁都看得到
-      h += '<div class="g-cell g-layer g-extra' + (extraProgress(e).pass ? '' : ' locked') + onTab + '" data-layer="' + fl + '" style="grid-column:' + (lane + 2) + ';grid-row:' + nodeRow + ';--slots:' + slots[lane] + '">' +
-        '<div class="nodes n1">' + nodeHTML(e) + '</div></div>';
+    T.forEach(lane => {
+      const group = byLane.get(lane);
+      const free = group.some(e => e.lane === null);
+      const onTab = free ? ' on-tab' : (lane === state.tab ? ' on-tab' : '');   // 不屬於任何分支的節點，每個分支分頁都看得到
+      const locked = group.every(e => !extraProgress(e).pass);
+      h += '<div class="g-cell g-layer g-extra' + (locked ? ' locked' : '') + onTab + '" data-layer="' + fl + '" style="grid-column:' + (lane + 2) + ';grid-row:' + nodeRow + ';--slots:' + slots[lane] + '">' +
+        '<div class="nodes n' + group.length + '">' + group.map(nodeHTML).join('') + '</div></div>';
     });
   });
   return h;

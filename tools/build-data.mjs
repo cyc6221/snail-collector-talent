@@ -240,8 +240,8 @@ function buildTop(rows, file, builtBranches) {
     const row = nodes.filter(n => n.floor === f);
     const free = row.filter(n => n.lane === null);
     if (free.length && row.length > 1) errors.push(`${file}：第 ${f} 層有「不屬於任何分支」的節點，這一層就只能有這一個節點。`);
-    const seen = new Set();
-    row.filter(n => n.lane !== null).forEach(n => { if (seen.has(n.lane)) errors.push(`${file} 第 ${n.rowNo} 列：第 ${f} 層同一個分支只能有一個額外節點。`); seen.add(n.lane); });
+    const perLane = new Map();
+    row.filter(n => n.lane !== null).forEach(n => { perLane.set(n.lane, (perLane.get(n.lane) || 0) + 1); if (perLane.get(n.lane) > 2) errors.push(`${file} 第 ${n.rowNo} 列：第 ${f} 層同一個分支最多 2 個額外節點。`); });
   });
   if (!nodes.length && !errors.some(e => e.startsWith(file))) fileFail('沒有任何資料列。');
   return nodes;
