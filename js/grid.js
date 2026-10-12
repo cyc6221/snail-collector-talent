@@ -18,8 +18,8 @@ function costRowsHTML(full, cur) {
 
 /** 固定列裡的四張卡片：左・資源／中・戰力／右・兵種／紅色天賦，寬度相同；沒有紅色天賦時只有三張 */
 export function renderSumStrip() {
-  const cards = state.data.branches.map(b =>
-    '<section class="sum-mini"><h2>' + esc(b.name) + '</h2>' + costRowsHTML(branchCost(b, false), branchCost(b, true)) + '</section>');
+  const cards = state.data.branches.map((b, bi) =>
+    '<section class="sum-mini" data-b="' + bi + '"><h2>' + esc(b.name) + '</h2>' + costRowsHTML(branchCost(b, false), branchCost(b, true)) + '</section>');
   if (state.data.extras.some(e => e.lane === null)) {
     cards.push('<section class="sum-mini red"><h2>紅色天賦</h2>' + costRowsHTML(freeCost(false), freeCost(true)) + '</section>');
   }
@@ -110,7 +110,7 @@ export function gridHTML() {
 
   // 分支標題只在窄螢幕（分頁模式）顯示；寬螢幕改由固定列裡的四張卡片顯示（見 renderSumStrip）
   bs.forEach((b, bi) => {
-    h += '<header class="g-cell g-head' + tabCls(bi) + '" style="grid-column:' + (bi + 2) + ';grid-row:1">' +
+    h += '<header class="g-cell g-head' + tabCls(bi) + '" data-b="' + bi + '" style="grid-column:' + (bi + 2) + ';grid-row:1">' +
       '<h2>' + esc(b.name) + '</h2>' + costRowsHTML(branchCost(b, false), branchCost(b, true)) +
     '</header>';
   });
@@ -225,6 +225,6 @@ function extrasHTML(rows, slots) {
 
 export function renderTabs() {
   $('#tabs').innerHTML = state.data.branches.map((b, i) =>
-    '<button type="button" class="tab" data-tab="' + i + '" data-fk="tab:' + i + '" aria-current="' + (i === state.tab) + '">' + esc(b.name) + '</button>'
+    '<button type="button" class="tab" data-b="' + i + '" data-tab="' + i + '" data-fk="tab:' + i + '" aria-current="' + (i === state.tab) + '">' + esc(b.name) + '</button>'
   ).join('');
 }

@@ -92,7 +92,7 @@ export function renderSummary() {
   const cards = state.data.branches.length + (free.length ? 1 : 0);
   $('#summary').innerHTML =
     '<h2 id="sumH">能力加總</h2><div class="sum-grid" style="--n:' + cards + '">' +
-    state.data.branches.map((b, bi) => '<div class="sum-card"><h3>' + esc(b.name) + '</h3>' + list(totalsOf(b.layers.flatMap(l => l.nodes).concat(ex.filter(e => e.lane === bi)))) + '</div>').join('') +
+    state.data.branches.map((b, bi) => '<div class="sum-card" data-b="' + bi + '"><h3>' + esc(b.name) + '</h3>' + list(totalsOf(b.layers.flatMap(l => l.nodes).concat(ex.filter(e => e.lane === bi)))) + '</div>').join('') +
     // 不屬於任何分支的額外節點（紅色天賦）獨立一項記錄，效果不與各分支相加；屬於某個分支的額外節點算在該分支裡
     (free.length ? '<div class="sum-card red"><h3>紅色天賦</h3>' + list(totalsOf(free)) + '</div>' : '') +
     '</div>';

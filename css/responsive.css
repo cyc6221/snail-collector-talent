@@ -10,7 +10,7 @@
     border: 1px solid var(--line); border-radius: 10px;
     background: var(--surface); font-weight: 500; font-size: 14px;
   }
-  .tab[aria-current="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); font-weight: 700; }
+  .tab[aria-current="true"] { background: var(--bc-ink, var(--accent)); color: var(--accent-ink); border-color: var(--bc-ink, var(--accent)); font-weight: 700; }
   /* 只顯示目前分頁的那一欄，節點改為上下排列，連線簡化成一條直線 */
   .branches { grid-template-columns: 30px minmax(0, 1fr); }
   .g-cell { grid-column: 2 !important; }
