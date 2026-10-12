@@ -97,5 +97,38 @@ window.SNAIL_DATA.top = {
         { stat: "所有兵種追擊", per: 1, unit: "" },
       ]
     },
+    {
+      id: "res-19a", name: "聖壇守護", color: "orange", floor: 19, lane: 0, max: 5,
+      cost: 6,
+      unlock: { from: ["res-18b", "res-18a"], need: 5 },
+      note: "",
+      effects: [
+        { stat: "山林聖堂神性結晶產量", per: 3, unit: "%" },
+        { stat: "荒漠聖堂神性結晶產量", per: 3, unit: "%" },
+        { stat: "凍土聖堂神性結晶產量", per: 3, unit: "%" },
+        { stat: "草原聖堂神性結晶產量", per: 3, unit: "%" },
+        { stat: "沼澤聖堂神性結晶產量", per: 3, unit: "%" },
+      ]
+    },
+    {
+      id: "pow-19a", name: "源獸契約", color: "orange", floor: 19, lane: 1, max: 5,
+      cost: 6,
+      unlock: { from: ["pow-18a"], need: 5 },
+      note: "",
+      effects: [
+        { stat: "源獸協助蝸牛戰鬥造成傷害", per: 2, unit: "%" },
+        { stat: "源獸協助部落戰鬥造成傷害", per: 2, unit: "%" },
+      ]
+    },
+    {
+      id: "arm-19a", name: "演練大師", color: "orange", floor: 19, lane: 2, max: 5,
+      cost: 6,
+      unlock: { from: ["arm-18a", "arm-18b"], need: 5 },
+      note: "",
+      effects: [
+        { stat: "兵種演練部隊對敵人傷害", per: 1, unit: "%" },
+        { stat: "兵種演練部隊傷害減免", per: 1, unit: "%" },
+      ]
+    },
   ]
 };
