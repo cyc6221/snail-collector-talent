@@ -1,4 +1,4 @@
-// 把 data/left.csv、middle.csv、right.csv（以及選用的紅色天賦 red.csv）轉成網頁用的 .js
+// 把 data/left.csv、middle.csv、right.csv（以及選用的額外樓層 top.csv）轉成網頁用的 .js
 // 用法：node tools/build-data.mjs        （Windows 也可以雙擊 tools\build-data.bat）
 import fs from 'node:fs';
 import path from 'node:path';
@@ -65,7 +65,8 @@ function parseEffects(cell, fail) {
   return out;
 }
 
-function buildBranch(rows, file) {
+const nodeLane = new Map();           // 分支節點 id → 所在欄位（0、1、2…），額外樓層的解鎖來源要用
+function buildBranch(rows, file, laneIdx) {
   const fileFail = msg => errors.push(`${file}：${msg}`);
   if (!rows.length) { fileFail('是空的。'); return null; }
   const head = rows[0].map(h => h.trim());
@@ -107,7 +108,7 @@ function buildBranch(rows, file) {
     const id = cell(r, 'id');
     if (!/^[A-Za-z][\w-]{0,39}$/.test(id)) fail(`節點ID「${id}」不合規定：要以英文字母開頭，只能用英數、底線、連字號。`);
     else if (ids.has(id)) fail(`節點ID「${id}」重複（${ids.get(id)}也用了）。`);
-    else ids.set(id, `${file} 第 ${rowNo} 列`);
+    else { ids.set(id, `${file} 第 ${rowNo} 列`); nodeLane.set(id, laneIdx); }
 
     const nodeName = cell(r, 'name');
     if (!nodeName) fail('「名稱」不能空白。');
@@ -137,28 +138,54 @@ function buildBranch(rows, file) {
   };
 }
 
-/* ---------- 紅色天賦（red.csv）：不屬於任何分支；每級可同時花多種顏色；解鎖條件是指定節點的等級合計 ---------- */
-const RED_COLS = {
-  id: '節點ID', name: '名稱', color: '顏色', costs: '每級消耗', max: '最高等級', effects: '效果',
-  from: '解鎖來源節點', need: '解鎖所需等級合計', note: '備註'
+/* ---------- 額外樓層（top.csv，第 16 層以後）----------
+ * 一列一個節點：樓層、所在分支（可空）、解鎖來源節點與所需等級合計。
+ * 紅色節點每級可同時花多種點數，且不屬於任何分支；其他顏色的節點要指定所在分支。
+ */
+const TOP_COLS = {
+  floor: '樓層', lane: '分支', id: '節點ID', name: '名稱', color: '顏色', costs: '每級消耗', max: '最高等級',
+  effects: '效果', from: '解鎖來源節點', need: '解鎖所需等級合計', note: '備註'
 };
-const RED_REQUIRED = ['id', 'name', 'costs', 'effects', 'from', 'need'];
+const TOP_REQUIRED = ['floor', 'id', 'name', 'color', 'costs', 'effects', 'from', 'need'];
 
-function buildRed(rows, file) {
+function buildTop(rows, file, builtBranches) {
   const fileFail = msg => errors.push(`${file}：${msg}`);
   if (!rows.length) { fileFail('是空的。'); return []; }
   const head = rows[0].map(h => h.trim());
   const idx = {};
-  for (const [key, label] of Object.entries(RED_COLS)) idx[key] = head.indexOf(label);
-  const missing = RED_REQUIRED.filter(key => idx[key] < 0);
-  if (missing.length) { missing.forEach(key => fileFail(`找不到欄位「${RED_COLS[key]}」，請確認第一列表頭。`)); return []; }
+  for (const [key, label] of Object.entries(TOP_COLS)) idx[key] = head.indexOf(label);
+  const missing = TOP_REQUIRED.filter(key => idx[key] < 0);
+  if (missing.length) { missing.forEach(key => fileFail(`找不到欄位「${TOP_COLS[key]}」，請確認第一列表頭。`)); return []; }
   const cell = (r, key) => (idx[key] >= 0 && r[idx[key]] !== undefined ? r[idx[key]].trim() : '');
+  const maxLayers = Math.max(0, ...builtBranches.map(([, b]) => b.layers.length));
+  const laneOfName = c => {
+    for (let i = 0; i < builtBranches.length; i++) {
+      const [key, b] = builtBranches[i];
+      if (c === key || c === b.name || c === b.name.split('・')[0]) return i;
+    }
+    return -1;
+  };
+
   const nodes = [];
   rows.slice(1).forEach((r, k) => {
     const rowNo = k + 2;
     const fail = msg => errors.push(`${file} 第 ${rowNo} 列：${msg}`);
     if (r.every(c => c.trim() === '')) return;
-    if (nodes.length >= 1) return fail('目前畫面只支援 1 個紅色天賦，請只留一列。');
+
+    const floor = Number(cell(r, 'floor'));
+    if (!Number.isInteger(floor) || floor <= maxLayers) fail(`「樓層」要是大於 ${maxLayers}（各分支的最高層）的整數。`);
+
+    const colorCell = cell(r, 'color').toLowerCase();
+    const COLOR_TOP = { '紅': 'red', red: 'red', ...COLOR };
+    const color = COLOR_TOP[colorCell];
+    if (!color) fail(`顏色看不懂：「${cell(r, 'color')}」，請填：紅／藍／紫／橙。`);
+
+    const laneCell = cell(r, 'lane');
+    let lane = null;
+    if (laneCell !== '') {
+      lane = laneOfName(laneCell);
+      if (lane < 0) { fail(`「分支」填「${laneCell}」不是任何分支，請填：${builtBranches.map(([, b]) => b.name.split('・')[0]).join('／')}，或留空（只有紅色節點可以留空）。`); lane = null; }
+    } else if (color && color !== 'red') fail('非紅色的節點必須指定「分支」。');
 
     const id = cell(r, 'id');
     if (!/^[A-Za-z][\w-]{0,39}$/.test(id)) fail(`節點ID「${id}」不合規定：要以英文字母開頭，只能用英數、底線、連字號。`);
@@ -167,52 +194,73 @@ function buildRed(rows, file) {
 
     const name = cell(r, 'name');
     if (!name) fail('「名稱」不能空白。');
-    const colorCell = cell(r, 'color');
-    if (colorCell !== '' && !['紅', 'red'].includes(colorCell.toLowerCase())) fail(`顏色只能填「紅」或留空，不能填「${colorCell}」。`);
 
-    // 每級消耗：例如「藍 5; 紫 5; 橘 5」
-    const costs = { blue: 0, purple: 0, orange: 0 };
+    // 每級消耗：單一整數（用節點顏色），或「藍 5; 紫 5; 橘 5」這種多色寫法（紅色節點一定要這樣寫）
     const costCell = cell(r, 'costs');
-    let rest = costCell;
-    for (const m of costCell.matchAll(/(藍|紫|橙|橘|blue|purple|orange)\s*(\d+)/gi)) {
-      costs[COLOR[m[1].toLowerCase()]] += Number(m[2]);
-      rest = rest.replace(m[0], '');
-    }
-    if (rest.replace(/[\s;；,，、]/g, '') !== '' || Object.values(costs).every(v => v === 0)) {
-      fail(`「每級消耗」要寫成「藍 5; 紫 5; 橘 5」這種格式，目前是「${costCell}」。`);
+    let cost = 0, costs = null;
+    if (/^\d+$/.test(costCell) && color !== 'red') cost = Number(costCell);
+    else {
+      costs = { blue: 0, purple: 0, orange: 0 };
+      let rest = costCell;
+      for (const m of costCell.matchAll(/(藍|紫|橙|橘|blue|purple|orange)\s*(\d+)/gi)) {
+        costs[COLOR[m[1].toLowerCase()]] += Number(m[2]);
+        rest = rest.replace(m[0], '');
+      }
+      if (rest.replace(/[\s;；,，、]/g, '') !== '' || Object.values(costs).every(v => v === 0)) {
+        fail(`「每級消耗」要寫成整數，或「藍 5; 紫 5; 橘 5」這種格式（紅色節點一定要用後者），目前是「${costCell}」。`);
+      }
     }
 
     const maxCell = cell(r, 'max');
     const max = maxCell === '' ? 5 : Number(maxCell);
     if (!Number.isInteger(max) || max < 1 || max > 99) fail('「最高等級」要是 1～99 的整數（可留空，預設 5）。');
 
-    // 解鎖：指定的節點等級合計要達到需求
     const from = cell(r, 'from').split(/[;；,，、\s]+/).filter(Boolean);
     if (!from.length) fail('「解鎖來源節點」不能空白，請填節點ID，多個用分號隔開。');
-    from.forEach(f => { if (!ids.has(f) || f === id) fail(`「解鎖來源節點」裡的「${f}」不是已存在的分支節點ID。`); });
     const need = Number(cell(r, 'need'));
     if (!Number.isInteger(need) || need < 1) fail('「解鎖所需等級合計」要是 1 以上的整數。');
 
-    nodes.push({ id, name, costs, max, note: cell(r, 'note'), unlock: { from, need }, effects: parseEffects(cell(r, 'effects'), fail) });
+    nodes.push({ rowNo, id, name, color, floor, lane, cost, costs, max, note: cell(r, 'note'), unlock: { from, need }, effects: parseEffects(cell(r, 'effects'), fail) });
+  });
+
+  // 跨列檢查：解鎖來源存在且樓層較低、樓層連續、同一格不重疊
+  const byId = new Map(nodes.map(n => [n.id, n]));
+  nodes.forEach(n => {
+    const fail = msg => errors.push(`${file} 第 ${n.rowNo} 列：${msg}`);
+    n.unlock.from.forEach(f => {
+      if (f === n.id) return fail('「解鎖來源節點」不能是自己。');
+      if (!ids.has(f)) return fail(`「解鎖來源節點」裡的「${f}」不是已存在的節點ID。`);
+      const src = byId.get(f);
+      if (src && src.floor >= n.floor) fail(`「解鎖來源節點」「${f}」在第 ${src.floor} 層，必須比這個節點（第 ${n.floor} 層）低。`);
+    });
+  });
+  const floors = [...new Set(nodes.map(n => n.floor).filter(Number.isInteger))].sort((a, b) => a - b);
+  floors.forEach((f, i) => { if (f !== maxLayers + 1 + i) fileFail(`樓層要從 ${maxLayers + 1} 開始連續編號，但缺少第 ${maxLayers + 1 + i} 層。`); });
+  floors.forEach(f => {
+    const row = nodes.filter(n => n.floor === f);
+    const free = row.filter(n => n.lane === null);
+    if (free.length && row.length > 1) errors.push(`${file}：第 ${f} 層有「不屬於任何分支」的節點，這一層就只能有這一個節點。`);
+    const seen = new Set();
+    row.filter(n => n.lane !== null).forEach(n => { if (seen.has(n.lane)) errors.push(`${file} 第 ${n.rowNo} 列：第 ${f} 層同一個分支只能有一個額外節點。`); seen.add(n.lane); });
   });
   if (!nodes.length && !errors.some(e => e.startsWith(file))) fileFail('沒有任何資料列。');
   return nodes;
 }
 
-function renderRed(nodes) {
+function renderTop(nodes) {
   const q = s => JSON.stringify(s);
   const effLine = e => `{ stat: ${q(e.stat)}, per: ${e.per}, unit: ${q(e.unit)} }`;
   let o = `/*
- * 紅色天賦（第 16 層）——此檔由 data/red.csv 自動產生，請不要直接修改。
- * 要更新：改 data/red.csv，再執行 node tools/build-data.mjs（Windows 可雙擊 tools\\build-data.bat）。
+ * 額外樓層（第 16 層以後）——此檔由 data/top.csv 自動產生，請不要直接修改。
+ * 要更新：改 data/top.csv，再執行 node tools/build-data.mjs（Windows 可雙擊 tools\\build-data.bat）。
  */
 window.SNAIL_DATA = window.SNAIL_DATA || {};
-window.SNAIL_DATA.red = {
+window.SNAIL_DATA.top = {
   nodes: [
 `;
   o += nodes.map(n => `    {
-      id: ${q(n.id)}, name: ${q(n.name)}, color: 'red', max: ${n.max},
-      costs: { blue: ${n.costs.blue}, purple: ${n.costs.purple}, orange: ${n.costs.orange} },
+      id: ${q(n.id)}, name: ${q(n.name)}, color: ${q(n.color)}, floor: ${n.floor}, lane: ${n.lane === null ? 'null' : n.lane}, max: ${n.max},
+${n.costs ? `      costs: { blue: ${n.costs.blue}, purple: ${n.costs.purple}, orange: ${n.costs.orange} },` : `      cost: ${n.cost},`}
       unlock: { from: [${n.unlock.from.map(q).join(', ')}], need: ${n.unlock.need} },
       note: ${q(n.note)},
       effects: [
@@ -255,12 +303,12 @@ const built = [];
 for (const key of BRANCH_KEYS) {
   const csv = path.join(DATA_DIR, key + '.csv');
   if (!fs.existsSync(csv)) { errors.push(`找不到 data/${key}.csv`); continue; }
-  const b = buildBranch(parseCSV(fs.readFileSync(csv, 'utf8')), key + '.csv');
+  const b = buildBranch(parseCSV(fs.readFileSync(csv, 'utf8')), key + '.csv', BRANCH_KEYS.indexOf(key));
   if (b) built.push([key, b]);
 }
-const redCsv = path.join(DATA_DIR, 'red.csv');
-let reds = null;
-if (fs.existsSync(redCsv)) reds = buildRed(parseCSV(fs.readFileSync(redCsv, 'utf8')), 'red.csv');
+const topCsv = path.join(DATA_DIR, 'top.csv');
+let top = null;
+if (fs.existsSync(topCsv)) top = buildTop(parseCSV(fs.readFileSync(topCsv, 'utf8')), 'top.csv', built);
 if (errors.length) {
   console.error('CSV 有 ' + errors.length + ' 個問題，尚未更新任何 .js 檔：\n');
   errors.forEach(e => console.error('  • ' + e));
@@ -271,7 +319,8 @@ for (const [key, b] of built) {
   const nodes = b.layers.reduce((s, l) => s + l.nodes.length, 0);
   console.log(`完成：${key}.csv → ${key}.js（${b.name}：${b.layers.length} 層、${nodes} 個節點）`);
 }
-if (reds) {
-  fs.writeFileSync(path.join(DATA_DIR, 'red.js'), renderRed(reds));
-  console.log(`完成：red.csv → red.js（紅色天賦：${reds.length} 個節點）`);
+if (top) {
+  fs.writeFileSync(path.join(DATA_DIR, 'top.js'), renderTop(top));
+  const floors = [...new Set(top.map(n => n.floor))].sort((a, b) => a - b);
+  console.log(`完成：top.csv → top.js（額外樓層 第 ${floors.join('、')} 層：${top.length} 個節點）`);
 }
