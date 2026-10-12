@@ -260,5 +260,37 @@ window.SNAIL_DATA.top = {
         { stat: "蝸牛追擊", per: 2, unit: "%" },
       ]
     },
+    {
+      id: "res-25a", name: "神墟勇者", color: "blue", floor: 25, lane: 0, max: 5,
+      cost: 6,
+      unlock: { from: ["red-24a"], need: 3 },
+      note: "",
+      effects: [
+        { stat: "起源密林黑蝌蚪產出速度", per: 3, unit: "%" },
+        { stat: "堅磐高地黑蝌蚪產出速度", per: 3, unit: "%" },
+        { stat: "幽嵐蘑域黑蝌蚪產出速度", per: 3, unit: "%" },
+        { stat: "湮滅火山黑蝌蚪產出速度", per: 3, unit: "%" },
+      ]
+    },
+    {
+      id: "pow-25a", name: "致命武力", color: "blue", floor: 25, lane: 1, max: 5,
+      cost: 6,
+      unlock: { from: ["red-24a"], need: 3 },
+      note: "",
+      effects: [
+        { stat: "蝸牛攻擊", per: 72, unit: "" },
+        { stat: "蝸牛防禦", per: 72, unit: "" },
+        { stat: "弱點判定成功對敵人傷害", per: 0.5, unit: "%" },
+      ]
+    },
+    {
+      id: "arm-25a", name: "領導力", color: "blue", floor: 25, lane: 2, max: 5,
+      cost: 6,
+      unlock: { from: ["red-24a"], need: 3 },
+      note: "",
+      effects: [
+        { stat: "蝸牛領導力", per: 2, unit: "" },
+      ]
+    },
   ]
 };
