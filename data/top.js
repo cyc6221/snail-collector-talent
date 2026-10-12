@@ -130,5 +130,17 @@ window.SNAIL_DATA.top = {
         { stat: "兵種演練部隊傷害減免", per: 1, unit: "%" },
       ]
     },
+    {
+      id: "red-20a", name: "元素領主", color: "red", floor: 20, lane: null, max: 3,
+      costs: { blue: 5, purple: 5, orange: 5 },
+      unlock: { from: ["res-19a", "pow-19a", "arm-19a"], need: 5 },
+      note: "",
+      effects: [
+        { stat: "火元素傷害", per: 2, unit: "%" },
+        { stat: "水元素傷害", per: 2, unit: "%" },
+        { stat: "土元素傷害", per: 2, unit: "%" },
+        { stat: "風元素傷害", per: 2, unit: "%" },
+      ]
+    },
   ]
 };
