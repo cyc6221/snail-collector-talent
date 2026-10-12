@@ -1,6 +1,6 @@
 // 天賦網格：每一列是一層、每一欄是一個分支；節點卡片與層間連線
 import { COLOR_ORDER, CN, $, esc, fmtVal, nodeCost } from './util.js';
-import { state, lv, layerCap, layerProgress, redProgress, unlockFlags, branchCost, findNode } from './state.js';
+import { state, lv, layerCap, layerProgress, extraProgress, unlockFlags, branchCost, findNode } from './state.js';
 
 /** 各色點數；colors 指定要顯示哪幾色（沒有該色點數時顯示 0） */
 function ptsHTML(c, colors) {
@@ -110,39 +110,74 @@ export function gridHTML() {
     });
   }
 
-  return h + redRowHTML(rows, slots);
+  return h + extrasHTML(rows, slots);
 }
 
 /**
- * 紅色天賦（第 16 層）：不屬於任何分支。解鎖來源所在的各個分支各拉一條線，匯合到中間那個分支的欄位，
- * 再接到紅色節點（放在中間欄位正下方）。
+ * 上一層與這一層之間的「匯流排」連線。
+ * 扇入：多個來源匯合到一個節點（例如三個分支的第 15 層 → 第 16 層）；
+ * 扇出：一個來源分岔到多個節點（例如第 16 層 → 三個分支的第 17 層）。
+ * 中心欄位（hub）有標籤顯示解鎖進度；各欄位的線在欄位間距處接起來。
  */
-function redRowHTML(rows, slots) {
-  const reds = state.data.reds;
-  if (!reds.length) return '';
-  const r = reds[0];                                         // 畫面目前只排一個紅色天賦（資料轉換工具會檢查）
-  const lanes = [...new Set(r.unlock.from.map(id => findNode(id)).filter(Boolean).map(f => f.bi))].sort((a, b) => a - b);
-  const mid = lanes.length ? lanes[Math.floor((lanes.length - 1) / 2)] : Math.floor((state.data.branches.length - 1) / 2);
-  const connRow = 2 * rows + 1, nodeRow = 2 * rows + 2;
-  const p = redProgress(r);
+function busRowHTML(S, T, row, p, title) {
+  const all = [...new Set([...S, ...T])].sort((a, b) => a - b);
+  const fanIn = T.length === 1 || S.length > 1;
+  const hub = fanIn ? T[Math.floor((T.length - 1) / 2)] : S[0];
+  const hl = all.some(x => x < hub), hr = all.some(x => x > hub);
   const lit = p.pass ? ' lit' : '';
-  const names = r.unlock.from.map(id => { const f = findNode(id); return f ? f.n.name : ''; }).filter(Boolean).join('、');
-  const title = '「' + names + '」等級合計 ' + p.cur + ' 級，達 ' + p.need + ' 級才解鎖「' + r.name + '」';
+  const gate = '<span class="gate' + (p.pass ? ' pass' : '') + '" title="' + esc(title) + '">' + (p.pass ? '✓ ' : '') + p.cur + ' / ' + p.need + '</span>';
+  return all.map(bi => {
+    const role = bi < hub ? 'l' : bi > hub ? 'r' : 'm' + (hl ? ' hl' : '') + (hr ? ' hr' : '');
+    const isHub = bi === hub;
+    const up = fanIn
+      ? (S.includes(bi) || isHub ? '<i class="zone up ru ru-' + role + '"></i>' : '<i class="zone"></i>')
+      : (isHub ? '<i class="zone up u1"></i>' : '<i class="zone"></i>');
+    const dn = fanIn
+      ? (isHub ? '<i class="zone dn d1"></i>' : '<i class="zone"></i>')
+      : '<i class="zone dn rd rd-' + role + '"></i>';
+    return '<div class="g-cell g-conn g-rconn' + lit + (bi === state.tab ? ' on-tab' : '') + '" style="grid-column:' + (bi + 2) + ';grid-row:' + row + '">' +
+      up + (isHub ? gate : '<span></span>') + dn + '</div>';
+  }).join('');
+}
+
+/**
+ * 額外樓層（第 16 層以後）：每個節點放在自己的欄位（所在分支；沒有指定就放在解鎖來源欄位的中間），
+ * 與上一層之間用匯流排連起來。
+ */
+function extrasHTML(rows, slots) {
+  const ex = state.data.extras;
+  if (!ex.length) return '';
+  const nLane = state.data.branches.length;
+  const floors = [...new Set(ex.map(e => e.floor))].sort((a, b) => a - b);
+
+  // 每個額外節點所在的欄位（樓層由低到高處理，來源若是更低樓層的額外節點，欄位已經決定好）
+  const laneOf = new Map();
+  const srcLane = id => { const f = findNode(id); return !f ? null : f.extra ? (laneOf.has(id) ? laneOf.get(id) : null) : f.bi; };
+  floors.forEach(fl => ex.filter(e => e.floor === fl).forEach(e => {
+    if (e.lane !== null) { laneOf.set(e.id, e.lane); return; }
+    const ls = [...new Set(e.unlock.from.map(srcLane).filter(x => x !== null))].sort((a, b) => a - b);
+    laneOf.set(e.id, ls.length ? ls[Math.floor((ls.length - 1) / 2)] : Math.floor((nLane - 1) / 2));
+  }));
+
   let h = '';
-
-  lanes.forEach(bi => {
-    const role = bi < mid ? 'ru-l' : bi > mid ? 'ru-r' : 'ru-m' + (lanes.some(x => x < mid) ? ' hl' : '') + (lanes.some(x => x > mid) ? ' hr' : '');
-    h += '<div class="g-cell g-conn g-rconn' + lit + (bi === state.tab ? ' on-tab' : '') + '" style="grid-column:' + (bi + 2) + ';grid-row:' + connRow + '">' +
-      '<i class="zone up ru ' + role + '"></i>' +
-      (bi === mid
-        ? '<span class="gate' + (p.pass ? ' pass' : '') + '" title="' + esc(title) + '">' + (p.pass ? '✓ ' : '') + p.cur + ' / ' + p.need + '</span><i class="zone dn d1"></i>'
-        : '<span></span><i class="zone"></i>') +
-    '</div>';
+  floors.forEach((fl, k) => {
+    const nodes = ex.filter(e => e.floor === fl);
+    const connRow = 2 * rows + 1 + 2 * k, nodeRow = connRow + 1;
+    const S = [...new Set(nodes.flatMap(e => e.unlock.from.map(srcLane)).filter(x => x !== null))].sort((a, b) => a - b);
+    const T = [...new Set(nodes.map(e => laneOf.get(e.id)))].sort((a, b) => a - b);
+    if (S.length) {
+      const first = nodes[0], p = extraProgress(first);
+      const names = first.unlock.from.map(id => { const f = findNode(id); return f ? f.n.name : ''; }).filter(Boolean).join('、');
+      h += busRowHTML(S, T, connRow, p, '「' + names + '」等級合計 ' + p.cur + ' 級，達 ' + p.need + ' 級才解鎖第 ' + fl + ' 層');
+    }
+    h += '<div class="g-num on-tab" style="grid-row:' + nodeRow + '"><span>' + fl + '</span><span class="sr">第 ' + fl + ' 層</span></div>';
+    nodes.forEach(e => {
+      const lane = laneOf.get(e.id);
+      const onTab = e.lane === null ? ' on-tab' : (lane === state.tab ? ' on-tab' : '');   // 不屬於任何分支的節點，每個分支分頁都看得到
+      h += '<div class="g-cell g-layer g-extra' + (extraProgress(e).pass ? '' : ' locked') + onTab + '" data-layer="' + fl + '" style="grid-column:' + (lane + 2) + ';grid-row:' + nodeRow + ';--slots:' + slots[lane] + '">' +
+        '<div class="nodes n1">' + nodeHTML(e) + '</div></div>';
+    });
   });
-
-  h += '<div class="g-num on-tab" style="grid-row:' + nodeRow + '"><span>' + (rows + 1) + '</span><span class="sr">第 ' + (rows + 1) + ' 層</span></div>';
-  h += '<div class="g-cell g-layer g-red' + (p.pass ? '' : ' locked') + ' on-tab" data-layer="' + (rows + 1) + '" style="grid-column:' + (mid + 2) + ';grid-row:' + nodeRow + ';--slots:' + slots[mid] + '">' +
-    '<div class="nodes n1">' + nodeHTML(r) + '</div></div>';
   return h;
 }
 
