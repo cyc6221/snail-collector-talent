@@ -147,7 +147,57 @@ const TOP_COLS = {
   effects: '效果', from: '解鎖來源節點', need: '解鎖所需等級合計', note: '備註'
 };
 const MAX_TOP_NODES = 60;           // 與網頁端 js/schema.js 的 MAX_EXTRAS 相同，超過的節點網頁不會載入
-const TOP_REQUIRED = ['floor', 'id', 'name', 'color', 'costs', 'effects', 'from', 'need'];
+// 必填；「節點ID」「解鎖來源節點」「解鎖所需等級合計」「分支（紅色節點）」「最高等級」留空時套用預設規則（見下方 resolveTopDefaults）
+const TOP_REQUIRED = ['floor', 'name', 'color', 'costs', 'effects'];
+
+/**
+ * 預設規則（第 16 層以後的樓層幾乎都一樣，不必每個節點都手寫）：
+ * - 節點ID：紅色節點 red-<樓層>a；分支節點 <分支前綴>-<樓層>a。同一層同一分支有兩個節點時，紫色為 a、橙色為 b
+ * - 解鎖來源節點：上一層「同一分支」的所有節點；沒有同分支的（例如上一層是紅色節點，或這個節點不屬於任何分支）就用上一層全部節點
+ * - 解鎖所需等級合計：5，但不超過來源節點最高等級的總和（例如來源是 1 個最高 3 級的紅色節點，就是 3）
+ * 填了的欄位一律優先，所以遇到規則不同的樓層，在那一列明確填寫即可。
+ */
+function resolveTopDefaults(nodes, file, builtBranches, maxLayers) {
+  const fail = (n, msg) => errors.push(`${file} 第 ${n.rowNo} 列：${msg}`);
+  const valid = nodes.filter(n => Number.isInteger(n.floor) && n.floor > maxLayers);
+
+  // 1) 自動產生節點ID
+  const prefixOf = lane => builtBranches[lane][1].layers[0].nodes[0].id.split('-')[0];
+  for (const n of valid) {
+    if (n.id !== null) continue;
+    const group = valid.filter(m => m.floor === n.floor && m.lane === n.lane);
+    const suffix = group.length > 1 ? (n.color === 'purple' ? 'a' : n.color === 'orange' ? 'b' : 'abcdefgh'[group.indexOf(n)]) : 'a';
+    const prefix = n.lane === null ? 'red' : prefixOf(n.lane);
+    const auto = `${prefix}-${n.floor}${suffix}`;
+    if (ids.has(auto)) { fail(n, `自動產生的節點ID「${auto}」已被使用（${ids.get(auto)}），請在「節點ID」欄手動填寫。`); continue; }
+    n.id = auto;
+    ids.set(auto, `${file} 第 ${n.rowNo} 列（自動產生）`);
+  }
+
+  // 2) 解鎖來源與所需合計（樓層由低到高處理）
+  const maxOf = new Map();
+  builtBranches.forEach(([, b]) => b.layers.forEach(l => l.nodes.forEach(m => maxOf.set(m.id, m.max))));
+  valid.forEach(m => { if (m.id) maxOf.set(m.id, m.max); });
+  const floorNodes = f => {
+    if (f <= maxLayers) return builtBranches.flatMap(([, b], lane) => (b.layers[f - 1] ? b.layers[f - 1].nodes.map(m => ({ id: m.id, lane })) : []));
+    return valid.filter(m => m.floor === f && m.id).map(m => ({ id: m.id, lane: m.lane }));
+  };
+  for (const n of [...valid].sort((a, b) => a.floor - b.floor)) {
+    if (n.unlock.from === null) {
+      const prev = floorNodes(n.floor - 1);
+      let src = n.lane === null ? prev : prev.filter(p => p.lane === n.lane);
+      if (!src.length) src = prev;
+      if (!src.length) { fail(n, `找不到第 ${n.floor - 1} 層的節點可當解鎖來源，請手動填「解鎖來源節點」。`); n.unlock.from = []; continue; }
+      n.unlock.from = src.map(p => p.id);
+    }
+    if (n.unlock.need === null) {
+      const total = n.unlock.from.reduce((s, id) => s + (maxOf.get(id) || 0), 0);
+      n.unlock.need = Math.min(5, total);
+      if (n.unlock.need < 1) fail(n, '解鎖來源節點不存在，沒辦法推算「解鎖所需等級合計」，請手動填寫。');
+    }
+  }
+  nodes.forEach(n => { if (n.unlock.from === null) n.unlock.from = []; if (n.unlock.need === null) n.unlock.need = 5; });
+}
 
 function buildTop(rows, file, builtBranches) {
   const fileFail = msg => errors.push(`${file}：${msg}`);
@@ -188,10 +238,12 @@ function buildTop(rows, file, builtBranches) {
       if (lane < 0) { fail(`「分支」填「${laneCell}」不是任何分支，請填：${builtBranches.map(([, b]) => b.name.split('・')[0]).join('／')}，或留空（只有紅色節點可以留空）。`); lane = null; }
     } else if (color && color !== 'red') fail('非紅色的節點必須指定「分支」。');
 
-    const id = cell(r, 'id');
-    if (!/^[A-Za-z][\w-]{0,39}$/.test(id)) fail(`節點ID「${id}」不合規定：要以英文字母開頭，只能用英數、底線、連字號。`);
-    else if (ids.has(id)) fail(`節點ID「${id}」重複（${ids.get(id)}也用了）。`);
-    else ids.set(id, `${file} 第 ${rowNo} 列`);
+    let id = cell(r, 'id') || null;                              // 留空 → 之後依規則自動產生
+    if (id !== null) {
+      if (!/^[A-Za-z][\w-]{0,39}$/.test(id)) fail(`節點ID「${id}」不合規定：要以英文字母開頭，只能用英數、底線、連字號。`);
+      else if (ids.has(id)) fail(`節點ID「${id}」重複（${ids.get(id)}也用了）。`);
+      else ids.set(id, `${file} 第 ${rowNo} 列`);
+    }
 
     const name = cell(r, 'name');
     if (!name) fail('「名稱」不能空白。');
@@ -213,16 +265,20 @@ function buildTop(rows, file, builtBranches) {
     }
 
     const maxCell = cell(r, 'max');
-    const max = maxCell === '' ? 5 : Number(maxCell);
-    if (!Number.isInteger(max) || max < 1 || max > 99) fail('「最高等級」要是 1～99 的整數（可留空，預設 5）。');
+    const max = maxCell === '' ? (color === 'red' ? 3 : 5) : Number(maxCell);
+    if (!Number.isInteger(max) || max < 1 || max > 99) fail('「最高等級」要是 1～99 的整數（可留空：紅色節點預設 3，其他預設 5）。');
 
-    const from = cell(r, 'from').split(/[;；,，、\s]+/).filter(Boolean);
-    if (!from.length) fail('「解鎖來源節點」不能空白，請填節點ID，多個用分號隔開。');
-    const need = Number(cell(r, 'need'));
-    if (!Number.isInteger(need) || need < 1) fail('「解鎖所需等級合計」要是 1 以上的整數。');
+    // 解鎖來源、所需合計：留空 → 套用預設規則
+    const fromCell = cell(r, 'from');
+    const from = fromCell === '' ? null : fromCell.split(/[;；,，、\s]+/).filter(Boolean);
+    const needCell = cell(r, 'need');
+    const need = needCell === '' ? null : Number(needCell);
+    if (need !== null && (!Number.isInteger(need) || need < 1)) fail('「解鎖所需等級合計」要是 1 以上的整數（可留空，套用預設）。');
 
     nodes.push({ rowNo, id, name, color, floor, lane, cost, costs, max, note: cell(r, 'note'), unlock: { from, need }, effects: parseEffects(cell(r, 'effects'), fail) });
   });
+
+  resolveTopDefaults(nodes, file, builtBranches, maxLayers);
 
   // 跨列檢查：解鎖來源存在且樓層較低、樓層連續、同一格不重疊
   const byId = new Map(nodes.map(n => [n.id, n]));
