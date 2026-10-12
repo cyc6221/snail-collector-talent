@@ -346,5 +346,37 @@ window.SNAIL_DATA.top = {
         { stat: "所有兵種追擊", per: 1, unit: "" },
       ]
     },
+    {
+      id: "res-27a", name: "神墟之子", color: "orange", floor: 27, lane: 0, max: 5,
+      cost: 6,
+      unlock: { from: ["res-26b", "res-26a"], need: 5 },
+      note: "",
+      effects: [
+        { stat: "起源密林文明發條產出速度", per: 3, unit: "%" },
+        { stat: "堅磐高地抽獎券產出速度", per: 3, unit: "%" },
+        { stat: "幽嵐蘑域許願幣產出速度", per: 3, unit: "%" },
+        { stat: "湮滅火山培養液產出速度", per: 3, unit: "%" },
+      ]
+    },
+    {
+      id: "pow-27a", name: "義體強殖", color: "orange", floor: 27, lane: 1, max: 5,
+      cost: 6,
+      unlock: { from: ["pow-26a"], need: 5 },
+      note: "",
+      effects: [
+        { stat: "穿戴器官技能傷害", per: 1, unit: "%" },
+        { stat: "穿戴器官生命恢復效果", per: 1, unit: "%" },
+      ]
+    },
+    {
+      id: "arm-27a", name: "神域鬥士", color: "orange", floor: 27, lane: 2, max: 5,
+      cost: 6,
+      unlock: { from: ["arm-26a", "arm-26b"], need: 5 },
+      note: "",
+      effects: [
+        { stat: "神域戰鬥部隊傷害減免", per: 1, unit: "%" },
+        { stat: "神域戰鬥部隊對敵人傷害", per: 1, unit: "%" },
+      ]
+    },
   ]
 };
