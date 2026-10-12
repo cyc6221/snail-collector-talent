@@ -1,7 +1,7 @@
 // 驗證與還原（匯入、localStorage 共用）：任何外來資料都先過這裡
 import { COLORS, hasOwn, toInt, toStr, newId } from './util.js';
 
-export const MAX_EXTRAS = 60;      // 額外樓層（第 16 層以後）節點數量上限
+export const MAX_EXTRAS = 300;    // 額外樓層（第 16 層以後）節點數量上限
 
 function cleanEffects(src) {
   return (Array.isArray(src) ? src : []).slice(0, 12).map(e => {

@@ -146,7 +146,7 @@ const TOP_COLS = {
   floor: '樓層', lane: '分支', id: '節點ID', name: '名稱', color: '顏色', costs: '每級消耗', max: '最高等級',
   effects: '效果', from: '解鎖來源節點', need: '解鎖所需等級合計', note: '備註'
 };
-const MAX_TOP_NODES = 60;           // 與網頁端 js/schema.js 的 MAX_EXTRAS 相同，超過的節點網頁不會載入
+const MAX_TOP_NODES = 300;       // 與網頁端 js/schema.js 的 MAX_EXTRAS 相同，超過的節點網頁不會載入
 // 必填；「節點ID」「解鎖來源節點」「解鎖所需等級合計」「分支（紅色節點）」「最高等級」留空時套用預設規則（見下方 resolveTopDefaults）
 const TOP_REQUIRED = ['floor', 'name', 'color', 'costs', 'effects'];
 
