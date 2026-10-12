@@ -3,10 +3,11 @@ import { COLORS, CN, $, esc, fmtVal } from './util.js';
 import { state, lv, layerSum, layerCap, effThr, unlockFlags, branchCost } from './state.js';
 import { isArmed } from './rules.js';
 
-function ptsHTML(c) {
-  const items = COLORS.filter(k => c[k] > 0).map(k =>
+/** 各色點數；colors 指定要顯示哪幾色（沒有該色點數時顯示 0） */
+function ptsHTML(c, colors) {
+  const items = colors.map(k =>
     '<span class="pt c-' + k + '"><span class="orb sm" aria-hidden="true"></span><span class="sr">' + CN[k] + '</span>' + c[k] + '</span>');
-  return items.length ? items.join('') : '<span class="muted">—</span>';
+  return items.length ? items.join('') : '<span class="pt">0</span>';
 }
 
 function nodeHTML(n, layer) {
@@ -80,10 +81,12 @@ export function gridHTML() {
   let h = '';
 
   bs.forEach((b, bi) => {
+    const full = branchCost(b, false);
+    const used = COLORS.filter(k => full[k] > 0);     // 這個分支用到的顏色；「已配」同樣顯示這幾色
     h += '<header class="g-cell g-head' + tabCls(bi) + '" style="grid-column:' + (bi + 2) + ';grid-row:1">' +
       '<h2>' + esc(b.name) + '</h2>' +
-      '<div class="b-cost"><span class="lbl">全點滿需要</span>' + ptsHTML(branchCost(b, false)) + '</div>' +
-      (Object.values(branchCost(b, true)).some(v => v > 0) ? '<div class="b-cost"><span class="lbl">目前已配</span>' + ptsHTML(branchCost(b, true)) + '</div>' : '') +
+      '<div class="b-cost"><span class="lbl">全點滿需要</span>' + ptsHTML(full, used) + '</div>' +
+      '<div class="b-cost"><span class="lbl">目前已配</span>' + ptsHTML(branchCost(b, true), used) + '</div>' +
     '</header>';
   });
 
