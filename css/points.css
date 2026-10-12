@@ -1,0 +1,39 @@
+/* 頂部點數列 */
+/* ---------- 點數列 ---------- */
+.pointsbar {
+  position: sticky; top: 0; z-index: 30;
+  background: var(--bar-bg);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+}
+.pointsbar .inner { max-width: var(--page-w); margin: 0 auto; padding: 8px 16px; }
+.viewnav { display: flex; gap: 6px; margin-bottom: 6px; }
+.vbtn {
+  flex: 1 1 0; min-width: 0; min-height: 36px; padding: 2px 14px;
+  border: 1px solid var(--line); border-radius: 10px;
+  background: var(--surface); font-weight: 500;
+}
+.vbtn:hover { border-color: var(--accent); }
+.vbtn[aria-current="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); font-weight: 700; }
+@media (min-width: 700px) { .vbtn { flex: 0 0 160px; } }
+.chips { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.chip {
+  min-width: 0; padding: 6px 8px;
+  background: var(--surface); border: 1px solid var(--line);
+  border-top: 3px solid var(--c); border-radius: 10px;
+  font-size: 13px; line-height: 1.35;
+}
+.chip-top { display: flex; align-items: center; gap: 5px; flex-wrap: wrap; }
+.chip-name { font-weight: 700; }
+.chip-used { margin-left: auto; color: var(--muted); }
+.chip-used b { color: var(--ink); font-variant-numeric: tabular-nums; }
+.chip-own { display: flex; align-items: center; gap: 4px; margin-top: 4px; color: var(--muted); font-size: 12px; }
+.chip-own input {
+  flex: 1; min-width: 0; width: 100%; height: 28px; padding: 0 6px;
+  border: 1px solid var(--line); border-radius: 6px; background: var(--bg);
+  font-variant-numeric: tabular-nums;
+}
+.chip-rem { margin-top: 3px; font-weight: 500; font-variant-numeric: tabular-nums; }
+.chip.over { border-color: var(--danger); background: var(--danger-soft); }
+.chip.over .chip-rem { color: var(--danger); font-weight: 700; }
+.chip.unlimited .chip-rem { color: var(--muted); font-weight: 400; }

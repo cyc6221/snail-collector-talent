@@ -1,0 +1,49 @@
+/* 設計變數：色彩、字體、陰影；含深色模式 */
+:root {
+  color-scheme: light dark;
+  --bg: #f1f4ea;
+  --surface: #fafbf6;
+  --surface2: #eef2e4;
+  --ink: #25301d;
+  --muted: #5d6952;
+  --line: #d3dac3;
+  --accent: #4f6f34;
+  --accent-ink: #ffffff;
+  --accent-soft: #e0eacb;
+  --focus: #2b66c4;
+  --danger: #b3321f;
+  --danger-soft: #f9e3de;
+  --warn-soft: #fbf0d3;
+  --warn-ink: #735410;
+  --bar-bg: rgba(241, 244, 234, .94);
+  --blue: #4a86d8;   --blue-d: #2a5aa8;
+  --purple: #9564d4; --purple-d: #6a3fa8;
+  --orange: #ee9532; --orange-d: #b86414;
+  --page-w: 1560px;
+  --shadow: 0 1px 2px rgba(40, 50, 25, .08), 0 4px 14px rgba(40, 50, 25, .06);
+  --sans: 'Noto Sans TC', system-ui, -apple-system, 'Segoe UI', 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+  --serif: 'Noto Serif TC', 'Songti TC', 'PMingLiU', serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #12160d;
+    --surface: #1b2115;
+    --surface2: #232b1b;
+    --ink: #e4ead8;
+    --muted: #a0ab92;
+    --line: #333f29;
+    --accent: #a8c97a;
+    --accent-ink: #12160d;
+    --accent-soft: #2b3820;
+    --focus: #7db0ff;
+    --danger: #ff9684;
+    --danger-soft: #3d1f1a;
+    --warn-soft: #3a3016;
+    --warn-ink: #e8c872;
+    --bar-bg: rgba(18, 22, 13, .94);
+    --blue: #5b97ea;   --blue-d: #2a5aa8;
+    --purple: #a876e6; --purple-d: #6a3fa8;
+    --orange: #f2a447; --orange-d: #b86414;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 4px 14px rgba(0, 0, 0, .25);
+  }
+}

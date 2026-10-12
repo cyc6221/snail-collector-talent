@@ -1,0 +1,37 @@
+/* 響應式與使用者偏好（需最後載入） */
+/* ---------- 手機分頁 ---------- */
+.tabs { display: none; }
+
+/* ---------- 手機（< 1000px）：分頁切換 ---------- */
+@media (max-width: 999.98px) {
+  .tabs { display: flex; gap: 6px; max-width: var(--page-w); margin: 12px auto 0; padding: 0 16px; }
+  .tab {
+    flex: 1; min-width: 0; min-height: 42px; padding: 6px 4px;
+    border: 1px solid var(--line); border-radius: 10px;
+    background: var(--surface); font-weight: 500; font-size: 14px;
+  }
+  .tab[aria-current="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); font-weight: 700; }
+  /* 只顯示目前分頁的那一欄，節點改為上下排列，連線簡化成一條直線 */
+  .branches { grid-template-columns: 30px minmax(0, 1fr); }
+  .g-cell { grid-column: 2 !important; }
+  .g-cell:not(.on-tab), .g-num:not(.on-tab) { display: none; }
+  .nodes { flex-direction: column; align-items: stretch; }
+  .nodes > .node { flex-basis: auto; }
+  .zone { background-image: linear-gradient(var(--lc), var(--lc)) !important; background-size: var(--lw) 100% !important; background-position: center !important; }
+  main { padding-top: 12px; }
+}
+@media (max-width: 520px) {
+  body { font-size: 14.5px; }
+  .top { padding: 16px 12px 10px; }
+  .pointsbar .inner { padding: 6px 8px; }
+  .chips { gap: 5px; }
+  .chip { padding: 5px 5px; font-size: 12px; }
+  .chip-own > span:first-child { display: none; }
+  main { padding-left: 10px; padding-right: 10px; }
+  .tabs { padding: 0 10px; }
+  .row3 { grid-template-columns: 1fr; }
+  footer { padding-left: 12px; padding-right: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}
