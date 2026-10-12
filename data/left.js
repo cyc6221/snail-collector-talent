@@ -5,7 +5,7 @@
 window.SNAIL_DATA = window.SNAIL_DATA || {};
 window.SNAIL_DATA.left = {
   name: "左・資源",
-  note: "資料來源為 2020 年攻略，節點名稱多為暫定，偶數層的紫／橙對應是推測。",
+  note: "",
   layers: [
     // 第 1 層
     {
@@ -15,7 +15,7 @@ window.SNAIL_DATA.left = {
           id: "res-1a", name: "珠寶工匠", color: "blue", cost: 1, max: 5,
           note: "",
           effects: [
-            { stat: "抽到綠珠轉藍珠機率", per: 1, unit: "%" },
+            { stat: "抽獎綠珠轉藍珠機率", per: 1, unit: "%" },
           ]
         },
       ]
@@ -28,14 +28,14 @@ window.SNAIL_DATA.left = {
           id: "res-2b", name: "珠寶大師", color: "orange", cost: 1, max: 5,
           note: "",
           effects: [
-            { stat: "抽到紫珠轉橙珠機率", per: 1, unit: "%" },
+            { stat: "抽獎紫珠轉橘珠機率", per: 1, unit: "%" },
           ]
         },
         {
           id: "res-2a", name: "珠寶專家", color: "purple", cost: 1, max: 5,
           note: "",
           effects: [
-            { stat: "抽到藍珠轉紫珠機率", per: 1, unit: "%" },
+            { stat: "抽獎藍珠轉紫珠機率", per: 1, unit: "%" },
           ]
         },
       ]
@@ -45,10 +45,11 @@ window.SNAIL_DATA.left = {
       threshold: 5,
       nodes: [
         {
-          id: "res-3a", name: "蘑菇園增產", color: "blue", cost: 2, max: 5,
+          id: "res-3a", name: "蘑菇培育", color: "blue", cost: 2, max: 5,
           note: "",
           effects: [
-            { stat: "蘑菇園產量", per: 5, unit: "%" },
+            { stat: "蘑菇園蘑菇產量", per: 5, unit: "%" },
+            { stat: "蘑菇園最大容量", per: 5, unit: "%" },
           ]
         },
       ]
@@ -58,19 +59,19 @@ window.SNAIL_DATA.left = {
       threshold: 5,
       nodes: [
         {
-          id: "res-4b", name: "黑蝌蚪養殖", color: "orange", cost: 2, max: 5,
+          id: "res-4b", name: "時空管理員", color: "orange", cost: 2, max: 5,
           note: "",
           effects: [
-            { stat: "黑蝌蚪池產量", per: 5, unit: "%" },
-            { stat: "黑蝌蚪池容量", per: 5, unit: "%" },
+            { stat: "時光機最大容量", per: 5, unit: "%" },
+            { stat: "時光機探索加速產量", per: 5, unit: "%" },
           ]
         },
         {
-          id: "res-4a", name: "時空管理員", color: "purple", cost: 2, max: 5,
+          id: "res-4a", name: "蝌蚪養殖", color: "purple", cost: 2, max: 5,
           note: "",
           effects: [
-            { stat: "時光機探索產量", per: 5, unit: "%" },
-            { stat: "時光機容量", per: 5, unit: "%" },
+            { stat: "蝌蚪池最大容量", per: 5, unit: "%" },
+            { stat: "蝌蚪池黑蝌蚪產量", per: 5, unit: "%" },
           ]
         },
       ]
@@ -80,12 +81,13 @@ window.SNAIL_DATA.left = {
       threshold: 5,
       nodes: [
         {
-          id: "res-5a", name: "工坊增產", color: "blue", cost: 3, max: 5,
+          id: "res-5a", name: "土木工程", color: "blue", cost: 3, max: 5,
           note: "",
           effects: [
-            { stat: "木材工坊產量", per: 5, unit: "%" },
-            { stat: "石材工坊產量", per: 5, unit: "%" },
-            { stat: "工坊容量", per: 5, unit: "%" },
+            { stat: "木材工坊木材產量", per: 5, unit: "%" },
+            { stat: "石材工坊石材產量", per: 5, unit: "%" },
+            { stat: "木材工坊最大容量", per: 5, unit: "%" },
+            { stat: "石材工坊最大容量", per: 5, unit: "%" },
           ]
         },
       ]
@@ -95,18 +97,18 @@ window.SNAIL_DATA.left = {
       threshold: 5,
       nodes: [
         {
-          id: "res-6b", name: "基因研究 II", color: "orange", cost: 3, max: 5,
+          id: "res-6b", name: "進階基因工程", color: "orange", cost: 3, max: 5,
           note: "",
           effects: [
-            { stat: "DNA研究加速", per: 3, unit: "%" },
+            { stat: "所有基因研究加速", per: 3, unit: "%" },
+            { stat: "所有基因免費速度", per: 30, unit: "m" },
           ]
         },
         {
-          id: "res-6a", name: "基因研究 I", color: "purple", cost: 3, max: 5,
+          id: "res-6a", name: "基因工程", color: "purple", cost: 3, max: 5,
           note: "",
           effects: [
-            { stat: "DNA研究加速", per: 3, unit: "%" },
-            { stat: "免費加速時間", per: 30, unit: "分鐘" },
+            { stat: "所有基因研究加速", per: 3, unit: "%" },
           ]
         },
       ]
@@ -116,11 +118,11 @@ window.SNAIL_DATA.left = {
       threshold: 5,
       nodes: [
         {
-          id: "res-7a", name: "博物館經營", color: "blue", cost: 4, max: 5,
+          id: "res-7a", name: "行銷達人", color: "blue", cost: 4, max: 5,
           note: "",
           effects: [
-            { stat: "高麗博物館勳章產量", per: 3, unit: "%" },
-            { stat: "高麗博物館黑蝌蚪產量", per: 3, unit: "%" },
+            { stat: "博物館勳章產量", per: 3, unit: "%" },
+            { stat: "博物館黑蝌蚪產量", per: 3, unit: "%" },
           ]
         },
       ]
@@ -130,18 +132,18 @@ window.SNAIL_DATA.left = {
       threshold: 5,
       nodes: [
         {
-          id: "res-8b", name: "供奉 II", color: "orange", cost: 4, max: 5,
+          id: "res-8b", name: "進階靈魂儀式", color: "orange", cost: 4, max: 5,
           note: "",
           effects: [
-            { stat: "獻祭速度", per: 1, unit: "%" },
+            { stat: "供奉速度", per: 1, unit: "%" },
+            { stat: "每次供奉食物／石材／木材數量", per: 3, unit: "%" },
           ]
         },
         {
-          id: "res-8a", name: "供奉 I", color: "purple", cost: 4, max: 5,
+          id: "res-8a", name: "靈魂儀式", color: "purple", cost: 4, max: 5,
           note: "",
           effects: [
-            { stat: "獻祭速度", per: 1, unit: "%" },
-            { stat: "每次獻祭食物／石材／木材", per: 3, unit: "%" },
+            { stat: "供奉速度", per: 1, unit: "%" },
           ]
         },
       ]
@@ -151,10 +153,10 @@ window.SNAIL_DATA.left = {
       threshold: 5,
       nodes: [
         {
-          id: "res-9a", name: "車輛組裝", color: "blue", cost: 5, max: 5,
+          id: "res-9a", name: "流水線", color: "blue", cost: 5, max: 5,
           note: "",
           effects: [
-            { stat: "組裝車輛速度", per: 3, unit: "%" },
+            { stat: "蟲洞裝置提煉速度", per: 2, unit: "%" },
           ]
         },
       ]
@@ -164,18 +166,21 @@ window.SNAIL_DATA.left = {
       threshold: 5,
       nodes: [
         {
-          id: "res-10b", name: "克隆 II", color: "orange", cost: 5, max: 5,
+          id: "res-10b", name: "進階遺傳學", color: "orange", cost: 5, max: 5,
           note: "",
           effects: [
-            { stat: "克隆速度", per: 3, unit: "%" },
+            { stat: "克隆兵種速度", per: 3, unit: "%" },
+            { stat: "醫療兵種速度", per: 1, unit: "%" },
+            { stat: "克隆兵種黑蝌蚪消耗", per: -2, unit: "%" },
+            { stat: "醫療兵種黑蝌蚪消耗", per: -1, unit: "%" },
           ]
         },
         {
-          id: "res-10a", name: "克隆 I", color: "purple", cost: 5, max: 5,
+          id: "res-10a", name: "遺傳學", color: "purple", cost: 5, max: 5,
           note: "",
           effects: [
-            { stat: "克隆速度", per: 3, unit: "%" },
-            { stat: "克隆黑蝌蚪消耗", per: -2, unit: "%" },
+            { stat: "克隆兵種速度", per: 3, unit: "%" },
+            { stat: "醫療兵種速度", per: 1, unit: "%" },
           ]
         },
       ]
@@ -185,10 +190,11 @@ window.SNAIL_DATA.left = {
       threshold: 5,
       nodes: [
         {
-          id: "res-11a", name: "神域回收", color: "blue", cost: 6, max: 5,
+          id: "res-11a", name: "高效開採", color: "blue", cost: 6, max: 5,
           note: "",
           effects: [
-            { stat: "神域森林／岩石／遺跡回收速度", per: 4, unit: "%" },
+            { stat: "自動採集機白蝌蚪數量", per: 20, unit: "" },
+            { stat: "自動採集機古代貨幣數量", per: 60, unit: "" },
           ]
         },
       ]
@@ -198,18 +204,51 @@ window.SNAIL_DATA.left = {
       threshold: 5,
       nodes: [
         {
-          id: "res-12b", name: "基因研究 IV", color: "orange", cost: 6, max: 5,
+          id: "res-12b", name: "首席科學家", color: "orange", cost: 6, max: 5,
           note: "",
           effects: [
-            { stat: "DNA研究加速", per: 4, unit: "%" },
+            { stat: "所有基因研究加速", per: 4, unit: "%" },
+            { stat: "所有基因免費速度", per: 60, unit: "m" },
           ]
         },
         {
-          id: "res-12a", name: "基因研究 III", color: "purple", cost: 6, max: 5,
+          id: "res-12a", name: "科學家", color: "purple", cost: 6, max: 5,
           note: "",
           effects: [
-            { stat: "DNA研究加速", per: 4, unit: "%" },
-            { stat: "免費加速時間", per: 60, unit: "分鐘" },
+            { stat: "所有基因研究加速", per: 4, unit: "%" },
+          ]
+        },
+      ]
+    },
+    // 第 13 層
+    {
+      threshold: 5,
+      nodes: [
+        {
+          id: "res-13a", name: "提煉學徒", color: "blue", cost: 6, max: 5,
+          note: "",
+          effects: [
+            { stat: "提煉綠建材轉藍建材機率", per: 1, unit: "%" },
+          ]
+        },
+      ]
+    },
+    // 第 14 層
+    {
+      threshold: 5,
+      nodes: [
+        {
+          id: "res-14b", name: "提煉大師", color: "orange", cost: 6, max: 5,
+          note: "",
+          effects: [
+            { stat: "提煉紫建材轉橘建材機率", per: 1, unit: "%" },
+          ]
+        },
+        {
+          id: "res-14a", name: "提煉專家", color: "purple", cost: 6, max: 5,
+          note: "",
+          effects: [
+            { stat: "提煉藍建材轉紫建材機率", per: 1, unit: "%" },
           ]
         },
       ]
