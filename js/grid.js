@@ -1,5 +1,5 @@
 // 天賦網格：每一列是一層、每一欄是一個分支；節點卡片與層間連線
-import { COLOR_ORDER, CN, $, esc, fmtVal } from './util.js';
+import { COLOR_ORDER, CN, $, esc, fmtVal, nodeCost } from './util.js';
 import { state, lv, layerCap, layerProgress, redProgress, unlockFlags, branchCost, findNode } from './state.js';
 
 /** 各色點數；colors 指定要顯示哪幾色（沒有該色點數時顯示 0） */
@@ -9,10 +9,11 @@ function ptsHTML(c, colors) {
   return items.length ? items.join('') : '<span class="pt">0</span>';
 }
 
+/** 每級消耗：各色寶珠加數字（一般節點一種顏色，紅色天賦可以多種）。螢幕閱讀器仍會讀出「每級消耗」 */
 function costHTML(n) {
-  if (!n.costs) return '<span class="n-cost"><span class="sr">' + CN[n.color] + '點，</span>每級 ' + n.cost + '</span>';
-  return '<span class="n-cost">每級 ' + COLOR_ORDER.filter(k => n.costs[k] > 0).map(k =>
-    '<span class="pt c-' + k + '"><span class="orb sm" aria-hidden="true"></span><span class="sr">' + CN[k] + '</span>' + n.costs[k] + '</span>').join('') + '</span>';
+  const c = nodeCost(n);
+  return '<span class="n-cost" title="每級消耗"><span class="sr">每級消耗 </span>' + COLOR_ORDER.filter(k => c[k] > 0).map(k =>
+    '<span class="pt c-' + k + '"><span class="orb sm" aria-hidden="true"></span><span class="sr">' + CN[k] + '</span>' + c[k] + '</span>').join('') + '</span>';
 }
 
 function nodeHTML(n) {
