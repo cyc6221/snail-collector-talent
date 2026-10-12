@@ -37,7 +37,6 @@ button { cursor: pointer; }
 /* ---------- 頁首 ---------- */
 .top { max-width: var(--page-w); margin: 0 auto; padding: 22px 16px 12px; }
 .top h1 { font-size: clamp(22px, 4.6vw, 32px); color: var(--accent); letter-spacing: .02em; }
-.tools { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin-top: 14px; }
 
 .btn {
   min-height: 38px; padding: 6px 14px;

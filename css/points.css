@@ -7,7 +7,11 @@
   border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
 }
 .pointsbar .inner { max-width: var(--page-w); margin: 0 auto; padding: 8px 16px; }
-.viewnav { display: flex; gap: 6px; margin-bottom: 6px; }
+/* 頁面切換、匯出／匯入、清空配點排成同一排，清空配點靠右 */
+.barrow { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-bottom: 6px; }
+.barrow .btn { min-height: 36px; padding-top: 2px; padding-bottom: 2px; }
+.push-right { margin-left: auto; }
+.viewnav { display: flex; gap: 6px; }
 .vbtn {
   flex: 1 1 0; min-width: 0; min-height: 36px; padding: 2px 14px;
   border: 1px solid var(--line); border-radius: 10px;
@@ -16,6 +20,7 @@
 .vbtn:hover { border-color: var(--accent); }
 .vbtn[aria-current="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); font-weight: 700; }
 @media (min-width: 700px) { .vbtn { flex: 0 0 160px; } }
+@media (max-width: 699.98px) { .viewnav { flex: 1 1 100%; } }
 .chips { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
 .chip {
   min-width: 0; padding: 6px 8px;

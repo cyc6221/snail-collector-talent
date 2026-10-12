@@ -27,18 +27,18 @@
 
 <header class="top">
   <h1>最強蝸牛・收藏家天賦模擬器</h1>
-  <div class="tools">
-    <button type="button" class="btn" id="btnIO">匯出／匯入</button>
-    <button type="button" class="btn danger" id="btnClear" title="把所有節點的等級歸零（節點資料與擁有點數不變）">清空配點</button>
-  </div>
 </header>
 
 <div class="pointsbar" id="points" role="region" aria-label="點數使用狀況">
   <div class="inner">
-    <nav class="viewnav" id="viewnav" aria-label="頁面切換">
-      <button type="button" class="vbtn" data-view="build" aria-current="true">天賦配點</button>
-      <button type="button" class="vbtn" data-view="summary" aria-current="false">能力加總</button>
-    </nav>
+    <div class="barrow">
+      <nav class="viewnav" id="viewnav" aria-label="頁面切換">
+        <button type="button" class="vbtn" data-view="build" aria-current="true">天賦配點</button>
+        <button type="button" class="vbtn" data-view="summary" aria-current="false">能力加總</button>
+      </nav>
+      <button type="button" class="btn" id="btnIO">匯出／匯入</button>
+      <button type="button" class="btn danger push-right" id="btnClear" title="把所有節點的等級歸零（擁有點數不變）">清空配點</button>
+    </div>
     <div class="chips" id="chips"></div>
   </div>
 </div>
