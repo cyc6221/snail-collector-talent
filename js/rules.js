@@ -19,7 +19,11 @@ export function setLevel(id, target) {
   if (target > cur) {
     const fb = firstBlock(b);
     if (fb >= 0 && f.li > fb) {
-      toast('第 ' + (f.li + 1) + ' 層尚未解鎖：請先讓第 ' + (fb + 1) + ' 層合計達 ' + effThr(b.layers[fb]) + ' 級。');
+      // 要點第 N 層，必須先解鎖第 N-1 層並讓它合計達標：提示一律指向上一層
+      const prev = b.layers[f.li - 1];
+      toast(layerSum(prev) < effThr(prev)
+        ? '第 ' + (f.li + 1) + ' 層尚未解鎖：請先讓第 ' + f.li + ' 層合計達 ' + effThr(prev) + ' 級。'
+        : '第 ' + (f.li + 1) + ' 層尚未解鎖：請先解鎖第 ' + f.li + ' 層。');
       return;
     }
     const own = ownedNum(n.color);
