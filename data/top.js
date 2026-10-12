@@ -508,5 +508,34 @@ window.SNAIL_DATA.top = {
         { stat: "蝸牛追擊", per: 2, unit: "%" },
       ]
     },
+    {
+      id: "res-33a", name: "掠食者", color: "blue", floor: 33, lane: 0, max: 5,
+      cost: 6,
+      unlock: { from: ["red-32a"], need: 3 },
+      note: "",
+      effects: [
+        { stat: "基因進化獲得白因子轉綠因子", per: 0.5, unit: "%" },
+      ]
+    },
+    {
+      id: "pow-33a", name: "致命武力", color: "blue", floor: 33, lane: 1, max: 5,
+      cost: 6,
+      unlock: { from: ["red-32a"], need: 3 },
+      note: "",
+      effects: [
+        { stat: "蝸牛攻擊", per: 72, unit: "" },
+        { stat: "蝸牛防禦", per: 72, unit: "" },
+        { stat: "弱點判定成功對敵人傷害", per: 0.5, unit: "%" },
+      ]
+    },
+    {
+      id: "arm-33a", name: "領導力", color: "blue", floor: 33, lane: 2, max: 5,
+      cost: 6,
+      unlock: { from: ["red-32a"], need: 3 },
+      note: "",
+      effects: [
+        { stat: "蝸牛領導力", per: 2, unit: "" },
+      ]
+    },
   ]
 };
