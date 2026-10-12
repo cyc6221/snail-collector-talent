@@ -62,11 +62,11 @@ export function sanitizeOwned(src, fallback) {
   return out;
 }
 
-export function restore(o, owned) {
+/** 還原配點與擁有點數（天賦資料永遠讀 data/*.js，檔案中的 data 欄位一律忽略） */
+export function restore(o, data, owned) {
   if (!o || typeof o !== 'object') throw new Error('內容不是設定物件');
-  const data = sanitizeData(o.data && typeof o.data === 'object' ? o.data : o);
+  if (!('alloc' in o) && !('owned' in o)) throw new Error('找不到配點（alloc）或擁有點數（owned），不是這個工具匯出的設定。');
   return {
-    data,
     alloc: sanitizeAlloc(o.alloc, data),
     owned: sanitizeOwned(o.owned, owned)
   };

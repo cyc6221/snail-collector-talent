@@ -1,7 +1,7 @@
 // 進入點：綁定事件、頁面切換、啟動
 import { $ } from './util.js';
 import { state, hadSaved, save, lv, findNode, onChange } from './state.js';
-import { setLevel, clearAlloc, resetData, confirmTwice } from './rules.js';
+import { setLevel, clearAlloc, confirmTwice } from './rules.js';
 import { render } from './render.js';
 import { buildPoints } from './panels.js';
 import './dialogs.js';
@@ -38,11 +38,6 @@ $('#btnClear').addEventListener('click', () => confirmTwice('clear', () => {
   clearAlloc();
   toast('已清空所有配點。');
 }, '再按一次以清空所有配點。'));
-$('#btnReset').addEventListener('click', () => confirmTwice('reset', () => {
-  resetData();
-  toast('已恢復預設資料。');
-}, '再按一次以恢復預設資料（會覆蓋你編輯過的節點）。'));
-
 /* ---------- 頁面切換：天賦配點 ⇄ 能力加總（各自記住捲動位置） ---------- */
 const scrollPos = {};
 let view = null;

@@ -30,7 +30,6 @@
   <div class="tools">
     <button type="button" class="btn" id="btnIO">匯出／匯入</button>
     <button type="button" class="btn danger" id="btnClear" title="把所有節點的等級歸零（節點資料與擁有點數不變）">清空配點</button>
-    <button type="button" class="btn danger" id="btnReset" title="把節點資料改回預設（配點與擁有點數保留，已不存在的節點配點會移除）">恢復預設資料</button>
   </div>
 </header>
 
@@ -59,7 +58,7 @@
 
 <dialog id="ioDlg" aria-labelledby="ioDlgH">
   <h2 id="ioDlgH">匯出／匯入</h2>
-  <p class="hint" style="margin:0 0 8px">下方是目前整套設定（節點資料、配點、擁有點數）的 JSON。複製後即可分享；貼上別人的 JSON 再按「匯入」就能套用。</p>
+  <p class="hint" style="margin:0 0 8px">下方是目前的配點與擁有點數（JSON）。複製後即可分享；貼上別人的 JSON 再按「匯入」就能套用。</p>
   <label for="ioText" class="sr">設定 JSON</label>
   <textarea id="ioText" rows="12" spellcheck="false" style="width:100%;margin-top:0;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;font-size:13px;line-height:1.5;resize:vertical"></textarea>
   <p class="err" role="alert" id="ioErr"></p>

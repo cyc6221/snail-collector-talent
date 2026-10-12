@@ -52,7 +52,7 @@ $('#ioImport').addEventListener('click', () => {
   try {
     let parsed;
     try { parsed = JSON.parse(ioText.value); } catch (e) { throw new Error('不是有效的 JSON，請確認內容完整貼上。'); }
-    next = restore(parsed, state.owned);
+    next = restore(parsed, state.data, state.owned);
   } catch (err) {
     ioErr.textContent = '匯入失敗：' + err.message;
     resetImportBtn();

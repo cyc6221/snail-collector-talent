@@ -1,8 +1,7 @@
-// 配點規則與重設動作；畫面層只呼叫這裡，不直接改 state
+// 配點規則：畫面層只呼叫這裡，不直接改 state
 import { CN, clamp } from './util.js';
-import { sanitizeData, sanitizeAlloc } from './schema.js';
 import {
-  state, defaultData, lv, layerSum, effThr, firstBlock, unlockFlags,
+  state, lv, layerSum, effThr, firstBlock, unlockFlags,
   usedByColor, ownedNum, findNode, commit, notify
 } from './state.js';
 import { toast } from './toast.js';
@@ -75,12 +74,4 @@ export function confirmTwice(key, fn, hint) {
   armedTimer = setTimeout(() => { armed = null; notify(); }, 3500);
   notify();
   toast(hint || '再按一次以確認。');
-}
-
-/* ---------- 恢復預設 ---------- */
-/** 節點資料改回預設；配點保留，已不存在的節點配點移除 */
-export function resetData() {
-  state.data = sanitizeData(defaultData());
-  state.alloc = sanitizeAlloc(state.alloc, state.data);
-  commit();
 }

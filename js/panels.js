@@ -47,11 +47,9 @@ export function syncOwnedInputs() {
 
 /* ---------- 工具列 ---------- */
 export function updateTools() {
-  const bc = $('#btnClear'), br = $('#btnReset');
+  const bc = $('#btnClear');
   bc.textContent = isArmed('clear') ? '再按一次確認清空' : '清空配點';
-  br.textContent = isArmed('reset') ? '再按一次確認恢復' : '恢復預設資料';
   bc.classList.toggle('armed', isArmed('clear'));
-  br.classList.toggle('armed', isArmed('reset'));
 }
 
 /* ---------- 能力加總 ---------- */

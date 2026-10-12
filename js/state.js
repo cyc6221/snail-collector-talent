@@ -16,13 +16,13 @@ export function defaultData() {
 }
 export const defaultOwned = () => ({ blue: '', purple: '', orange: '' });
 
-/* ---------- 儲存（讀寫都包 try/catch，失敗時照常運作） ---------- */
+/* ---------- 儲存：只存配點與擁有點數（讀寫都包 try/catch，失敗時照常運作） ---------- */
 let storageWarned = false;
-function loadSaved() {
+function loadSaved(data) {
   try {
     const raw = localStorage.getItem(KEY);
     if (!raw) return null;
-    const s = restore(JSON.parse(raw), defaultOwned());
+    const s = restore(JSON.parse(raw), data, defaultOwned());
     // 舊版預設擁有量是藍 132／紫 107：存的值剛好等於舊預設，代表使用者沒改過，改用新預設（不限制）
     const o = s.owned;
     if (o.blue === 132 && o.purple === 107 && o.orange === '') s.owned = defaultOwned();
@@ -30,7 +30,7 @@ function loadSaved() {
   } catch (e) { return null; }
 }
 export function snapshot() {
-  return { app: 'snail-collector-sim', version: 1, owned: state.owned, alloc: state.alloc, data: state.data };
+  return { app: 'snail-collector-sim', version: 2, owned: state.owned, alloc: state.alloc };
 }
 export function save() {
   try {
@@ -43,14 +43,16 @@ export function save() {
   }
 }
 
-const saved = loadSaved();
+// 天賦資料永遠取自 data/*.js，不存進瀏覽器，所以更新資料後所有人下次開啟就是最新版
+const data = sanitizeData(defaultData());
+const saved = loadSaved(data);
 export const hadSaved = !!saved;
-export const state = Object.assign(
-  { data: defaultData(), alloc: {}, owned: defaultOwned() },
-  saved || {},
-  { tab: 0 }
-);
-if (!saved) state.data = sanitizeData(state.data);
+export const state = {
+  data,
+  alloc: saved ? saved.alloc : {},
+  owned: saved ? saved.owned : defaultOwned(),
+  tab: 0
+};
 
 /* ---------- 變更通知：改完狀態呼叫 commit()（存檔＋重繪），只重繪呼叫 notify() ---------- */
 const listeners = [];
