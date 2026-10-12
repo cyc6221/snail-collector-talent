@@ -26,9 +26,9 @@ dialog textarea { font-family: ui-monospace, 'Cascadia Mono', Consolas, monospac
   transform: translate(-50%, 20px); opacity: 0; pointer-events: none;
   max-width: min(520px, calc(100vw - 32px));
   padding: 10px 16px; border-radius: 12px;
-  background: #2b3522; color: #f4f8ea; font-size: 14px;
+  background: #2a2a28; color: #f4f4f2; font-size: 14px;
   box-shadow: 0 6px 20px rgba(0,0,0,.35);
   transition: opacity .2s, transform .2s;
 }
 #toast.show { opacity: 1; transform: translate(-50%, 0); }
-:root[data-theme="dark"] #toast { background: #e4ead8; color: #12160d; }
+:root[data-theme="dark"] #toast { background: #e8e8e6; color: #111111; }

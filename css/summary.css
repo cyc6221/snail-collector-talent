@@ -20,3 +20,4 @@ footer {
 }
 footer p + p { margin-top: 6px; }
 .sum-card.red { border-top: 4px solid var(--red); }
+.sum-card.red h3 { color: var(--red-ink); }

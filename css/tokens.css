@@ -7,9 +7,9 @@
   --ink: #25301d;
   --muted: #5d6952;
   --line: #d3dac3;
-  --accent: #4f6f34;
+  --accent: #2f353c;          /* 主色（標題、選中的按鈕、層號、亮起的連線…）：石墨色，不再用綠 */
   --accent-ink: #ffffff;
-  --accent-soft: #e0eacb;
+  --accent-soft: #e3e6e8;
   --focus: #2b66c4;
   --danger: #b3321f;
   --danger-soft: #f9e3de;
@@ -19,7 +19,7 @@
   --blue: #4a86d8;   --blue-d: #2a5aa8;
   --purple: #9564d4; --purple-d: #6a3fa8;
   --orange: #ee9532; --orange-d: #b86414;
-  --red: #d64550;    --red-d: #8f2230;
+  --red: #d64550;    --red-d: #8f2230;   --red-ink: #b3303c;   /* 紅色天賦的文字用 */
   /* 分支代表色：0 左・資源（青綠）、1 中・戰力（沙漠色）、2 右・兵種（海軍藍）；-ink 是用在文字與選中底色的較深版本 */
   --b0: #2a9d8f; --b0-ink: #1f7a6f;
   --b1: #c9a66b; --b1-ink: #8c6a2f;
@@ -40,9 +40,9 @@
   --ink: #e8e8e6;
   --muted: #a0a09a;
   --line: #2e2e2c;
-  --accent: #a8c97a;
-  --accent-ink: #12160d;
-  --accent-soft: #2b3820;
+  --accent: #ececea;
+  --accent-ink: #000000;
+  --accent-soft: #2a2a2a;
   --focus: #7db0ff;
   --danger: #ff9684;
   --danger-soft: #3d1f1a;
@@ -52,7 +52,7 @@
   --blue: #5b97ea;   --blue-d: #2a5aa8;
   --purple: #a876e6; --purple-d: #6a3fa8;
   --orange: #f2a447; --orange-d: #b86414;
-  --red: #ee6670;    --red-d: #8f2230;
+  --red: #ee6670;    --red-d: #8f2230;   --red-ink: #ee6670;
   --b0: #4fc3b3; --b0-ink: #4fc3b3;
   --b1: #d9bf8f; --b1-ink: #d9bf8f;
   --b2: #5a7fc0; --b2-ink: #7f9fd8;
