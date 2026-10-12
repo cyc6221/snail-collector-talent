@@ -22,7 +22,11 @@ function loadSaved() {
   try {
     const raw = localStorage.getItem(KEY);
     if (!raw) return null;
-    return restore(JSON.parse(raw), defaultOwned());
+    const s = restore(JSON.parse(raw), defaultOwned());
+    // 舊版預設擁有量是藍 132／紫 107：存的值剛好等於舊預設，代表使用者沒改過，改用新預設（不限制）
+    const o = s.owned;
+    if (o.blue === 132 && o.purple === 107 && o.orange === '') s.owned = defaultOwned();
+    return s;
   } catch (e) { return null; }
 }
 export function snapshot() {
