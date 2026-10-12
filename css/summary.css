@@ -4,13 +4,11 @@
 .summary > h2 { font-size: 22px; color: var(--accent); margin-bottom: 12px; }
 .sum-grid { display: grid; gap: 16px; align-items: start; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); }
 .sum-card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 14px; box-shadow: var(--shadow); min-width: 0; }
-.sum-card.all { border-color: var(--accent); }
 .sum-card h3 { font-family: var(--serif); font-size: 17px; margin-bottom: 8px; }
 .sum-card ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
 .sum-card li { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0 10px; padding-bottom: 5px; border-bottom: 1px dotted var(--line); }
 .sum-card li:last-child { border-bottom: 0; padding-bottom: 0; }
 .sum-card li b { color: var(--accent); font-variant-numeric: tabular-nums; }
-.sum-card li small { flex-basis: 100%; color: var(--muted); font-size: 12px; }
 .sum-card .empty { color: var(--muted); font-size: 14px; }
 
 footer {

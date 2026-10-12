@@ -74,24 +74,13 @@ function branchTotals(b) {
 }
 
 export function renderSummary() {
-  const bs = state.data.branches;
-  const per = bs.map(b => branchTotals(b));
-  const all = new Map();
-  per.forEach((m, bi) => m.forEach((o, k) => {
-    const a = all.get(k) || { stat: o.stat, unit: o.unit, v: 0, parts: [] };
-    a.v += o.v;
-    a.parts.push({ name: bs[bi].name.split('・')[0], v: o.v });
-    all.set(k, a);
-  }));
-  const list = (m, withParts) => {
+  const list = m => {
     if (!m.size) return '<p class="empty">尚未配點。</p>';
     return '<ul>' + [...m.values()].map(o =>
-      '<li><span>' + esc(o.stat) + '</span><b>' + fmtVal(o.v, o.unit, true) + '</b>' +
-      (withParts && o.parts.length > 1 ? '<small>' + o.parts.map(p => esc(p.name) + ' ' + fmtVal(p.v, o.unit, true)).join('・') + '</small>' : '') +
-      '</li>').join('') + '</ul>';
+      '<li><span>' + esc(o.stat) + '</span><b>' + fmtVal(o.v, o.unit, true) + '</b></li>').join('') + '</ul>';
   };
   $('#summary').innerHTML =
     '<h2 id="sumH">能力加總</h2><div class="sum-grid">' +
-    bs.map((b, i) => '<div class="sum-card"><h3>' + esc(b.name) + '</h3>' + list(per[i], false) + '</div>').join('') +
-    '<div class="sum-card all"><h3>跨分支合計</h3>' + list(all, true) + '</div></div>';
+    state.data.branches.map(b => '<div class="sum-card"><h3>' + esc(b.name) + '</h3>' + list(branchTotals(b)) + '</div>').join('') +
+    '</div>';
 }
