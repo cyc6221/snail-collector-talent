@@ -240,6 +240,7 @@ window.SNAIL_DATA.left = {
         {
           id: "res-14b", name: "提煉大師", color: "orange", cost: 6, max: 5,
           note: "",
+          gate: true,
           effects: [
             { stat: "提煉紫建材轉橘建材機率", per: 1, unit: "%" },
           ]
@@ -249,6 +250,20 @@ window.SNAIL_DATA.left = {
           note: "",
           effects: [
             { stat: "提煉藍建材轉紫建材機率", per: 1, unit: "%" },
+          ]
+        },
+      ]
+    },
+    // 第 15 層
+    {
+      threshold: 5,
+      nodes: [
+        {
+          id: "res-15a", name: "能源工程", color: "orange", cost: 6, max: 5,
+          note: "",
+          effects: [
+            { stat: "火箭艙室採集效率", per: 5, unit: "%" },
+            { stat: "火箭艙室容量上限", per: 10, unit: "%" },
           ]
         },
       ]

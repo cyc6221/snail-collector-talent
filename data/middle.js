@@ -207,10 +207,27 @@ window.SNAIL_DATA.middle = {
         {
           id: "pow-14a", name: "不死者", color: "blue", cost: 6, max: 5,
           note: "",
+          gate: true,
           effects: [
             { stat: "蝸牛生命", per: 660, unit: "" },
             { stat: "蝸牛追擊", per: 66, unit: "" },
             { stat: "弱點判定成功對敵人傷害", per: 0.5, unit: "%" },
+          ]
+        },
+      ]
+    },
+    // 第 15 層
+    {
+      threshold: 5,
+      nodes: [
+        {
+          id: "pow-15a", name: "元素大師", color: "orange", cost: 6, max: 5,
+          note: "",
+          effects: [
+            { stat: "火元素傷害", per: 30, unit: "" },
+            { stat: "水元素傷害", per: 30, unit: "" },
+            { stat: "土元素傷害", per: 30, unit: "" },
+            { stat: "風元素傷害", per: 30, unit: "" },
           ]
         },
       ]

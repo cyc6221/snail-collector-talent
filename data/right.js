@@ -245,9 +245,26 @@ window.SNAIL_DATA.right = {
         {
           id: "arm-14b", name: "戰鬥指揮", color: "orange", cost: 6, max: 5,
           note: "",
+          gate: true,
           effects: [
             { stat: "所有兵種攻擊", per: 1, unit: "" },
             { stat: "所有兵種追擊", per: 1, unit: "" },
+          ]
+        },
+      ]
+    },
+    // 第 15 層
+    {
+      threshold: 5,
+      nodes: [
+        {
+          id: "arm-15a", name: "元素操控", color: "orange", cost: 6, max: 5,
+          note: "",
+          effects: [
+            { stat: "上陣100兵種部隊土元素傷害", per: 10, unit: "" },
+            { stat: "上陣100兵種部隊水元素傷害", per: 10, unit: "" },
+            { stat: "上陣100兵種部隊火元素傷害", per: 10, unit: "" },
+            { stat: "上陣100兵種部隊風元素傷害", per: 10, unit: "" },
           ]
         },
       ]
