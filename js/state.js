@@ -66,9 +66,28 @@ export const layerSum = (l, a = state.alloc) => l.nodes.reduce((s, n) => s + lv(
 export const layerCap = l => l.nodes.reduce((s, n) => s + n.max, 0);
 export const effThr = l => Math.min(l.threshold, layerCap(l));
 
+/**
+ * 本層的解鎖進度。
+ * 一般：整層等級合計達門檻即可（雙節點層不必都點滿）。
+ * 有節點標記 gate 時：只看這些節點，必須全部點滿，其他節點點多少都無關。
+ */
+export function layerProgress(l, a = state.alloc) {
+  const gated = l.nodes.filter(n => n.gate);
+  if (gated.length) {
+    return {
+      cur: gated.reduce((s, n) => s + lv(n.id, a), 0),
+      need: gated.reduce((s, n) => s + n.max, 0),
+      pass: gated.every(n => lv(n.id, a) >= n.max),
+      gated
+    };
+  }
+  const cur = layerSum(l, a), need = effThr(l);
+  return { cur, need, pass: cur >= need, gated: [] };
+}
+
 /** 第一個尚未達門檻的層（沒有則 -1）；該層之後的層都是鎖住的 */
 export function firstBlock(b, a = state.alloc) {
-  for (let i = 0; i < b.layers.length; i++) if (layerSum(b.layers[i], a) < effThr(b.layers[i])) return i;
+  for (let i = 0; i < b.layers.length; i++) if (!layerProgress(b.layers[i], a).pass) return i;
   return -1;
 }
 export function unlockFlags(b, a = state.alloc) {

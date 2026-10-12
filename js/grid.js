@@ -1,6 +1,6 @@
 // 天賦網格：每一列是一層、每一欄是一個分支；節點卡片與層間連線
 import { COLOR_ORDER, CN, $, esc, fmtVal } from './util.js';
-import { state, lv, layerSum, layerCap, effThr, unlockFlags, branchCost } from './state.js';
+import { state, lv, layerCap, layerProgress, unlockFlags, branchCost } from './state.js';
 
 /** 各色點數；colors 指定要顯示哪幾色（沒有該色點數時顯示 0） */
 function ptsHTML(c, colors) {
@@ -47,11 +47,12 @@ function nodeHTML(n) {
 /** 兩層之間的連線：上方節點匯合 → 門檻（本層合計 / 門檻）→ 再分岔到下方節點 */
 function connHTML(b, bi, li, row, flags) {
   const l = b.layers[li], next = b.layers[li + 1];
-  const sum = layerSum(l), thr = effThr(l);
-  const pass = sum >= thr;
+  const { cur, need, pass, gated } = layerProgress(l);
   const lit = pass && flags[li];
-  const gate = (pass ? '✓ ' : '') + sum + ' / ' + thr;
-  const title = '第 ' + (li + 1) + ' 層合計 ' + sum + ' 級，達 ' + thr + ' 級才解鎖下一層' + (layerCap(l) < l.threshold ? '（本層最高僅 ' + layerCap(l) + ' 級，以此計）' : '');
+  const gate = (pass ? '✓ ' : '') + cur + ' / ' + need;
+  const title = gated.length
+    ? '第 ' + (li + 1) + ' 層的「' + gated.map(n => n.name).join('、') + '」需點滿（' + cur + ' / ' + need + ' 級），才解鎖下一層；其他節點不影響'
+    : '第 ' + (li + 1) + ' 層合計 ' + cur + ' 級，達 ' + need + ' 級才解鎖下一層' + (layerCap(l) < l.threshold ? '（本層最高僅 ' + layerCap(l) + ' 級，以此計）' : '');
   return (
     '<div class="g-cell g-conn' + (lit ? ' lit' : '') + (bi === state.tab ? ' on-tab' : '') + '" style="grid-column:' + (bi + 2) + ';grid-row:' + row + '">' +
       '<i class="zone up u' + l.nodes.length + '"></i>' +

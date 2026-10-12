@@ -13,10 +13,11 @@ const COLOR = {
   '藍': 'blue', '紫': 'purple', '橙': 'orange', '橘': 'orange',
   blue: 'blue', purple: 'purple', orange: 'orange'
 };
-// 表頭名稱（順序不拘，欄位可以多不能少；「分支說明」「備註」「層門檻」「最高等級」可省略）
+// 表頭名稱（順序不拘，欄位可以多不能少；「分支說明」「備註」「層門檻」「最高等級」「點滿解鎖下一層」可省略）
 const COLS = {
   branch: '分支', layer: '層', threshold: '層門檻', id: '節點ID', name: '名稱',
-  color: '顏色', cost: '每級消耗', max: '最高等級', effects: '效果', note: '備註', branchNote: '分支說明'
+  color: '顏色', cost: '每級消耗', max: '最高等級', effects: '效果', note: '備註', branchNote: '分支說明',
+  gate: '點滿解鎖下一層'
 };
 const REQUIRED = ['branch', 'layer', 'id', 'name', 'color', 'cost', 'effects'];
 
@@ -118,7 +119,9 @@ function buildBranch(rows, file) {
     const max = maxCell === '' ? 5 : Number(maxCell);
     if (!Number.isInteger(max) || max < 1 || max > 99) fail('「最高等級」要是 1～99 的整數（可留空，預設 5）。');
 
-    layer.nodes.push({ id, name: nodeName, color, cost, max, note: cell(r, 'note'), effects: parseEffects(cell(r, 'effects'), fail) });
+    const gateCell = cell(r, 'gate').toLowerCase();
+    if (gateCell !== '' && !['是', 'y', 'yes', 'true', '1'].includes(gateCell)) fail(`「點滿解鎖下一層」只能填「是」或留空，不能填「${cell(r, 'gate')}」。`);
+    layer.nodes.push({ id, name: nodeName, color, cost, max, gate: gateCell !== '', note: cell(r, 'note'), effects: parseEffects(cell(r, 'effects'), fail) });
   });
 
   if (!name) { fileFail('沒有任何資料列。'); return null; }
@@ -151,7 +154,7 @@ window.SNAIL_DATA.${key} = {
   o += b.layers.map((l, i) => {
     let t = `    // 第 ${i + 1} 層\n    {\n      threshold: ${l.threshold},\n      nodes: [\n`;
     t += l.nodes.map(n => {
-      let u = `        {\n          id: ${q(n.id)}, name: ${q(n.name)}, color: ${q(n.color)}, cost: ${n.cost}, max: ${n.max},\n          note: ${q(n.note)},\n          effects: [\n`;
+      let u = `        {\n          id: ${q(n.id)}, name: ${q(n.name)}, color: ${q(n.color)}, cost: ${n.cost}, max: ${n.max},\n          note: ${q(n.note)},\n${n.gate ? '          gate: true,\n' : ''}          effects: [\n`;
       u += n.effects.map(e => `            ${effLine(e)},\n`).join('');
       return u + `          ]\n        },\n`;
     }).join('');

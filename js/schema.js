@@ -29,6 +29,7 @@ export function sanitizeData(d) {
           cost: toInt(n.cost, 0, 999, 1),
           max: toInt(n.max, 1, 99, 5),
           effects,
+          gate: n.gate === true,        // true：這個節點必須點滿，才能解鎖下一層
           note: toStr(n.note, 120)
         };
       }).filter(Boolean);
