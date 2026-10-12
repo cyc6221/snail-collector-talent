@@ -146,6 +146,7 @@ const TOP_COLS = {
   floor: '樓層', lane: '分支', id: '節點ID', name: '名稱', color: '顏色', costs: '每級消耗', max: '最高等級',
   effects: '效果', from: '解鎖來源節點', need: '解鎖所需等級合計', note: '備註'
 };
+const MAX_TOP_NODES = 60;           // 與網頁端 js/schema.js 的 MAX_EXTRAS 相同，超過的節點網頁不會載入
 const TOP_REQUIRED = ['floor', 'id', 'name', 'color', 'costs', 'effects', 'from', 'need'];
 
 function buildTop(rows, file, builtBranches) {
@@ -243,6 +244,7 @@ function buildTop(rows, file, builtBranches) {
     const perLane = new Map();
     row.filter(n => n.lane !== null).forEach(n => { perLane.set(n.lane, (perLane.get(n.lane) || 0) + 1); if (perLane.get(n.lane) > 2) errors.push(`${file} 第 ${n.rowNo} 列：第 ${f} 層同一個分支最多 2 個額外節點。`); });
   });
+  if (nodes.length > MAX_TOP_NODES) fileFail(`額外節點最多 ${MAX_TOP_NODES} 個，目前有 ${nodes.length} 個。`);
   if (!nodes.length && !errors.some(e => e.startsWith(file))) fileFail('沒有任何資料列。');
   return nodes;
 }

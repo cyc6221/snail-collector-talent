@@ -1,6 +1,8 @@
 // 驗證與還原（匯入、localStorage 共用）：任何外來資料都先過這裡
 import { COLORS, hasOwn, toInt, toStr, newId } from './util.js';
 
+export const MAX_EXTRAS = 60;      // 額外樓層（第 16 層以後）節點數量上限
+
 function cleanEffects(src) {
   return (Array.isArray(src) ? src : []).slice(0, 12).map(e => {
     if (!e || typeof e !== 'object') return null;
@@ -49,7 +51,7 @@ export function sanitizeData(d) {
   // 額外樓層（第 16 層以後）：每個節點有樓層、所在分支（可空）與解鎖條件（指定節點的等級合計）。
   // 紅色天賦每級可同時花多種顏色（costs）；一般顏色的節點用 cost
   const nodeCount = branches.length;
-  const extras = (Array.isArray(d.extras) ? d.extras : []).slice(0, 12).map(n => {
+  const extras = (Array.isArray(d.extras) ? d.extras : []).slice(0, MAX_EXTRAS).map(n => {
     if (!n || typeof n !== 'object') return null;
     const isRed = n.color === 'red';
     const costs = {};
