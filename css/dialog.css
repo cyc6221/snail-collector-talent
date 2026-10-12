@@ -31,4 +31,4 @@ dialog textarea { font-family: ui-monospace, 'Cascadia Mono', Consolas, monospac
   transition: opacity .2s, transform .2s;
 }
 #toast.show { opacity: 1; transform: translate(-50%, 0); }
-@media (prefers-color-scheme: dark) { #toast { background: #e4ead8; color: #12160d; } }
+:root[data-theme="dark"] #toast { background: #e4ead8; color: #12160d; }

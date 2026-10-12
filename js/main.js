@@ -5,6 +5,7 @@ import { setLevel, clearAlloc, confirmTwice } from './rules.js';
 import { render } from './render.js';
 import { buildPoints } from './panels.js';
 import './dialogs.js';
+import './theme.js';
 import { toast } from './toast.js';
 
 /* ---------- 分支區：配點按鈕（事件委派） ---------- */
