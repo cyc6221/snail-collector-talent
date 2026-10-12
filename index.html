@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="最強蝸牛・收藏家天賦模擬器：一次預覽所有天賦層級、自由配點並即時加總能力。非官方玩家自製工具。">
+<title>最強蝸牛・收藏家天賦模擬器</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/points.css">
+<link rel="stylesheet" href="css/branch.css">
+<link rel="stylesheet" href="css/summary.css">
+<link rel="stylesheet" href="css/dialog.css">
+<link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+<div class="file-warn" id="fileWarn" role="alert" hidden>
+  <b>直接雙擊開啟 index.html 時，瀏覽器會擋下程式。</b>
+  請改用 VS Code 的 Live Server，或在專案資料夾執行 <code>node tools/serve.mjs</code>（Windows 可雙擊 <code>tools\serve.bat</code>），再開啟 <code>http://localhost:8000</code>；也可以直接使用 GitHub Pages 上的版本。
+</div>
+<script>if (location.protocol === 'file:') document.getElementById('fileWarn').hidden = false;</script>
+
+<header class="top">
+  <h1>最強蝸牛・收藏家天賦模擬器</h1>
+  <div class="tools">
+    <label class="switch"><input type="checkbox" id="optStrict" role="switch"><span>遵守解鎖順序與點數上限</span></label>
+    <label class="switch"><input type="checkbox" id="optEdit" role="switch"><span>編輯模式</span></label>
+    <button type="button" class="btn" id="btnIO">匯出／匯入</button>
+    <button type="button" class="btn danger" id="btnClear" title="把所有節點的等級歸零（節點資料與擁有點數不變）">清空配點</button>
+    <button type="button" class="btn danger" id="btnReset" title="把節點資料改回預設（配點與擁有點數保留，已不存在的節點配點會移除）">恢復預設資料</button>
+  </div>
+</header>
+
+<div class="pointsbar" id="points" role="region" aria-label="點數使用狀況">
+  <div class="inner">
+    <nav class="viewnav" id="viewnav" aria-label="頁面切換">
+      <button type="button" class="vbtn" data-view="build" aria-current="true">天賦配點</button>
+      <button type="button" class="vbtn" data-view="summary" aria-current="false">能力加總</button>
+    </nav>
+    <div class="chips" id="chips"></div>
+  </div>
+</div>
+
+<nav class="tabs" id="tabs" aria-label="切換分支"></nav>
+
+<main id="main">
+  <div class="branches" id="branches"></div>
+  <section class="summary" id="summary" aria-labelledby="sumH"></section>
+</main>
+
+<footer>
+  <p>非官方玩家自製工具，與遊戲官方無關；數值整理自玩家攻略，以遊戲內為準。</p>
+  <p>《最強蝸牛》及相關名稱、圖像與素材之權利，均屬原權利人所有。</p>
+  <p>資料、配點與擁有點數只存在你的瀏覽器（localStorage），不會上傳。</p>
+</footer>
+
+<dialog id="nodeDlg" aria-labelledby="nodeDlgH">
+  <form id="nodeForm" novalidate>
+    <h2 id="nodeDlgH">編輯節點</h2>
+    <label>名稱<input name="name" maxlength="40" autocomplete="off"></label>
+    <div class="row3">
+      <label>點數顏色
+        <select name="color">
+          <option value="blue">藍</option>
+          <option value="purple">紫</option>
+          <option value="orange">橙</option>
+        </select>
+      </label>
+      <label>每級消耗<input name="cost" type="number" min="0" max="999" step="1" inputmode="numeric"></label>
+      <label>最高等級<input name="max" type="number" min="1" max="99" step="1" inputmode="numeric"></label>
+    </div>
+    <label>效果（每行一個：屬性 | 每級數值 | 單位）
+      <textarea name="effects" rows="5" spellcheck="false"></textarea>
+    </label>
+    <p class="hint">例：「蘑菇園產量 | 5 | %」「蝸牛攻擊 | 30 |」「克隆黑蝌蚪消耗 | -2 | %」。單位可留空，每級數值可為負數。</p>
+    <label>備註（選填，會顯示在卡片上，例如「待確認：每級消耗」）<input name="note" maxlength="120" autocomplete="off"></label>
+    <p class="err" role="alert" id="nodeErr"></p>
+    <div class="dlg-actions">
+      <button type="button" class="btn" data-close>取消</button>
+      <button type="submit" class="btn primary">儲存</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="ioDlg" aria-labelledby="ioDlgH">
+  <h2 id="ioDlgH">匯出／匯入</h2>
+  <p class="hint" style="margin:0 0 8px">下方是目前整套設定（節點資料、配點、擁有點數）的 JSON。複製後即可分享；貼上別人的 JSON 再按「匯入」就能套用。</p>
+  <label for="ioText" class="sr">設定 JSON</label>
+  <textarea id="ioText" rows="12" spellcheck="false" style="width:100%;margin-top:0;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;font-size:13px;line-height:1.5;resize:vertical"></textarea>
+  <p class="err" role="alert" id="ioErr"></p>
+  <div class="dlg-actions">
+    <button type="button" class="btn" id="ioCopy">複製</button>
+    <button type="button" class="btn danger" id="ioImport">匯入並覆蓋目前設定</button>
+    <button type="button" class="btn" data-close>關閉</button>
+  </div>
+</dialog>
+
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script src="data/left.js"></script>
+<script src="data/middle.js"></script>
+<script src="data/right.js"></script>
+<script type="module" src="js/main.js"></script>
+</body>
+</html>
