@@ -585,5 +585,34 @@ window.SNAIL_DATA.top = {
         { stat: "所有兵種追擊", per: 1, unit: "" },
       ]
     },
+    {
+      id: "res-35a", name: "饕餮化身", color: "orange", floor: 35, lane: 0, max: 5,
+      cost: 6,
+      unlock: { from: ["res-34b", "res-34a"], need: 5 },
+      note: "",
+      effects: [
+        { stat: "基因進化獲得紫因子轉橘因子", per: 0.2, unit: "%" },
+      ]
+    },
+    {
+      id: "pow-35a", name: "擊破泰坦", color: "orange", floor: 35, lane: 1, max: 5,
+      cost: 6,
+      unlock: { from: ["pow-34a"], need: 5 },
+      note: "",
+      effects: [
+        { stat: "使敵人陷入擊破機率", per: 1, unit: "%" },
+        { stat: "對擊破狀態敵人造成傷害", per: 1, unit: "%" },
+      ]
+    },
+    {
+      id: "arm-35a", name: "物種殺手", color: "orange", floor: 35, lane: 2, max: 5,
+      cost: 6,
+      unlock: { from: ["arm-34a", "arm-34b"], need: 5 },
+      note: "",
+      effects: [
+        { stat: "物種戰爭部隊忽視敵人防禦", per: 1, unit: "%" },
+        { stat: "物種戰爭部隊首回合忽視敵人防禦", per: 2, unit: "%" },
+      ]
+    },
   ]
 };
