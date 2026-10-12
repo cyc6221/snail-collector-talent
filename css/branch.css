@@ -111,9 +111,10 @@ main { max-width: var(--page-w); margin: 0 auto; padding: 16px 16px 40px; }
 /* ---------- 節點卡片（窄版） ---------- */
 .node {
   display: flex; flex-direction: column;
-  background: var(--surface); border: 1px solid var(--line);
+  background: color-mix(in srgb, var(--c) 14%, var(--surface));   /* 卡片底色依珠子顏色淡淡染色 */
+  border: 2px solid color-mix(in srgb, var(--c) 50%, var(--line));    /* 四邊是珠子顏色的外框，上緣再加粗成實色 */
   border-top: 4px solid var(--c);
-  border-radius: 10px; padding: 8px 10px 10px; box-shadow: var(--shadow);
+  border-radius: 10px; padding: 7px 9px 9px; box-shadow: var(--shadow);
 }
 /* 扇出：從中心欄位的線往下分岔到各欄位（橫線在區塊頂端） */
 .zone.rd { position: relative; background-image: linear-gradient(var(--lc), var(--lc)); background-size: var(--lw) 100%; background-position: center; }
