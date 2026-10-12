@@ -467,5 +467,34 @@ window.SNAIL_DATA.top = {
         { stat: "所有兵種追擊", per: 1, unit: "" },
       ]
     },
+    {
+      id: "res-31a", name: "鐘擺宗師", color: "orange", floor: 31, lane: 0, max: 5,
+      cost: 6,
+      unlock: { from: ["res-30b", "res-30a"], need: 5 },
+      note: "",
+      effects: [
+        { stat: "失落的鐘擺橘色進擊成功機率", per: 0.5, unit: "%" },
+      ]
+    },
+    {
+      id: "pow-31a", name: "麻痺處刑", color: "orange", floor: 31, lane: 1, max: 5,
+      cost: 6,
+      unlock: { from: ["pow-30a"], need: 5 },
+      note: "",
+      effects: [
+        { stat: "使敵人陷入麻痺機率", per: 1, unit: "%" },
+        { stat: "對麻痺狀態敵人造成傷害", per: 1, unit: "%" },
+      ]
+    },
+    {
+      id: "arm-31a", name: "王牌駕駛", color: "orange", floor: 31, lane: 2, max: 5,
+      cost: 6,
+      unlock: { from: ["arm-30a", "arm-30b"], need: 5 },
+      note: "",
+      effects: [
+        { stat: "載具技能傷害減免", per: 1, unit: "%" },
+        { stat: "載具技能造成傷害", per: 1, unit: "%" },
+      ]
+    },
   ]
 };
