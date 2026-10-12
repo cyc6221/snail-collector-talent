@@ -614,5 +614,17 @@ window.SNAIL_DATA.top = {
         { stat: "物種戰爭部隊首回合忽視敵人防禦", per: 2, unit: "%" },
       ]
     },
+    {
+      id: "red-36a", name: "元素領主", color: "red", floor: 36, lane: null, max: 3,
+      costs: { blue: 5, purple: 5, orange: 5 },
+      unlock: { from: ["res-35a", "pow-35a", "arm-35a"], need: 5 },
+      note: "",
+      effects: [
+        { stat: "火元素傷害", per: 2, unit: "%" },
+        { stat: "水元素傷害", per: 2, unit: "%" },
+        { stat: "土元素傷害", per: 2, unit: "%" },
+        { stat: "風元素傷害", per: 2, unit: "%" },
+      ]
+    },
   ]
 };
