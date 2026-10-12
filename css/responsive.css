@@ -18,6 +18,9 @@
   .nodes { flex-direction: column; align-items: stretch; }
   .nodes > .node { flex-basis: auto; }
   .zone::before, .zone::after { content: none !important; }
+  .g-rconn { background: linear-gradient(var(--lc), var(--lc)) center / var(--lw) 100% no-repeat; }   /* 紅色天賦：窄螢幕只畫一條直線 */
+  .g-rconn .zone { background: none !important; }
+  .g-rconn .gate { display: none; }
   .zone { background-image: linear-gradient(var(--lc), var(--lc)) !important; background-size: var(--lw) 100% !important; background-position: center !important; }
   main { padding-top: 12px; }
 }

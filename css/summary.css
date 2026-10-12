@@ -2,7 +2,8 @@
 /* ---------- 能力加總 ---------- */
 .summary { margin-top: 28px; }
 .summary > h2 { font-size: 22px; color: var(--accent); margin-bottom: 12px; }
-.sum-grid { display: grid; gap: 16px; align-items: start; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); }
+.sum-grid { display: grid; gap: 16px; align-items: start; grid-template-columns: repeat(var(--n, 3), minmax(0, 1fr)); }   /* 桌機：所有卡片排成同一排 */
+@media (max-width: 999.98px) { .sum-grid { grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); } }
 .sum-card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 14px; box-shadow: var(--shadow); min-width: 0; }
 .sum-card h3 { font-family: var(--serif); font-size: 17px; margin-bottom: 8px; }
 .sum-card ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
@@ -17,3 +18,4 @@ footer {
   font-size: 13px; line-height: 1.7; color: var(--muted); text-align: center;
 }
 footer p + p { margin-top: 6px; }
+.sum-card.red { border-top: 4px solid var(--red); }

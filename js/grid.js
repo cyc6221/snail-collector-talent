@@ -1,12 +1,18 @@
 // 天賦網格：每一列是一層、每一欄是一個分支；節點卡片與層間連線
 import { COLOR_ORDER, CN, $, esc, fmtVal } from './util.js';
-import { state, lv, layerCap, layerProgress, unlockFlags, branchCost } from './state.js';
+import { state, lv, layerCap, layerProgress, redProgress, unlockFlags, branchCost, findNode } from './state.js';
 
 /** 各色點數；colors 指定要顯示哪幾色（沒有該色點數時顯示 0） */
 function ptsHTML(c, colors) {
   const items = colors.map(k =>
     '<span class="pt c-' + k + '"><span class="orb sm" aria-hidden="true"></span><span class="sr">' + CN[k] + '</span>' + c[k] + '</span>');
   return items.length ? items.join('') : '<span class="pt">0</span>';
+}
+
+function costHTML(n) {
+  if (!n.costs) return '<span class="n-cost"><span class="sr">' + CN[n.color] + '點，</span>每級 ' + n.cost + '</span>';
+  return '<span class="n-cost">每級 ' + COLOR_ORDER.filter(k => n.costs[k] > 0).map(k =>
+    '<span class="pt c-' + k + '"><span class="orb sm" aria-hidden="true"></span><span class="sr">' + CN[k] + '</span>' + n.costs[k] + '</span>').join('') + '</span>';
 }
 
 function nodeHTML(n) {
@@ -25,7 +31,7 @@ function nodeHTML(n) {
   return (
     '<article class="node c-' + n.color + '" data-n="' + id + '">' +
       '<div class="n-top"><span class="orb" aria-hidden="true"></span><h3 class="n-name">' + esc(n.name) + '</h3>' +
-        '<span class="n-cost"><span class="sr">' + CN[n.color] + '點，</span>每級 ' + n.cost + '</span></div>' +
+        costHTML(n) + '</div>' +
       (n.note ? '<details class="n-note"><summary>' + '備註' + '</summary><p>' + esc(n.note) + '</p></details>' : '') +
       '<ul class="effects">' + eff + '</ul>' +
       '<div class="ctrl">' +
@@ -103,6 +109,39 @@ export function gridHTML() {
     });
   }
 
+  return h + redRowHTML(rows, slots);
+}
+
+/**
+ * 紅色天賦（第 16 層）：不屬於任何分支。解鎖來源所在的各個分支各拉一條線，匯合到中間那個分支的欄位，
+ * 再接到紅色節點（放在中間欄位正下方）。
+ */
+function redRowHTML(rows, slots) {
+  const reds = state.data.reds;
+  if (!reds.length) return '';
+  const r = reds[0];                                         // 畫面目前只排一個紅色天賦（資料轉換工具會檢查）
+  const lanes = [...new Set(r.unlock.from.map(id => findNode(id)).filter(Boolean).map(f => f.bi))].sort((a, b) => a - b);
+  const mid = lanes.length ? lanes[Math.floor((lanes.length - 1) / 2)] : Math.floor((state.data.branches.length - 1) / 2);
+  const connRow = 2 * rows + 1, nodeRow = 2 * rows + 2;
+  const p = redProgress(r);
+  const lit = p.pass ? ' lit' : '';
+  const names = r.unlock.from.map(id => { const f = findNode(id); return f ? f.n.name : ''; }).filter(Boolean).join('、');
+  const title = '「' + names + '」等級合計 ' + p.cur + ' 級，達 ' + p.need + ' 級才解鎖「' + r.name + '」';
+  let h = '';
+
+  lanes.forEach(bi => {
+    const role = bi < mid ? 'ru-l' : bi > mid ? 'ru-r' : 'ru-m' + (lanes.some(x => x < mid) ? ' hl' : '') + (lanes.some(x => x > mid) ? ' hr' : '');
+    h += '<div class="g-cell g-conn g-rconn' + lit + (bi === state.tab ? ' on-tab' : '') + '" style="grid-column:' + (bi + 2) + ';grid-row:' + connRow + '">' +
+      '<i class="zone up ru ' + role + '"></i>' +
+      (bi === mid
+        ? '<span class="gate' + (p.pass ? ' pass' : '') + '" title="' + esc(title) + '">' + (p.pass ? '✓ ' : '') + p.cur + ' / ' + p.need + '</span><i class="zone dn d1"></i>'
+        : '<span></span><i class="zone"></i>') +
+    '</div>';
+  });
+
+  h += '<div class="g-num on-tab" style="grid-row:' + nodeRow + '"><span>' + (rows + 1) + '</span><span class="sr">第 ' + (rows + 1) + ' 層</span></div>';
+  h += '<div class="g-cell g-layer g-red' + (p.pass ? '' : ' locked') + ' on-tab" data-layer="' + (rows + 1) + '" style="grid-column:' + (mid + 2) + ';grid-row:' + nodeRow + ';--slots:' + slots[mid] + '">' +
+    '<div class="nodes n1">' + nodeHTML(r) + '</div></div>';
   return h;
 }
 

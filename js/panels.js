@@ -58,9 +58,9 @@ export function updateTools() {
 }
 
 /* ---------- 能力加總 ---------- */
-function branchTotals(b) {
+function totalsOf(nodes) {
   const m = new Map();
-  b.layers.forEach(l => l.nodes.forEach(n => {
+  nodes.forEach(n => {
     const x = lv(n.id);
     if (!x) return;
     n.effects.forEach(e => {
@@ -69,9 +69,10 @@ function branchTotals(b) {
       o.v += e.per * x;
       m.set(k, o);
     });
-  }));
+  });
   return m;
 }
+const branchTotals = b => totalsOf(b.layers.flatMap(l => l.nodes));
 
 export function renderSummary() {
   const list = m => {
@@ -79,8 +80,11 @@ export function renderSummary() {
     return '<ul>' + [...m.values()].map(o =>
       '<li><span>' + esc(o.stat) + '</span><b>' + fmtVal(o.v, o.unit, true) + '</b></li>').join('') + '</ul>';
   };
+  const cards = state.data.branches.length + (state.data.reds.length ? 1 : 0);
   $('#summary').innerHTML =
-    '<h2 id="sumH">能力加總</h2><div class="sum-grid">' +
+    '<h2 id="sumH">能力加總</h2><div class="sum-grid" style="--n:' + cards + '">' +
     state.data.branches.map(b => '<div class="sum-card"><h3>' + esc(b.name) + '</h3>' + list(branchTotals(b)) + '</div>').join('') +
+    // 紅色天賦不屬於任何分支，獨立一項記錄（效果不與各分支相加）
+    (state.data.reds.length ? '<div class="sum-card red"><h3>紅色天賦</h3>' + list(totalsOf(state.data.reds)) + '</div>' : '') +
     '</div>';
 }

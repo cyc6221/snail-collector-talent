@@ -25,6 +25,7 @@ button { cursor: pointer; }
 .c-blue   { --c: var(--blue);   --cd: var(--blue-d); }
 .c-purple { --c: var(--purple); --cd: var(--purple-d); }
 .c-orange { --c: var(--orange); --cd: var(--orange-d); }
+.c-red    { --c: var(--red);    --cd: var(--red-d); }
 
 .orb {
   display: inline-block; flex: none;

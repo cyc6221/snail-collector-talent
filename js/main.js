@@ -71,7 +71,7 @@ try { history.scrollRestoration = 'manual'; } catch (e) { /* ignore */ }
 /* ---------- 電梯：▲ 回到頂端／樓層數字（可輸入）／▼ 到最底端 ---------- */
 const smooth = () => (matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth');
 const floorInput = $('#floorInput'), btnTop = $('#btnTop'), btnBottom = $('#btnBottom');
-const lastFloor = () => Math.max(1, ...state.data.branches.map(b => b.layers.length));
+const lastFloor = () => Math.max(1, ...state.data.branches.map(b => b.layers.length)) + (state.data.reds.length ? 1 : 0);   // 紅色天賦是最後一層
 const layerEl = n => [...document.querySelectorAll('.g-layer[data-layer="' + n + '"]')].find(x => x.offsetParent);   // 窄螢幕只看得到一個分支
 
 /** 目前所在樓層：固定列下方的閱讀線已經捲過的最後一層（捲到底就是最高層） */
