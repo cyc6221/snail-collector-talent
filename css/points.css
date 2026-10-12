@@ -58,10 +58,12 @@
 .chip .orb { flex: none; width: 20px; height: 20px; }
 .cf { display: flex; align-items: center; gap: 4px; min-width: 0; white-space: nowrap; }
 .cf .k { font-size: 12px; color: var(--muted); }
-.cf b { font-size: 16px; font-variant-numeric: tabular-nums; }
-.cf-own { flex: 0 1 auto; }
+.cf .k { flex: none; }
+/* 數字欄位固定寬度（最多 4 位數：擁有量上限 9999），輸入或配點時其他欄位不會跟著移動 */
+.cf b { flex: none; min-width: 38px; font-size: 16px; font-variant-numeric: tabular-nums; }
+.cf-own { flex: none; }
 .cf-own input {
-  flex: 0 1 68px; width: 68px; min-width: 40px; height: 26px; padding: 0 6px; text-align: right;
+  flex: none; width: 58px; height: 26px; padding: 0 6px; text-align: right;
   border: 1px solid var(--line); border-radius: 7px; background: var(--bg);
   font-size: 14px; font-variant-numeric: tabular-nums;
   -moz-appearance: textfield; appearance: textfield;                 /* 不要上下箭頭（±1） */
@@ -90,8 +92,9 @@
   }
   .chip .orb { grid-area: orb; align-self: center; }
   .cf { justify-content: space-between; gap: 6px; }
+  .cf b { min-width: 0; }
   .cf-own { grid-area: own; } .cf-used { grid-area: used; } .cf-rem { grid-area: rem; }
-  .cf-own input { flex: 1 1 auto; width: auto; max-width: none; }
+  .cf-own input { flex: 1 1 auto; width: auto; max-width: none; min-width: 40px; }
 }
 
 /* 各分支的點數需求：左・資源／中・戰力／右・兵種／紅色天賦，一樣大，放在珠子下方，一起固定在上方 */
