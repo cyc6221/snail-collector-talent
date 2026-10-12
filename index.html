@@ -28,7 +28,6 @@
 <header class="top">
   <h1>最強蝸牛・收藏家天賦模擬器</h1>
   <div class="tools">
-    <label class="switch"><input type="checkbox" id="optEdit" role="switch"><span>編輯模式</span></label>
     <button type="button" class="btn" id="btnIO">匯出／匯入</button>
     <button type="button" class="btn danger" id="btnClear" title="把所有節點的等級歸零（節點資料與擁有點數不變）">清空配點</button>
     <button type="button" class="btn danger" id="btnReset" title="把節點資料改回預設（配點與擁有點數保留，已不存在的節點配點會移除）">恢復預設資料</button>
@@ -57,34 +56,6 @@
   <p>《最強蝸牛》及相關名稱、圖像與素材之權利，均屬原權利人所有。</p>
   <p>資料、配點與擁有點數只存在你的瀏覽器（localStorage），不會上傳。</p>
 </footer>
-
-<dialog id="nodeDlg" aria-labelledby="nodeDlgH">
-  <form id="nodeForm" novalidate>
-    <h2 id="nodeDlgH">編輯節點</h2>
-    <label>名稱<input name="name" maxlength="40" autocomplete="off"></label>
-    <div class="row3">
-      <label>點數顏色
-        <select name="color">
-          <option value="blue">藍</option>
-          <option value="purple">紫</option>
-          <option value="orange">橙</option>
-        </select>
-      </label>
-      <label>每級消耗<input name="cost" type="number" min="0" max="999" step="1" inputmode="numeric"></label>
-      <label>最高等級<input name="max" type="number" min="1" max="99" step="1" inputmode="numeric"></label>
-    </div>
-    <label>效果（每行一個：屬性 | 每級數值 | 單位）
-      <textarea name="effects" rows="5" spellcheck="false"></textarea>
-    </label>
-    <p class="hint">例：「蘑菇園產量 | 5 | %」「蝸牛攻擊 | 30 |」「克隆黑蝌蚪消耗 | -2 | %」。單位可留空，每級數值可為負數。</p>
-    <label>備註（選填，會顯示在卡片上）<input name="note" maxlength="120" autocomplete="off"></label>
-    <p class="err" role="alert" id="nodeErr"></p>
-    <div class="dlg-actions">
-      <button type="button" class="btn" data-close>取消</button>
-      <button type="submit" class="btn primary">儲存</button>
-    </div>
-  </form>
-</dialog>
 
 <dialog id="ioDlg" aria-labelledby="ioDlgH">
   <h2 id="ioDlgH">匯出／匯入</h2>

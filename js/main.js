@@ -1,21 +1,17 @@
 // 進入點：綁定事件、頁面切換、啟動
 import { $ } from './util.js';
 import { state, hadSaved, save, lv, findNode, onChange } from './state.js';
-import {
-  setLevel, clearAlloc, resetData, confirmTwice,
-  addNode, addLayer, removeNode, removeLayer, setThreshold
-} from './rules.js';
+import { setLevel, clearAlloc, resetData, confirmTwice } from './rules.js';
 import { render } from './render.js';
 import { buildPoints } from './panels.js';
-import { openNodeDialog } from './dialogs.js';
+import './dialogs.js';
 import { toast } from './toast.js';
 
-/* ---------- 分支區：配點與編輯按鈕（事件委派） ---------- */
+/* ---------- 分支區：配點按鈕（事件委派） ---------- */
 $('#branches').addEventListener('click', e => {
   const el = e.target.closest('[data-act]');
   if (!el || el.disabled) return;
   const act = el.dataset.act, id = el.dataset.id;
-  const bi = Number(el.dataset.b), li = Number(el.dataset.l);
 
   switch (act) {
     case 'inc': setLevel(id, lv(id) + 1); break;
@@ -26,21 +22,7 @@ $('#branches').addEventListener('click', e => {
       setLevel(id, k === lv(id) ? k - 1 : k);
       break;
     }
-    case 'edit': openNodeDialog(id); break;
-    case 'del-node':
-      confirmTwice('node:' + id, () => removeNode(id), '再按一次以刪除這個節點。');
-      break;
-    case 'add-node': addNode(bi, li); break;
-    case 'add-layer': addLayer(bi); break;
-    case 'del-layer':
-      confirmTwice('layer:' + bi + ':' + li, () => removeLayer(bi, li), '再按一次以刪除整層（含該層配點）。');
-      break;
   }
-});
-
-$('#branches').addEventListener('change', e => {
-  const el = e.target.closest('[data-thr]');
-  if (el) setThreshold(Number(el.dataset.b), Number(el.dataset.l), el.value);
 });
 
 $('#tabs').addEventListener('click', e => {
@@ -52,10 +34,6 @@ $('#tabs').addEventListener('click', e => {
 });
 
 /* ---------- 工具列 ---------- */
-$('#optEdit').addEventListener('change', e => {
-  state.edit = e.target.checked;
-  render();
-});
 $('#btnClear').addEventListener('click', () => confirmTwice('clear', () => {
   clearAlloc();
   toast('已清空所有配點。');

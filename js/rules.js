@@ -1,5 +1,5 @@
-// 配點規則與所有「改資料」的動作；畫面層只呼叫這裡，不直接改 state
-import { CN, clamp, toInt, newId } from './util.js';
+// 配點規則與重設動作；畫面層只呼叫這裡，不直接改 state
+import { CN, clamp } from './util.js';
 import { sanitizeData, sanitizeAlloc } from './schema.js';
 import {
   state, defaultData, lv, layerSum, effThr, firstBlock, unlockFlags,
@@ -77,48 +77,7 @@ export function confirmTwice(key, fn, hint) {
   toast(hint || '再按一次以確認。');
 }
 
-/* ---------- 編輯資料 ---------- */
-function blankNode() {
-  const taken = new Set();
-  state.data.branches.forEach(b => b.layers.forEach(l => l.nodes.forEach(n => taken.add(n.id))));
-  return { id: newId(taken), name: '新節點', color: 'blue', cost: 1, max: 5, effects: [], note: '' };
-}
-
-export function addNode(bi, li) {
-  const l = state.data.branches[bi].layers[li];
-  if (l.nodes.length >= 2) return;
-  l.nodes.push(blankNode());
-  commit();
-}
-
-export function addLayer(bi) {
-  state.data.branches[bi].layers.push({ threshold: 5, nodes: [blankNode()] });
-  commit();
-}
-
-export function removeNode(id) {
-  const f = findNode(id);
-  if (!f || f.l.nodes.length < 2) return;
-  f.l.nodes.splice(f.ni, 1);
-  delete state.alloc[id];
-  commit();
-}
-
-export function removeLayer(bi, li) {
-  const b = state.data.branches[bi];
-  const l = b && b.layers[li];
-  if (!l) return;
-  l.nodes.forEach(n => delete state.alloc[n.id]);
-  b.layers.splice(li, 1);
-  commit();
-}
-
-export function setThreshold(bi, li, value) {
-  const l = state.data.branches[bi].layers[li];
-  l.threshold = toInt(value, 0, 999, l.threshold);
-  commit();
-}
-
+/* ---------- 恢復預設 ---------- */
 /** 節點資料改回預設；配點保留，已不存在的節點配點移除 */
 export function resetData() {
   state.data = sanitizeData(defaultData());

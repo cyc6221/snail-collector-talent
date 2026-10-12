@@ -1,7 +1,6 @@
 // 天賦網格：每一列是一層、每一欄是一個分支；節點卡片與層間連線
 import { COLORS, CN, $, esc, fmtVal } from './util.js';
 import { state, lv, layerSum, layerCap, effThr, unlockFlags, branchCost } from './state.js';
-import { isArmed } from './rules.js';
 
 /** 各色點數；colors 指定要顯示哪幾色（沒有該色點數時顯示 0） */
 function ptsHTML(c, colors) {
@@ -10,7 +9,7 @@ function ptsHTML(c, colors) {
   return items.length ? items.join('') : '<span class="pt">0</span>';
 }
 
-function nodeHTML(n, layer) {
+function nodeHTML(n) {
   const cur = lv(n.id);
   let dots = '';
   for (let k = 1; k <= n.max; k++) {
@@ -22,8 +21,6 @@ function nodeHTML(n, layer) {
       '<span class="e-per">每級 ' + fmtVal(e.per, e.unit, true) + '</span>' +
       '<span class="e-tot' + (cur ? '' : ' zero') + '">目前 <b>' + fmtVal(e.per * cur, e.unit, true) + '</b></span></span></li>'
   ).join('') : '<li class="muted">（無效果）</li>';
-  const only = layer.nodes.length === 1;
-  const del = isArmed('node:' + n.id);
   const id = esc(n.id);
   return (
     '<article class="node c-' + n.color + '" data-n="' + id + '">' +
@@ -42,11 +39,6 @@ function nodeHTML(n, layer) {
           '<span class="lvl">' + cur + '<small> / ' + n.max + '</small></span>' +
         '</div>' +
       '</div>' +
-      '<div class="n-edit edit-only">' +
-        '<button type="button" class="mini" data-act="edit" data-id="' + id + '" data-fk="edit:' + id + '">編輯</button>' +
-        '<button type="button" class="mini danger' + (del ? ' armed' : '') + '" data-act="del-node" data-id="' + id + '" data-fk="del-node:' + id + '"' +
-          (only ? ' disabled title="這層只剩一個節點，請改用「刪除此層」"' : '') + '>' + (del ? '再按一次確認' : '刪除') + '</button>' +
-      '</div>' +
     '</article>'
   );
 }
@@ -57,11 +49,7 @@ function connHTML(b, bi, li, row, flags) {
   const sum = layerSum(l), thr = effThr(l);
   const pass = sum >= thr;
   const lit = pass && flags[li];
-  const gate = state.edit
-    ? '<label class="gate-in">門檻 <input type="number" class="thr-in" min="0" max="999" step="1" inputmode="numeric" value="' + l.threshold +
-      '" data-thr data-b="' + bi + '" data-l="' + li + '" data-fk="thr:' + bi + ':' + li + '" aria-label="第 ' + (li + 1) + ' 層解鎖門檻"></label>' +
-      '<span class="gate-sum">' + sum + ' / ' + thr + '</span>'
-    : (pass ? '✓ ' : '') + sum + ' / ' + thr;
+  const gate = (pass ? '✓ ' : '') + sum + ' / ' + thr;
   const title = '第 ' + (li + 1) + ' 層合計 ' + sum + ' 級，達 ' + thr + ' 級才解鎖下一層' + (layerCap(l) < l.threshold ? '（本層最高僅 ' + layerCap(l) + ' 級，以此計）' : '');
   return (
     '<div class="g-cell g-conn' + (lit ? ' lit' : '') + (bi === state.tab ? ' on-tab' : '') + '" style="grid-column:' + (bi + 2) + ';grid-row:' + row + '">' +
@@ -98,22 +86,13 @@ export function gridHTML() {
       const l = b.layers[li];
       if (!l) return;
       const locked = !flags[bi][li];
-      const delLayer = isArmed('layer:' + bi + ':' + li);
       h += '<div class="g-cell g-layer' + (locked ? ' locked' : '') + tabCls(bi) + '" style="grid-column:' + (bi + 2) + ';grid-row:' + row + '">' +
-        '<div class="nodes n' + l.nodes.length + '">' + l.nodes.map(n => nodeHTML(n, l)).join('') + '</div>' +
-        '<div class="l-edit edit-only">' +
-          (l.nodes.length < 2 ? '<button type="button" class="mini" data-act="add-node" data-b="' + bi + '" data-l="' + li + '" data-fk="add-node:' + bi + ':' + li + '">＋新增節點</button>' : '') +
-          '<button type="button" class="mini danger' + (delLayer ? ' armed' : '') + '" data-act="del-layer" data-b="' + bi + '" data-l="' + li + '" data-fk="del-layer:' + bi + ':' + li + '">' + (delLayer ? '再按一次確認' : '刪除此層') + '</button>' +
-        '</div>' +
+        '<div class="nodes n' + l.nodes.length + '">' + l.nodes.map(nodeHTML).join('') + '</div>' +
       '</div>';
       if (b.layers[li + 1]) h += connHTML(b, bi, li, row + 1, flags[bi]);
     });
   }
 
-  bs.forEach((b, bi) => {
-    h += '<div class="g-cell g-add edit-only' + tabCls(bi) + '" style="grid-column:' + (bi + 2) + ';grid-row:' + (2 + rows * 2) + '">' +
-      '<button type="button" class="mini" data-act="add-layer" data-b="' + bi + '" data-fk="add-layer:' + bi + '">＋新增一層</button></div>';
-  });
   return h;
 }
 

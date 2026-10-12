@@ -29,7 +29,6 @@
   .chip-own > span:first-child { display: none; }
   main { padding-left: 10px; padding-right: 10px; }
   .tabs { padding: 0 10px; }
-  .row3 { grid-template-columns: 1fr; }
   footer { padding-left: 12px; padding-right: 12px; }
 }
 @media (prefers-reduced-motion: reduce) {

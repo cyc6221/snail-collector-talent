@@ -47,8 +47,6 @@ export function syncOwnedInputs() {
 
 /* ---------- 工具列 ---------- */
 export function updateTools() {
-  $('#optEdit').checked = state.edit;
-  document.body.classList.toggle('editing', state.edit);
   const bc = $('#btnClear'), br = $('#btnReset');
   bc.textContent = isArmed('clear') ? '再按一次確認清空' : '清空配點';
   br.textContent = isArmed('reset') ? '再按一次確認恢復' : '恢復預設資料';

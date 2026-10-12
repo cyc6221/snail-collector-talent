@@ -48,7 +48,7 @@ export const hadSaved = !!saved;
 export const state = Object.assign(
   { data: defaultData(), alloc: {}, owned: defaultOwned() },
   saved || {},
-  { edit: false, tab: 0 }
+  { tab: 0 }
 );
 if (!saved) state.data = sanitizeData(state.data);
 

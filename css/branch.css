@@ -36,8 +36,6 @@ main { max-width: var(--page-w); margin: 0 auto; padding: 16px 16px 40px; }
 .nodes { display: flex; justify-content: center; gap: var(--ng); flex: 1; }
 .nodes > .node { flex: 0 0 calc(50% - var(--ng) / 2); min-width: 0; }
 .g-layer.locked .nodes { opacity: .5; }
-.l-edit { gap: 8px; flex-wrap: wrap; justify-content: center; margin-top: 8px; }
-.g-add { align-items: center; padding-top: 14px; }
 
 /* ---------- 連線 ---------- */
 .g-conn {
@@ -72,8 +70,6 @@ main { max-width: var(--page-w); margin: 0 auto; padding: 16px 16px 40px; }
   font-variant-numeric: tabular-nums;
 }
 .g-conn.lit .gate { color: var(--accent); font-weight: 700; }
-.gate-in { display: inline-flex; align-items: center; gap: 4px; }
-.thr-in { width: 52px; height: 22px; padding: 0 4px; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); }
 
 /* ---------- 節點卡片（窄版） ---------- */
 .node {
@@ -105,8 +101,8 @@ main { max-width: var(--page-w); margin: 0 auto; padding: 16px 16px 40px; }
   border: 1px solid var(--line); border-radius: 8px;
   background: var(--bg); font-size: 16px; line-height: 1; font-weight: 700;
 }
-.step:hover:not(:disabled), .fill:hover:not(:disabled), .mini:hover:not(:disabled) { border-color: var(--accent); }
-.step:disabled, .fill:disabled, .mini:disabled { opacity: .4; cursor: not-allowed; }
+.step:hover:not(:disabled), .fill:hover:not(:disabled) { border-color: var(--accent); }
+.step:disabled, .fill:disabled { opacity: .4; cursor: not-allowed; }
 .dots { display: inline-flex; flex-wrap: wrap; justify-content: center; }
 .dot { width: 21px; height: 30px; padding: 0; border: 0; background: none; display: grid; place-items: center; }
 .dot i { display: block; width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--c); background: transparent; transition: transform .1s; }
@@ -116,9 +112,3 @@ main { max-width: var(--page-w); margin: 0 auto; padding: 16px 16px 40px; }
 .lvl { font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .lvl small { color: var(--muted); font-weight: 400; }
 
-.n-edit { gap: 6px; margin-top: 8px; padding-top: 8px; border-top: 1px dashed var(--line); }
-.mini { min-height: 28px; padding: 2px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); font-size: 13px; }
-.mini.danger { color: var(--danger); }
-.mini.armed { background: var(--danger); color: #fff; border-color: var(--danger); }
-.edit-only { display: none; }
-body.editing .edit-only { display: flex; }
