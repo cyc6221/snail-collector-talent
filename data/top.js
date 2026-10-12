@@ -46,5 +46,56 @@ window.SNAIL_DATA.top = {
         { stat: "蝸牛領導力", per: 2, unit: "" },
       ]
     },
+    {
+      id: "res-18b", name: "部落領主", color: "orange", floor: 18, lane: 0, max: 5,
+      cost: 6,
+      unlock: { from: ["res-17a"], need: 5 },
+      note: "",
+      effects: [
+        { stat: "部落每日近衛命石產出", per: 3, unit: "%" },
+        { stat: "部落每日尖兵命石產出", per: 3, unit: "%" },
+        { stat: "部落每日信徒命石產出", per: 3, unit: "%" },
+        { stat: "部落每日祭司命石產出", per: 3, unit: "%" },
+      ]
+    },
+    {
+      id: "res-18a", name: "部落菁英", color: "purple", floor: 18, lane: 0, max: 5,
+      cost: 6,
+      unlock: { from: ["res-17a"], need: 5 },
+      note: "",
+      effects: [
+        { stat: "部落每日琥珀產出", per: 3, unit: "%" },
+      ]
+    },
+    {
+      id: "pow-18a", name: "破敵先鋒", color: "purple", floor: 18, lane: 1, max: 5,
+      cost: 6,
+      unlock: { from: ["pow-17a"], need: 5 },
+      note: "",
+      effects: [
+        { stat: "戰鬥首回合對敵人傷害", per: 1.2, unit: "%" },
+        { stat: "對敵人傷害", per: 0.6, unit: "%" },
+      ]
+    },
+    {
+      id: "arm-18a", name: "防禦指揮", color: "purple", floor: 18, lane: 2, max: 5,
+      cost: 6,
+      unlock: { from: ["arm-17a"], need: 5 },
+      note: "",
+      effects: [
+        { stat: "所有兵種生命", per: 1, unit: "" },
+        { stat: "所有兵種防禦", per: 1, unit: "" },
+      ]
+    },
+    {
+      id: "arm-18b", name: "戰鬥指揮", color: "orange", floor: 18, lane: 2, max: 5,
+      cost: 6,
+      unlock: { from: ["arm-17a"], need: 5 },
+      note: "",
+      effects: [
+        { stat: "所有兵種攻擊", per: 1, unit: "" },
+        { stat: "所有兵種追擊", per: 1, unit: "" },
+      ]
+    },
   ]
 };
