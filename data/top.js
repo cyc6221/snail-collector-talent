@@ -142,5 +142,34 @@ window.SNAIL_DATA.top = {
         { stat: "風元素傷害", per: 2, unit: "%" },
       ]
     },
+    {
+      id: "res-21a", name: "催化學徒", color: "blue", floor: 21, lane: 0, max: 5,
+      cost: 6,
+      unlock: { from: ["red-20a"], need: 3 },
+      note: "",
+      effects: [
+        { stat: "催化綠孢子轉藍孢子機率", per: 1, unit: "%" },
+      ]
+    },
+    {
+      id: "pow-21a", name: "生存大師", color: "blue", floor: 21, lane: 1, max: 5,
+      cost: 6,
+      unlock: { from: ["red-20a"], need: 3 },
+      note: "",
+      effects: [
+        { stat: "蝸牛生命", per: 720, unit: "" },
+        { stat: "蝸牛追擊", per: 72, unit: "" },
+        { stat: "弱點判定成功對敵人傷害", per: 0.5, unit: "%" },
+      ]
+    },
+    {
+      id: "arm-21a", name: "領導力", color: "blue", floor: 21, lane: 2, max: 5,
+      cost: 6,
+      unlock: { from: ["red-20a"], need: 3 },
+      note: "",
+      effects: [
+        { stat: "蝸牛領導力", per: 2, unit: "" },
+      ]
+    },
   ]
 };
