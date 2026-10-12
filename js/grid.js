@@ -108,6 +108,27 @@ export function gridHTML() {
   const slots = laneSlots();
   let h = '';
 
+  // 底色：每個分支一條淡色的直欄，從第 1 層鋪到最後一層；遇到紅色天賦那一層（含上方連線）就整排改成紅色橫條，把直欄切斷
+  const ex = state.data.extras;
+  const floors = [...new Set(ex.map(e => e.floor))].sort((a, b) => a - b);
+  const lastRow = 2 * rows + 2 * floors.length;               // 最後一個節點列：一般層 2…2×層數，額外樓層每層再加 2
+  const redRanges = [];                                       // 紅色樓層佔的列：[連線列, 節點列]
+  floors.forEach((fl, k) => {
+    if (ex.filter(e => e.floor === fl).every(e => e.lane === null)) redRanges.push([2 * rows + 1 + 2 * k, 2 * rows + 2 + 2 * k]);
+  });
+  bs.forEach((b, bi) => {
+    const segs = [];
+    let from = 2;
+    redRanges.forEach(([a, z]) => { if (a > from) segs.push([from, a - 1]); from = z + 1; });
+    if (from <= lastRow) segs.push([from, lastRow]);
+    segs.forEach(([a, z]) => {
+      h += '<div class="g-cell g-band' + (a === 2 ? ' seg-top' : '') + (z === lastRow ? ' seg-bot' : '') + tabCls(bi) + '" data-b="' + bi + '" style="grid-column:' + (bi + 2) + ';grid-row:' + a + ' / ' + (z + 1) + '" aria-hidden="true"></div>';
+    });
+  });
+  redRanges.forEach(([a, z]) => {
+    h += '<div class="g-cell g-band g-band-red on-tab" style="grid-column:2 / ' + (bs.length + 2) + ';grid-row:' + a + ' / ' + (z + 1) + '" aria-hidden="true"></div>';
+  });
+
   // 分支標題只在窄螢幕（分頁模式）顯示；寬螢幕改由固定列裡的四張卡片顯示（見 renderSumStrip）
   bs.forEach((b, bi) => {
     h += '<header class="g-cell g-head' + tabCls(bi) + '" data-b="' + bi + '" style="grid-column:' + (bi + 2) + ';grid-row:1">' +

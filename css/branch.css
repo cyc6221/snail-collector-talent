@@ -27,6 +27,17 @@ main { max-width: var(--page-w); margin: 0 auto; padding: 16px 16px 40px; }
 .b-cost .lbl { color: var(--muted); }
 .pt { display: inline-flex; align-items: center; gap: 4px; font-weight: 700; font-variant-numeric: tabular-nums; }
 
+/* ---------- 底色：每個分支一條直欄，淡淡染上代表色；紅色天賦那一層整排改成紅色橫條，把直欄切斷 ---------- */
+.g-band {
+  margin: 0 -5px;                    /* 比節點寬一點；欄間距 16px，所以相鄰兩欄之間還留 6px 的空隙 */
+  pointer-events: none;
+  background: color-mix(in srgb, var(--bc) var(--band-a), transparent);
+}
+.g-band.seg-top { margin-top: -6px; border-radius: 16px 16px 0 0; }
+.g-band.seg-bot { margin-bottom: -6px; border-radius: 0 0 16px 16px; }
+.g-band.seg-top.seg-bot { border-radius: 16px; }
+.g-band-red { background: color-mix(in srgb, var(--red) var(--band-red-a), transparent); }
+
 /* ---------- 層號 ---------- */
 .g-num { grid-column: 1; align-self: center; justify-self: center; }
 .g-num span:first-child {
