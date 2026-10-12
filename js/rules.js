@@ -1,17 +1,17 @@
 // 配點規則：畫面層只呼叫這裡，不直接改 state
 import { CN, COLORS, clamp, nodeCost } from './util.js';
 import {
-  state, lv, layerSum, layerProgress, redProgress, firstBlock, unlockFlags,
+  state, lv, layerSum, layerProgress, extraProgress, firstBlock, unlockFlags,
   usedByColor, ownedNum, findNode, commit, notify
 } from './state.js';
 import { toast } from './toast.js';
 
 /* ---------- 配點 ---------- */
-/** 紅色天賦解鎖來源的名稱與層號，用在提示文字（例如：第 15 層的「能源工程、元素大師、元素操控」） */
-function redSourceText(r) {
-  const fs = r.unlock.from.map(findNode).filter(Boolean);
-  const layers = [...new Set(fs.map(f => f.li + 1))];
-  return (layers.length === 1 ? '第 ' + layers[0] + ' 層的' : '') + '「' + fs.map(f => f.n.name).join('、') + '」';
+/** 額外樓層節點的解鎖來源，用在提示文字（例如：第 15 層的「能源工程、元素大師、元素操控」） */
+function sourceText(e) {
+  const fs = e.unlock.from.map(findNode).filter(Boolean);
+  const floors = [...new Set(fs.map(f => (f.extra ? f.n.floor : f.li + 1)))];
+  return (floors.length === 1 ? '第 ' + floors[0] + ' 層的' : '') + '「' + fs.map(f => f.n.name).join('、') + '」';
 }
 
 export function setLevel(id, target) {
@@ -23,10 +23,10 @@ export function setLevel(id, target) {
   if (target === cur) return;
 
   if (target > cur) {
-    if (f.red) {
-      const p = redProgress(n);
+    if (f.extra) {
+      const p = extraProgress(n);
       if (!p.pass) {
-        toast('「' + n.name + '」尚未解鎖：請先讓' + redSourceText(n) + '等級合計達 ' + p.need + ' 級（目前 ' + p.cur + '）。');
+        toast('「' + n.name + '」尚未解鎖：請先讓' + sourceText(n) + '等級合計達 ' + p.need + ' 級（目前 ' + p.cur + '）。');
         return;
       }
     } else {
@@ -62,7 +62,7 @@ export function setLevel(id, target) {
   } else {
     const next = Object.assign({}, state.alloc);
     if (target > 0) next[id] = target; else delete next[id];
-    if (!f.red) {
+    if (!f.extra) {
       const { b, l } = f;
       const before = unlockFlags(b), after = unlockFlags(b, next);
       for (let j = f.li + 1; j < b.layers.length; j++) {
@@ -75,10 +75,10 @@ export function setLevel(id, target) {
         }
       }
     }
-    // 降級若會讓已有配點的紅色天賦失去解鎖，同樣要阻止
-    for (const r of state.data.reds) {
-      if (lv(r.id) > 0 && redProgress(r).pass && !redProgress(r, next).pass) {
-        toast('無法降級：' + redSourceText(r) + '等級合計會低於 ' + r.unlock.need + ' 級，讓「' + r.name + '」（已有配點）失去解鎖。請先減少「' + r.name + '」的點數。');
+    // 降級若會讓已有配點的額外節點失去解鎖，同樣要阻止（例如降第 15 層會讓武道之王失去解鎖，降武道之王會讓第 17 層失去解鎖）
+    for (const e of state.data.extras) {
+      if (lv(e.id) > 0 && extraProgress(e).pass && !extraProgress(e, next).pass) {
+        toast('無法降級：' + sourceText(e) + '等級合計會低於 ' + e.unlock.need + ' 級，讓「' + e.name + '」（已有配點）失去解鎖。請先減少「' + e.name + '」的點數。');
         return;
       }
     }

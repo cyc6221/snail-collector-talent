@@ -46,28 +46,35 @@ export function sanitizeData(d) {
     return { name: toStr(b.name, 20, '分支' + (bi + 1)), note: toStr(b.note, 200), layers };
   });
 
-  // 紅色天賦：不屬於任何分支；每級可同時花多種顏色的點數；解鎖條件是「指定的分支節點等級合計」
-  const reds = (Array.isArray(d.reds) ? d.reds : []).slice(0, 4).map(n => {
+  // 額外樓層（第 16 層以後）：每個節點有樓層、所在分支（可空）與解鎖條件（指定節點的等級合計）。
+  // 紅色天賦每級可同時花多種顏色（costs）；一般顏色的節點用 cost
+  const nodeCount = branches.length;
+  const extras = (Array.isArray(d.extras) ? d.extras : []).slice(0, 12).map(n => {
     if (!n || typeof n !== 'object') return null;
+    const isRed = n.color === 'red';
     const costs = {};
     COLORS.forEach(k => { costs[k] = toInt(n.costs && n.costs[k], 0, 999, 0); });
     const u = n.unlock && typeof n.unlock === 'object' ? n.unlock : {};
-    return {
+    const e = {
       id: uniqueId(n, seen),
       name: toStr(n.name, 40, '未命名'),
-      color: 'red',
-      cost: 0,
-      costs,
-      max: toInt(n.max, 1, 99, 3),
+      color: isRed ? 'red' : (COLORS.includes(n.color) ? n.color : 'blue'),
+      cost: toInt(n.cost, 0, 999, 0),
+      max: toInt(n.max, 1, 99, isRed ? 3 : 5),
       effects: cleanEffects(n.effects),
       note: toStr(n.note, 120),
+      floor: toInt(n.floor, 1, 99, 16),
+      lane: Number.isInteger(n.lane) && n.lane >= 0 && n.lane < nodeCount ? n.lane : null,   // 所在分支（欄位）；空＝不屬於任何分支
       unlock: { from: (Array.isArray(u.from) ? u.from : []).filter(x => typeof x === 'string').slice(0, 12), need: toInt(u.need, 0, 999, 5) }
     };
+    if (isRed || Object.values(costs).some(v => v > 0)) e.costs = costs;
+    return e;
   }).filter(Boolean);
-  // 解鎖來源必須是真的存在的一般節點，不然忽略
+  // 解鎖來源必須是真的存在的節點（一般節點或其他額外節點），不然忽略
   const known = new Set(branches.flatMap(b => b.layers.flatMap(l => l.nodes.map(n => n.id))));
-  reds.forEach(r => { r.unlock.from = r.unlock.from.filter(id => known.has(id)); });
-  return { branches, reds };
+  extras.forEach(e => known.add(e.id));
+  extras.forEach(e => { e.unlock.from = e.unlock.from.filter(id => known.has(id) && id !== e.id); });
+  return { branches, extras };
 }
 
 export function sanitizeAlloc(src, data) {
@@ -80,7 +87,7 @@ export function sanitizeAlloc(src, data) {
     }
   };
   data.branches.forEach(b => b.layers.forEach(l => l.nodes.forEach(take)));
-  (data.reds || []).forEach(take);
+  (data.extras || []).forEach(take);
   return out;
 }
 

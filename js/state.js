@@ -3,7 +3,7 @@ import { KEY, hasOwn, nodeCost } from './util.js';
 import { sanitizeData, restore } from './schema.js';
 import { toast } from './toast.js';
 
-/* ---------- 預設資料：本體在 data/left.js、middle.js、right.js、red.js（window.SNAIL_DATA） ---------- */
+/* ---------- 預設資料：本體在 data/left.js、middle.js、right.js、top.js（window.SNAIL_DATA） ---------- */
 const BRANCH_KEYS = ['left', 'middle', 'right'];
 export function defaultData() {
   const src = window.SNAIL_DATA || {};
@@ -12,8 +12,8 @@ export function defaultData() {
     console.error('找不到 data/left.js、middle.js、right.js，請確認 data 資料夾有一起上傳。');
     return { branches: [{ name: '（找不到天賦資料）', note: '請確認 data 資料夾有一起上傳。', layers: [] }] };
   }
-  const reds = (src.red && src.red.nodes) || [];          // 紅色天賦（第 16 層）：沒有這份資料也能正常運作
-  return JSON.parse(JSON.stringify({ branches, reds }));
+  const extras = (src.top && src.top.nodes) || [];        // 額外樓層（第 16 層以後）：沒有這份資料也能正常運作
+  return JSON.parse(JSON.stringify({ branches, extras }));
 }
 export const defaultOwned = () => ({ blue: '', purple: '', orange: '' });
 
@@ -101,28 +101,31 @@ export function usedByColor() {
   const u = { blue: 0, purple: 0, orange: 0 };
   const add = n => { const c = nodeCost(n), x = lv(n.id); for (const k in u) u[k] += c[k] * x; };
   state.data.branches.forEach(b => b.layers.forEach(l => l.nodes.forEach(add)));
-  state.data.reds.forEach(add);
+  state.data.extras.forEach(add);
   return u;
 }
+/** 分支的各色點數：分支本身的節點，加上額外樓層中屬於這個分支的節點 */
 export function branchCost(b, useLevel) {
   const c = { blue: 0, purple: 0, orange: 0 };
-  b.layers.forEach(l => l.nodes.forEach(n => {
+  const lane = state.data.branches.indexOf(b);
+  const nodes = b.layers.flatMap(l => l.nodes).concat(state.data.extras.filter(e => e.lane === lane));
+  nodes.forEach(n => {
     const nc = nodeCost(n), x = useLevel ? lv(n.id) : n.max;
     for (const k in c) c[k] += nc[k] * x;
-  }));
+  });
   return c;
 }
 
-/** 紅色天賦的解鎖進度：指定節點的等級合計是否達到需求 */
-export function redProgress(r, a = state.alloc) {
-  const cur = r.unlock.from.reduce((s, id) => s + lv(id, a), 0);
-  return { cur, need: r.unlock.need, pass: r.unlock.need <= 0 || cur >= r.unlock.need };
+/** 額外樓層節點的解鎖進度：指定來源節點的等級合計是否達到需求 */
+export function extraProgress(e, a = state.alloc) {
+  const cur = e.unlock.from.reduce((s, id) => s + lv(id, a), 0);
+  return { cur, need: e.unlock.need, pass: e.unlock.need <= 0 || cur >= e.unlock.need };
 }
 export const ownedNum = c => (state.owned[c] === '' ? null : Number(state.owned[c]));
 
 export function findNode(id) {
-  const ri = state.data.reds.findIndex(r => r.id === id);
-  if (ri >= 0) return { red: true, bi: -1, li: -1, ni: ri, b: null, l: null, n: state.data.reds[ri] };
+  const ei = state.data.extras.findIndex(e => e.id === id);
+  if (ei >= 0) { const n = state.data.extras[ei]; return { extra: true, bi: n.lane === null ? -1 : n.lane, li: -1, ni: ei, b: null, l: null, n }; }
   const bs = state.data.branches;
   for (let bi = 0; bi < bs.length; bi++) {
     for (let li = 0; li < bs[bi].layers.length; li++) {
