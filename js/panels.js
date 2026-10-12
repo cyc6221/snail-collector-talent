@@ -50,7 +50,7 @@ export function syncOwnedInputs() {
 /* ---------- 工具列 ---------- */
 export function updateTools() {
   const bc = $('#btnClear');
-  bc.textContent = isArmed('clear') ? '再按一次確認清空' : '清空配點';
+  bc.textContent = isArmed('clear') ? '再按一次清空' : '清空配點';
   bc.classList.toggle('armed', isArmed('clear'));
 }
 
