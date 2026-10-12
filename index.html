@@ -15,6 +15,7 @@
 <link rel="stylesheet" href="css/branch.css">
 <link rel="stylesheet" href="css/summary.css">
 <link rel="stylesheet" href="css/dialog.css">
+<link rel="stylesheet" href="css/elevator.css">
 <link rel="stylesheet" href="css/responsive.css">
 </head>
 <body>
@@ -68,6 +69,15 @@
     <button type="button" class="btn" data-close>關閉</button>
   </div>
 </dialog>
+
+<div class="elevator" role="group" aria-label="樓層電梯">
+  <button type="button" class="elev-btn" id="btnTop" title="回到頂端" aria-label="回到頂端">▲</button>
+  <label class="elev-floor" title="輸入樓層數字，按 Enter 跳轉">
+    <input id="floorInput" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="2" autocomplete="off" value="1" aria-label="目前樓層；輸入數字後按 Enter 跳到該層">
+    <span>樓</span>
+  </label>
+  <button type="button" class="elev-btn" id="btnBottom" title="到最底端" aria-label="到最底端">▼</button>
+</div>
 
 <div id="toast" role="status" aria-live="polite"></div>
 

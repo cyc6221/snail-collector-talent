@@ -10,6 +10,8 @@ main { max-width: var(--page-w); margin: 0 auto; padding: 16px 16px 40px; }
   row-gap: 0;
 }
 .g-cell { min-width: 0; }
+/* 樓層跳轉：捲到該層時，上緣停在固定列下方（--bar-h 由 main.js 量測） */
+.g-layer, .g-head { scroll-margin-top: calc(var(--bar-h, 140px) + 12px); }
 
 /* ---------- 分支標題 ---------- */
 .g-head {

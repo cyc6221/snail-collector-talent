@@ -39,6 +39,7 @@ $('#btnClear').addEventListener('click', () => confirmTwice('clear', () => {
   clearAlloc();
   toast('已清空所有配點。');
 }, '再按一次以清空所有配點。'));
+
 /* ---------- 頁面切換：天賦配點 ⇄ 能力加總（各自記住捲動位置） ---------- */
 const scrollPos = {};
 let view = null;
@@ -56,6 +57,7 @@ function showView(next) {
   // 第一次進入能力加總時，捲到頁首下方（讓頂部固定列和內容在視線內）
   const top = view in scrollPos ? scrollPos[view] : (build ? 0 : $('.top').offsetHeight);
   window.scrollTo(0, top);
+  updateElevator();
 }
 
 $('#viewnav').addEventListener('click', e => {
@@ -66,8 +68,62 @@ $('#viewnav').addEventListener('click', e => {
 window.addEventListener('hashchange', () => showView(viewFromHash()));
 try { history.scrollRestoration = 'manual'; } catch (e) { /* ignore */ }
 
+/* ---------- 電梯：▲ 回到頂端／樓層數字（可輸入）／▼ 到最底端 ---------- */
+const smooth = () => (matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth');
+const floorInput = $('#floorInput'), btnTop = $('#btnTop'), btnBottom = $('#btnBottom');
+const lastFloor = () => Math.max(1, ...state.data.branches.map(b => b.layers.length));
+const layerEl = n => [...document.querySelectorAll('.g-layer[data-layer="' + n + '"]')].find(x => x.offsetParent);   // 窄螢幕只看得到一個分支
+
+/** 目前所在樓層：固定列下方的閱讀線已經捲過的最後一層（捲到底就是最高層） */
+function currentFloor() {
+  const doc = document.documentElement;
+  if (doc.scrollHeight - window.innerHeight - window.scrollY < 5) return lastFloor();
+  const line = $('#points').getBoundingClientRect().bottom + 80;
+  let cur = 1;
+  for (let n = 1; n <= lastFloor(); n++) {
+    const el = layerEl(n);
+    if (el && el.getBoundingClientRect().top <= line) cur = n;
+  }
+  return cur;
+}
+
+function updateElevator() {
+  const doc = document.documentElement, y = window.scrollY;
+  btnTop.disabled = y < 5;                                   // 淡化，不消失
+  btnBottom.disabled = doc.scrollHeight - window.innerHeight - y < 5;
+  const build = view === 'build';
+  floorInput.disabled = !build;
+  if (!build) floorInput.value = '–';
+  else if (document.activeElement !== floorInput) floorInput.value = currentFloor();   // 輸入中不要被覆蓋
+}
+let elevatorFrame = 0;
+const scheduleElevator = () => { if (!elevatorFrame) elevatorFrame = requestAnimationFrame(() => { elevatorFrame = 0; updateElevator(); }); };
+
+function jumpToFloor(raw) {
+  const n = Math.min(lastFloor(), parseInt(raw, 10));
+  if (!(n >= 1)) { updateElevator(); return; }                 // 空白或 0：不跳，恢復顯示目前樓層
+  floorInput.value = n;
+  const el = layerEl(n);
+  if (el) el.scrollIntoView({ behavior: smooth(), block: 'start' });
+}
+
+floorInput.addEventListener('input', () => { floorInput.value = floorInput.value.replace(/[^0-9]/g, ''); });   // 只接受阿拉伯數字
+floorInput.addEventListener('focus', () => floorInput.select());
+floorInput.addEventListener('blur', updateElevator);
+floorInput.addEventListener('keydown', e => {
+  if (e.key === 'Enter') { e.preventDefault(); jumpToFloor(floorInput.value); floorInput.blur(); }
+  else if (e.key === 'Escape') floorInput.blur();
+});
+btnTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: smooth() }));
+btnBottom.addEventListener('click', () => window.scrollTo({ top: document.documentElement.scrollHeight, behavior: smooth() }));
+window.addEventListener('scroll', scheduleElevator, { passive: true });
+window.addEventListener('resize', scheduleElevator);
+
+// 固定列的高度交給樣式（scroll-margin-top），跳轉後層列才不會被固定列蓋住
+new ResizeObserver(() => document.documentElement.style.setProperty('--bar-h', $('#points').offsetHeight + 'px')).observe($('#points'));
+
 /* ---------- 啟動 ---------- */
-onChange(render);
+onChange(() => { render(); updateElevator(); });
 buildPoints();
 render();
 showView(viewFromHash());

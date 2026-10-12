@@ -1,0 +1,22 @@
+/* 右下角電梯：▲ 回到頂端／樓層數字（可輸入）／▼ 到最底端 */
+.elevator {
+  position: fixed; right: 16px; bottom: 20px; z-index: 40;
+  display: grid; justify-items: center; gap: 4px; width: 58px; padding: 6px;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 30px;
+  box-shadow: var(--shadow);
+}
+.elev-btn {
+  width: 44px; height: 44px; padding: 0; line-height: 1;
+  border: 1px solid var(--line); border-radius: 50%; background: var(--bg);
+  color: var(--accent); font-size: 16px;
+}
+.elev-btn:hover:not(:disabled) { border-color: var(--accent); }
+.elev-btn:disabled { opacity: .3; cursor: not-allowed; }       /* 已在頂端／底端：箭頭淡化但保留 */
+.elev-floor { display: grid; justify-items: center; gap: 2px; line-height: 1.1; }
+.elev-floor input {
+  width: 44px; height: 36px; padding: 0; text-align: center;
+  border: 1px solid var(--line); border-radius: 10px; background: var(--bg);
+  font-size: 19px; font-weight: 700; font-variant-numeric: tabular-nums;
+}
+.elev-floor input:disabled { opacity: .4; }
+.elev-floor span { font-size: 12px; color: var(--muted); }

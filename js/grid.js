@@ -96,7 +96,7 @@ export function gridHTML() {
       const l = b.layers[li];
       if (!l) return;
       const locked = !flags[bi][li];
-      h += '<div class="g-cell g-layer' + (locked ? ' locked' : '') + tabCls(bi) + '" style="grid-column:' + (bi + 2) + ';grid-row:' + row + ';--slots:' + slots[bi] + '">' +
+      h += '<div class="g-cell g-layer' + (locked ? ' locked' : '') + tabCls(bi) + '" data-layer="' + (li + 1) + '" style="grid-column:' + (bi + 2) + ';grid-row:' + row + ';--slots:' + slots[bi] + '">' +
         '<div class="nodes n' + l.nodes.length + '">' + l.nodes.map(nodeHTML).join('') + '</div>' +
       '</div>';
       if (b.layers[li + 1]) h += connHTML(b, bi, li, row + 1, flags[bi]);
