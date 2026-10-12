@@ -703,5 +703,34 @@ window.SNAIL_DATA.top = {
         { stat: "所有兵種追擊", per: 1, unit: "" },
       ]
     },
+    {
+      id: "res-39a", name: "變異宗師", color: "orange", floor: 39, lane: 0, max: 5,
+      cost: 6,
+      unlock: { from: ["res-38b", "res-38a"], need: 5 },
+      note: "",
+      effects: [
+        { stat: "變異獲得橘因子轉紅因子機率", per: 0.2, unit: "%" },
+      ]
+    },
+    {
+      id: "pow-39a", name: "堅磐庇護", color: "orange", floor: 39, lane: 1, max: 5,
+      cost: 6,
+      unlock: { from: ["pow-38a"], need: 5 },
+      note: "",
+      effects: [
+        { stat: "石化皮膚機率", per: 1, unit: "%" },
+        { stat: "存在護盾時傷害減免", per: 0.5, unit: "%" },
+      ]
+    },
+    {
+      id: "arm-39a", name: "神域鬥士", color: "orange", floor: 39, lane: 2, max: 5,
+      cost: 6,
+      unlock: { from: ["arm-38a", "arm-38b"], need: 5 },
+      note: "",
+      effects: [
+        { stat: "神域戰鬥部隊首回合忽視敵人防禦", per: 2, unit: "%" },
+        { stat: "神域戰鬥部隊忽視敵人防禦", per: 1, unit: "%" },
+      ]
+    },
   ]
 };
