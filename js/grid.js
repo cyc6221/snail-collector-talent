@@ -28,7 +28,7 @@ function nodeHTML(n, layer) {
     '<article class="node c-' + n.color + '" data-n="' + id + '">' +
       '<div class="n-top"><span class="orb" aria-hidden="true"></span><h3 class="n-name">' + esc(n.name) + '</h3>' +
         '<span class="n-cost"><span class="sr">' + CN[n.color] + '點，</span>每級 ' + n.cost + '</span></div>' +
-      (n.note ? '<details class="n-note"><summary>' + (n.note.startsWith('待確認') ? '待確認' : '備註') + '</summary><p>' + esc(n.note) + '</p></details>' : '') +
+      (n.note ? '<details class="n-note"><summary>' + '備註' + '</summary><p>' + esc(n.note) + '</p></details>' : '') +
       '<ul class="effects">' + eff + '</ul>' +
       '<div class="ctrl">' +
         '<div class="ctrl-row">' +

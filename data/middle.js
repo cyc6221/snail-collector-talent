@@ -5,7 +5,7 @@
 window.SNAIL_DATA = window.SNAIL_DATA || {};
 window.SNAIL_DATA.middle = {
   name: "中・戰力",
-  note: "目前只知道前兩層。",
+  note: "",
   layers: [
     // 第 1 層
     {
@@ -13,7 +13,7 @@ window.SNAIL_DATA.middle = {
       nodes: [
         {
           id: "pow-1a", name: "綜合格鬥", color: "blue", cost: 1, max: 5,
-          note: "待確認：每級消耗",
+          note: "",
           effects: [
             { stat: "蝸牛攻擊", per: 30, unit: "" },
             { stat: "蝸牛防禦", per: 30, unit: "" },
@@ -27,7 +27,7 @@ window.SNAIL_DATA.middle = {
       nodes: [
         {
           id: "pow-2a", name: "體能訓練", color: "blue", cost: 1, max: 5,
-          note: "待確認：每級消耗",
+          note: "",
           effects: [
             { stat: "蝸牛生命", per: 300, unit: "" },
             { stat: "蝸牛追擊", per: 30, unit: "" },
