@@ -378,5 +378,17 @@ window.SNAIL_DATA.top = {
         { stat: "神域戰鬥部隊對敵人傷害", per: 1, unit: "%" },
       ]
     },
+    {
+      id: "red-28a", name: "元素領主", color: "red", floor: 28, lane: null, max: 3,
+      costs: { blue: 5, purple: 5, orange: 5 },
+      unlock: { from: ["res-27a", "pow-27a", "arm-27a"], need: 5 },
+      note: "",
+      effects: [
+        { stat: "火元素傷害", per: 2, unit: "%" },
+        { stat: "水元素傷害", per: 2, unit: "%" },
+        { stat: "土元素傷害", per: 2, unit: "%" },
+        { stat: "風元素傷害", per: 2, unit: "%" },
+      ]
+    },
   ]
 };
