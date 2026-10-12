@@ -1,12 +1,11 @@
 // 固定列與頁面面板：點數列、工具列狀態、能力加總
-import { COLORS, CN, $, esc, fmtVal } from './util.js';
+import { COLORS, COLOR_ORDER, CN, $, esc, fmtVal } from './util.js';
 import { state, save, lv, usedByColor, ownedNum } from './state.js';
 import { isArmed } from './rules.js';
 
 /* ---------- 點數列 ---------- */
-const CHIP_ORDER = ['orange', 'purple', 'blue'];   // 頂部三張卡片由左到右的順序
 export function buildPoints() {
-  $('#chips').innerHTML = CHIP_ORDER.map(c => (
+  $('#chips').innerHTML = COLOR_ORDER.map(c => (
     '<div class="chip c-' + c + '" id="chip-' + c + '">' +
       '<span class="orb lg" aria-hidden="true"></span>' +
       '<div class="chip-main"><div class="chip-name">' + CN[c] + '點</div>' +

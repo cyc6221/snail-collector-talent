@@ -1,6 +1,7 @@
 // 常數與純函式小工具（不碰 DOM 狀態）
 export const COLORS = ['blue', 'purple', 'orange'];
 export const CN = { blue: '藍', purple: '紫', orange: '橙' };
+export const COLOR_ORDER = ['orange', 'purple', 'blue'];   // 畫面上顯示各色點數時的由左到右順序
 export const KEY = 'snail-collector-sim:v1';
 
 export const hasOwn = (o, k) => Object.prototype.hasOwnProperty.call(o, k);

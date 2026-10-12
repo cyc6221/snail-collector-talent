@@ -1,5 +1,5 @@
 // 天賦網格：每一列是一層、每一欄是一個分支；節點卡片與層間連線
-import { COLORS, CN, $, esc, fmtVal } from './util.js';
+import { COLOR_ORDER, CN, $, esc, fmtVal } from './util.js';
 import { state, lv, layerSum, layerCap, effThr, unlockFlags, branchCost } from './state.js';
 
 /** 各色點數；colors 指定要顯示哪幾色（沒有該色點數時顯示 0） */
@@ -76,7 +76,7 @@ export function gridHTML() {
 
   bs.forEach((b, bi) => {
     const full = branchCost(b, false);
-    const used = COLORS.filter(k => full[k] > 0);     // 這個分支用到的顏色；「已配」同樣顯示這幾色
+    const used = COLOR_ORDER.filter(k => full[k] > 0);     // 這個分支用到的顏色；「已配」同樣顯示這幾色
     h += '<header class="g-cell g-head' + tabCls(bi) + '" style="grid-column:' + (bi + 2) + ';grid-row:1">' +
       '<h2>' + esc(b.name) + '</h2>' +
       '<div class="b-cost"><span class="lbl">全點滿需要</span>' + ptsHTML(full, used) + '</div>' +
