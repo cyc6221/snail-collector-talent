@@ -292,5 +292,59 @@ window.SNAIL_DATA.top = {
         { stat: "蝸牛領導力", per: 2, unit: "" },
       ]
     },
+    {
+      id: "res-26b", name: "神墟守望者", color: "orange", floor: 26, lane: 0, max: 5,
+      cost: 6,
+      unlock: { from: ["res-25a"], need: 5 },
+      note: "",
+      effects: [
+        { stat: "起源密林地晶產出速度", per: 3, unit: "%" },
+        { stat: "堅磐高地地晶產出速度", per: 3, unit: "%" },
+        { stat: "幽嵐蘑域地晶產出速度", per: 3, unit: "%" },
+        { stat: "湮滅火山地晶產出速度", per: 3, unit: "%" },
+      ]
+    },
+    {
+      id: "res-26a", name: "神墟漫步者", color: "purple", floor: 26, lane: 0, max: 5,
+      cost: 6,
+      unlock: { from: ["res-25a"], need: 5 },
+      note: "",
+      effects: [
+        { stat: "起源密林紀元寶箱產出速度", per: 3, unit: "%" },
+        { stat: "堅磐高地紀元寶箱產出速度", per: 3, unit: "%" },
+        { stat: "幽嵐蘑域紀元寶箱產出速度", per: 3, unit: "%" },
+        { stat: "湮滅火山紀元寶箱產出速度", per: 3, unit: "%" },
+      ]
+    },
+    {
+      id: "pow-26a", name: "破敵先鋒", color: "purple", floor: 26, lane: 1, max: 5,
+      cost: 6,
+      unlock: { from: ["pow-25a"], need: 5 },
+      note: "",
+      effects: [
+        { stat: "戰鬥首回合對敵人傷害", per: 1.2, unit: "%" },
+        { stat: "對敵人傷害", per: 0.6, unit: "%" },
+      ]
+    },
+    {
+      id: "arm-26a", name: "防禦指揮", color: "purple", floor: 26, lane: 2, max: 5,
+      cost: 6,
+      unlock: { from: ["arm-25a"], need: 5 },
+      note: "",
+      effects: [
+        { stat: "所有兵種生命", per: 1, unit: "" },
+        { stat: "所有兵種防禦", per: 1, unit: "" },
+      ]
+    },
+    {
+      id: "arm-26b", name: "戰鬥指揮", color: "orange", floor: 26, lane: 2, max: 5,
+      cost: 6,
+      unlock: { from: ["arm-25a"], need: 5 },
+      note: "",
+      effects: [
+        { stat: "所有兵種攻擊", per: 1, unit: "" },
+        { stat: "所有兵種追擊", per: 1, unit: "" },
+      ]
+    },
   ]
 };
