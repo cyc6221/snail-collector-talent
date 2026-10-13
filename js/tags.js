@@ -2,8 +2,8 @@
 import { esc } from './util.js';
 
 export const TAGS = [
-  { id: 'snail', name: '蝸牛', stats: ['蝸牛攻擊', '蝸牛防禦', '蝸牛生命', '蝸牛追擊'] },
-  { id: 'troop', name: '兵種', stats: ['領導力', '兵種攻擊', '兵種防禦', '兵種生命', '兵種追擊'] }
+  { id: 'snail', name: '蝸牛', stats: ['蝸牛攻擊', '蝸牛防禦', '蝸牛生命', '蝸牛追擊', '火元素傷害', '水元素傷害', '土元素傷害', '風元素傷害'] },
+  { id: 'troop', name: '兵種', stats: ['領導力', '兵種攻擊', '兵種防禦', '兵種生命', '兵種追擊', '上陣100兵種部隊火元素傷害', '上陣100兵種部隊水元素傷害', '上陣100兵種部隊土元素傷害', '上陣100兵種部隊風元素傷害'] }
 ];
 
 export const tagsOf = stat => TAGS.filter(t => t.stats.includes(stat));
