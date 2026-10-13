@@ -1,0 +1,20 @@
+/* 快速配點頁：每個方案一張卡片，寬度是頁面的一半——上排名稱與說明＋套用按鈕，下排要花的珠子 */
+.quick { margin-top: 28px; }
+.quick > h2 { font-size: 22px; color: var(--accent); margin-bottom: 12px; }
+.q-grid { display: grid; gap: 12px; }
+.q-card {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 12px 20px;
+  width: 50%; min-width: min(100%, 420px); padding: 16px 20px;
+  background: linear-gradient(100deg, color-mix(in srgb, var(--accent) 9%, var(--surface)), var(--surface) 60%);
+  border: 1px solid var(--line); border-radius: 16px; box-shadow: var(--shadow);
+}
+.q-card h3 { font-family: var(--serif); font-size: 22px; letter-spacing: .08em; color: var(--accent); }
+.q-desc { margin-top: 2px; font-size: 14px; color: var(--muted); }
+.q-cost { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; }
+.q-cost .lbl { margin-right: 2px; font-size: 13px; color: var(--muted); }
+.q-cost .pt {
+  gap: 6px; padding: 3px 12px 3px 8px; border-radius: 999px; font-size: 15px;
+  background: color-mix(in srgb, var(--c) 16%, var(--surface)); border: 1px solid color-mix(in srgb, var(--c) 45%, var(--line));
+}
+.q-card .btn { grid-row: 1; grid-column: 2; min-width: 120px; min-height: 44px; font-size: 15px; font-weight: 700; }
+@media (max-width: 720px) { .q-card { width: 100%; } }

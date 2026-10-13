@@ -3,6 +3,7 @@ import { $ } from './util.js';
 import { state } from './state.js';
 import { gridHTML, renderTabs, renderSumStrip, laneSlots } from './grid.js';
 import { renderSummary, updatePoints, updateTools } from './panels.js';
+import { renderQuick } from './quick.js';
 
 export function render() {
   const ae = document.activeElement;
@@ -15,6 +16,7 @@ export function render() {
   renderSumStrip();
   branchesEl.innerHTML = gridHTML();
   renderSummary();
+  renderQuick();
   updatePoints();
   updateTools();
 

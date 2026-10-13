@@ -35,7 +35,7 @@ $('#tabs').addEventListener('click', e => {
   window.scrollTo({ top: 0 });
 });
 
-/* ---------- 右上角選單（☰）：首頁、切換外觀、匯出／匯入、清空配點 ---------- */
+/* ---------- 右上角選單（☰）：首頁、快速配點、切換外觀、匯出／匯入、清空配點 ---------- */
 const menuBtn = $('#btnMenu'), menuPop = $('#menuPop'), menuBox = $('#menu');
 const menuItems = () => [...menuPop.querySelectorAll('[role="menuitem"]')];
 function setMenu(open, focus) {
@@ -58,6 +58,12 @@ menuPop.addEventListener('keydown', e => {
 // 匯出／匯入：先收起選單、焦點回到 ☰，對話框關閉後焦點才有地方回去（在對話框自己的處理之前執行）
 menuPop.addEventListener('click', e => { if (e.target.closest('#btnIO')) setMenu(false, 'button'); }, true);
 
+// 快速配點：切到快速配點頁
+$('#btnQuick').addEventListener('click', () => {
+  setMenu(false, 'button');
+  location.hash = '#/quick';
+});
+
 // 首頁：回到天賦配點頁的最上方（人在能力加總就先切回來，並且不要還原之前的捲動位置）
 $('#btnHome').addEventListener('click', () => {
   setMenu(false, 'button');
@@ -74,10 +80,10 @@ $('#btnClear').addEventListener('click', () => confirmTwice('clear', () => {
   toast('已清空所有配點。');
 }, '再按一次以清空所有配點。'));   // 第一次只會標示要確認，選單保持打開；第二次才真的清空並收起選單
 
-/* ---------- 頁面切換：天賦配點 ⇄ 能力加總（各自記住捲動位置） ---------- */
+/* ---------- 頁面切換：天賦配點 ⇄ 能力加總 ⇄ 快速配點（各自記住捲動位置） ---------- */
 const scrollPos = {};
 let view = null;
-const viewFromHash = () => (location.hash === '#/summary' ? 'summary' : 'build');
+const viewFromHash = () => (location.hash === '#/summary' ? 'summary' : location.hash === '#/quick' ? 'quick' : 'build');
 
 function showView(next) {
   if (next === view) return;
@@ -86,9 +92,10 @@ function showView(next) {
   const build = view === 'build';
   $('#tabs').hidden = !build;
   $('#branches').hidden = !build;
-  $('#summary').hidden = build;
+  $('#summary').hidden = view !== 'summary';
+  $('#quick').hidden = view !== 'quick';
   document.querySelectorAll('#viewnav .vbtn').forEach(b => b.setAttribute('aria-current', String(b.dataset.view === view)));
-  // 第一次進入能力加總時，捲到頁首下方（讓頂部固定列和內容在視線內）
+  // 第一次進入能力加總／快速配點時，捲到頁首下方（讓頂部固定列和內容在視線內）
   const top = view in scrollPos ? scrollPos[view] : (build ? 0 : $('.top').offsetHeight);
   window.scrollTo(0, top);
   updateElevator();

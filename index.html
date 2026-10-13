@@ -23,6 +23,7 @@
 <link rel="stylesheet" href="css/points.css">
 <link rel="stylesheet" href="css/branch.css">
 <link rel="stylesheet" href="css/summary.css">
+<link rel="stylesheet" href="css/quick.css">
 <link rel="stylesheet" href="css/dialog.css">
 <link rel="stylesheet" href="css/elevator.css">
 <link rel="stylesheet" href="css/responsive.css">
@@ -53,6 +54,7 @@
         </button>
         <div class="menu-pop" id="menuPop" role="menu" aria-label="選單" hidden>
           <button type="button" class="menu-item" role="menuitem" id="btnHome" title="回到天賦配點頁的最上方">首頁</button>
+          <button type="button" class="menu-item" role="menuitem" id="btnQuick" title="一鍵套用預設的配點方案">快速配點</button>
           <button type="button" class="menu-item" role="menuitem" id="btnTheme">切換為深色模式</button>
           <button type="button" class="menu-item" role="menuitem" id="btnIO">匯出／匯入</button>
           <a class="menu-item" role="menuitem" id="btnGitHub" href="https://github.com/cyc6221/snail-collector-talent" target="_blank" rel="noopener noreferrer" title="在新分頁開啟 GitHub 專案頁面">GitHub ↗</a>
@@ -69,6 +71,7 @@
 <main id="main">
   <div class="branches" id="branches"></div>
   <section class="summary" id="summary" aria-labelledby="sumH"></section>
+  <section class="quick" id="quick" aria-labelledby="quickH" hidden></section>
 </main>
 
 <footer>
