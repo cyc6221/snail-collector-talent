@@ -83,8 +83,8 @@ window.SNAIL_DATA.top = {
       unlock: { from: ["arm-17a"], need: 5 },
       note: "",
       effects: [
-        { stat: "所有兵種生命", per: 1, unit: "" },
-        { stat: "所有兵種防禦", per: 1, unit: "" },
+        { stat: "兵種生命", per: 1, unit: "" },
+        { stat: "兵種防禦", per: 1, unit: "" },
       ]
     },
     {
@@ -93,8 +93,8 @@ window.SNAIL_DATA.top = {
       unlock: { from: ["arm-17a"], need: 5 },
       note: "",
       effects: [
-        { stat: "所有兵種攻擊", per: 1, unit: "" },
-        { stat: "所有兵種追擊", per: 1, unit: "" },
+        { stat: "兵種攻擊", per: 1, unit: "" },
+        { stat: "兵種追擊", per: 1, unit: "" },
       ]
     },
     {
@@ -205,8 +205,8 @@ window.SNAIL_DATA.top = {
       unlock: { from: ["arm-21a"], need: 5 },
       note: "",
       effects: [
-        { stat: "所有兵種生命", per: 1, unit: "" },
-        { stat: "所有兵種防禦", per: 1, unit: "" },
+        { stat: "兵種生命", per: 1, unit: "" },
+        { stat: "兵種防禦", per: 1, unit: "" },
       ]
     },
     {
@@ -215,8 +215,8 @@ window.SNAIL_DATA.top = {
       unlock: { from: ["arm-21a"], need: 5 },
       note: "",
       effects: [
-        { stat: "所有兵種攻擊", per: 1, unit: "" },
-        { stat: "所有兵種追擊", per: 1, unit: "" },
+        { stat: "兵種攻擊", per: 1, unit: "" },
+        { stat: "兵種追擊", per: 1, unit: "" },
       ]
     },
     {
@@ -332,8 +332,8 @@ window.SNAIL_DATA.top = {
       unlock: { from: ["arm-25a"], need: 5 },
       note: "",
       effects: [
-        { stat: "所有兵種生命", per: 1, unit: "" },
-        { stat: "所有兵種防禦", per: 1, unit: "" },
+        { stat: "兵種生命", per: 1, unit: "" },
+        { stat: "兵種防禦", per: 1, unit: "" },
       ]
     },
     {
@@ -342,8 +342,8 @@ window.SNAIL_DATA.top = {
       unlock: { from: ["arm-25a"], need: 5 },
       note: "",
       effects: [
-        { stat: "所有兵種攻擊", per: 1, unit: "" },
-        { stat: "所有兵種追擊", per: 1, unit: "" },
+        { stat: "兵種攻擊", per: 1, unit: "" },
+        { stat: "兵種追擊", per: 1, unit: "" },
       ]
     },
     {
@@ -453,8 +453,8 @@ window.SNAIL_DATA.top = {
       unlock: { from: ["arm-29a"], need: 5 },
       note: "",
       effects: [
-        { stat: "所有兵種生命", per: 1, unit: "" },
-        { stat: "所有兵種防禦", per: 1, unit: "" },
+        { stat: "兵種生命", per: 1, unit: "" },
+        { stat: "兵種防禦", per: 1, unit: "" },
       ]
     },
     {
@@ -463,8 +463,8 @@ window.SNAIL_DATA.top = {
       unlock: { from: ["arm-29a"], need: 5 },
       note: "",
       effects: [
-        { stat: "所有兵種攻擊", per: 1, unit: "" },
-        { stat: "所有兵種追擊", per: 1, unit: "" },
+        { stat: "兵種攻擊", per: 1, unit: "" },
+        { stat: "兵種追擊", per: 1, unit: "" },
       ]
     },
     {
@@ -571,8 +571,8 @@ window.SNAIL_DATA.top = {
       unlock: { from: ["arm-33a"], need: 5 },
       note: "",
       effects: [
-        { stat: "所有兵種生命", per: 1, unit: "" },
-        { stat: "所有兵種防禦", per: 1, unit: "" },
+        { stat: "兵種生命", per: 1, unit: "" },
+        { stat: "兵種防禦", per: 1, unit: "" },
       ]
     },
     {
@@ -581,8 +581,8 @@ window.SNAIL_DATA.top = {
       unlock: { from: ["arm-33a"], need: 5 },
       note: "",
       effects: [
-        { stat: "所有兵種攻擊", per: 1, unit: "" },
-        { stat: "所有兵種追擊", per: 1, unit: "" },
+        { stat: "兵種攻擊", per: 1, unit: "" },
+        { stat: "兵種追擊", per: 1, unit: "" },
       ]
     },
     {
@@ -689,8 +689,8 @@ window.SNAIL_DATA.top = {
       unlock: { from: ["arm-37a"], need: 5 },
       note: "",
       effects: [
-        { stat: "所有兵種生命", per: 1, unit: "" },
-        { stat: "所有兵種防禦", per: 1, unit: "" },
+        { stat: "兵種生命", per: 1, unit: "" },
+        { stat: "兵種防禦", per: 1, unit: "" },
       ]
     },
     {
@@ -699,8 +699,8 @@ window.SNAIL_DATA.top = {
       unlock: { from: ["arm-37a"], need: 5 },
       note: "",
       effects: [
-        { stat: "所有兵種攻擊", per: 1, unit: "" },
-        { stat: "所有兵種追擊", per: 1, unit: "" },
+        { stat: "兵種攻擊", per: 1, unit: "" },
+        { stat: "兵種追擊", per: 1, unit: "" },
       ]
     },
     {
