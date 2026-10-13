@@ -80,6 +80,7 @@ button { cursor: pointer; }
 }
 [data-tag="snail"] { --tc: var(--tag-snail); }
 [data-tag="troop"] { --tc: var(--tag-troop); }
+[data-tag="home"] { --tc: var(--tag-home); }
 
 /* 場景名稱（例如「物種戰爭」）：在能力名稱裡用方框標出 */
 .scene {
