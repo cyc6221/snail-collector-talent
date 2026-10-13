@@ -100,15 +100,15 @@ window.SNAIL_DATA.left = {
           id: "res-6b", name: "進階基因工程", color: "orange", cost: 3, max: 5,
           note: "",
           effects: [
-            { stat: "所有基因研究加速", per: 3, unit: "%" },
-            { stat: "所有基因免費速度", per: 30, unit: "m" },
+            { stat: "基因研究加速", per: 3, unit: "%" },
+            { stat: "基因免費速度", per: 30, unit: "m" },
           ]
         },
         {
           id: "res-6a", name: "基因工程", color: "purple", cost: 3, max: 5,
           note: "",
           effects: [
-            { stat: "所有基因研究加速", per: 3, unit: "%" },
+            { stat: "基因研究加速", per: 3, unit: "%" },
           ]
         },
       ]
@@ -207,15 +207,15 @@ window.SNAIL_DATA.left = {
           id: "res-12b", name: "首席科學家", color: "orange", cost: 6, max: 5,
           note: "",
           effects: [
-            { stat: "所有基因研究加速", per: 4, unit: "%" },
-            { stat: "所有基因免費速度", per: 60, unit: "m" },
+            { stat: "基因研究加速", per: 4, unit: "%" },
+            { stat: "基因免費速度", per: 60, unit: "m" },
           ]
         },
         {
           id: "res-12a", name: "科學家", color: "purple", cost: 6, max: 5,
           note: "",
           effects: [
-            { stat: "所有基因研究加速", per: 4, unit: "%" },
+            { stat: "基因研究加速", per: 4, unit: "%" },
           ]
         },
       ]
