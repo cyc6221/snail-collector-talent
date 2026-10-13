@@ -43,7 +43,7 @@ window.SNAIL_DATA.top = {
       unlock: { from: ["red-16a"], need: 3 },
       note: "",
       effects: [
-        { stat: "蝸牛領導力", per: 2, unit: "" },
+        { stat: "領導力", per: 2, unit: "" },
       ]
     },
     {
@@ -168,7 +168,7 @@ window.SNAIL_DATA.top = {
       unlock: { from: ["red-20a"], need: 3 },
       note: "",
       effects: [
-        { stat: "蝸牛領導力", per: 2, unit: "" },
+        { stat: "領導力", per: 2, unit: "" },
       ]
     },
     {
@@ -289,7 +289,7 @@ window.SNAIL_DATA.top = {
       unlock: { from: ["red-24a"], need: 3 },
       note: "",
       effects: [
-        { stat: "蝸牛領導力", per: 2, unit: "" },
+        { stat: "領導力", per: 2, unit: "" },
       ]
     },
     {
@@ -416,7 +416,7 @@ window.SNAIL_DATA.top = {
       unlock: { from: ["red-28a"], need: 3 },
       note: "",
       effects: [
-        { stat: "蝸牛領導力", per: 2, unit: "" },
+        { stat: "領導力", per: 2, unit: "" },
       ]
     },
     {
@@ -534,7 +534,7 @@ window.SNAIL_DATA.top = {
       unlock: { from: ["red-32a"], need: 3 },
       note: "",
       effects: [
-        { stat: "蝸牛領導力", per: 2, unit: "" },
+        { stat: "領導力", per: 2, unit: "" },
       ]
     },
     {
@@ -652,7 +652,7 @@ window.SNAIL_DATA.top = {
       unlock: { from: ["red-36a"], need: 3 },
       note: "",
       effects: [
-        { stat: "蝸牛領導力", per: 2, unit: "" },
+        { stat: "領導力", per: 2, unit: "" },
       ]
     },
     {

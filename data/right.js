@@ -15,7 +15,7 @@ window.SNAIL_DATA.right = {
           id: "arm-1a", name: "領導力", color: "blue", cost: 1, max: 5,
           note: "",
           effects: [
-            { stat: "蝸牛領導力", per: 2, unit: "" },
+            { stat: "領導力", per: 2, unit: "" },
           ]
         },
       ]
@@ -50,7 +50,7 @@ window.SNAIL_DATA.right = {
           id: "arm-3a", name: "領導力", color: "blue", cost: 2, max: 5,
           note: "",
           effects: [
-            { stat: "蝸牛領導力", per: 2, unit: "" },
+            { stat: "領導力", per: 2, unit: "" },
           ]
         },
       ]
@@ -85,7 +85,7 @@ window.SNAIL_DATA.right = {
           id: "arm-5a", name: "領導力", color: "blue", cost: 3, max: 5,
           note: "",
           effects: [
-            { stat: "蝸牛領導力", per: 2, unit: "" },
+            { stat: "領導力", per: 2, unit: "" },
           ]
         },
       ]
@@ -120,7 +120,7 @@ window.SNAIL_DATA.right = {
           id: "arm-7a", name: "領導力", color: "blue", cost: 4, max: 5,
           note: "",
           effects: [
-            { stat: "蝸牛領導力", per: 2, unit: "" },
+            { stat: "領導力", per: 2, unit: "" },
           ]
         },
       ]
@@ -155,7 +155,7 @@ window.SNAIL_DATA.right = {
           id: "arm-9a", name: "領導力", color: "blue", cost: 5, max: 5,
           note: "",
           effects: [
-            { stat: "蝸牛領導力", per: 2, unit: "" },
+            { stat: "領導力", per: 2, unit: "" },
           ]
         },
       ]
@@ -190,7 +190,7 @@ window.SNAIL_DATA.right = {
           id: "arm-11a", name: "領導力", color: "blue", cost: 6, max: 5,
           note: "",
           effects: [
-            { stat: "蝸牛領導力", per: 2, unit: "" },
+            { stat: "領導力", per: 2, unit: "" },
           ]
         },
       ]
@@ -225,7 +225,7 @@ window.SNAIL_DATA.right = {
           id: "arm-13a", name: "領導力", color: "blue", cost: 6, max: 5,
           note: "",
           effects: [
-            { stat: "蝸牛領導力", per: 2, unit: "" },
+            { stat: "領導力", per: 2, unit: "" },
           ]
         },
       ]
