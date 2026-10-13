@@ -70,6 +70,14 @@ function nodeHTML(n) {
   );
 }
 
+/** 連線中間的解鎖進度標籤：依進度填色（分支代表色；紅色天賦用紅色），達標後整顆填滿並打勾 */
+function gateHTML(p, title, bi) {
+  const pct = p.need > 0 ? Math.min(100, Math.round(p.cur / p.need * 100)) : 100;
+  const tone = bi === 'red' ? ' red' : '';
+  return '<span class="gate' + (p.pass ? ' pass' : '') + tone + '"' + (typeof bi === 'number' ? ' data-b="' + bi + '"' : '') + ' style="--p:' + pct + '%" title="' + esc(title) + '">' +
+    (p.pass ? '<i class="tick" aria-hidden="true"></i>' : '') + '<b>' + p.cur + '</b><span class="of">/ ' + p.need + '</span></span>';
+}
+
 /** 兩層之間的連線：上方節點匯合 → 門檻（本層合計 / 門檻）→ 再分岔到下方節點 */
 function connHTML(b, bi, li, row, flags) {
   const l = b.layers[li], next = b.layers[li + 1];
@@ -77,14 +85,13 @@ function connHTML(b, bi, li, row, flags) {
   const lit = pass && flags[li];
   // 兩個節點、其中只有一個是「點滿解鎖」的節點：連線只從那個節點出發，另一個不連
   const gi = gated.length === 1 && l.nodes.length === 2 ? l.nodes.indexOf(gated[0]) : -1;
-  const gate = (pass ? '✓ ' : '') + cur + ' / ' + need;
   const title = gated.length
     ? '第 ' + (li + 1) + ' 層的「' + gated.map(n => n.name).join('、') + '」需點滿（' + cur + ' / ' + need + ' 級），才解鎖下一層；其他節點不影響'
     : '第 ' + (li + 1) + ' 層合計 ' + cur + ' 級，達 ' + need + ' 級才解鎖下一層' + (layerCap(l) < l.threshold ? '（本層最高僅 ' + layerCap(l) + ' 級，以此計）' : '');
   return (
     '<div class="g-cell g-conn' + (lit ? ' lit' : '') + (bi === state.tab ? ' on-tab' : '') + '" style="grid-column:' + (bi + 2) + ';grid-row:' + row + '">' +
       '<i class="zone up ' + (gi >= 0 ? 'u2g' + gi : 'u' + l.nodes.length) + '"></i>' +
-      '<span class="gate' + (pass ? ' pass' : '') + '" title="' + esc(title) + '">' + gate + '</span>' +
+      gateHTML({ cur, need, pass }, title, bi) +
       '<i class="zone dn d' + next.nodes.length + '"></i>' +
     '</div>'
   );
@@ -160,13 +167,13 @@ export function gridHTML() {
  * 扇出：一個來源分岔到多個節點（例如第 16 層 → 三個分支的第 17 層）。
  * 中心欄位（hub）有標籤顯示解鎖進度；各欄位的線在欄位間距處接起來。
  */
-function busRowHTML(S, T, row, p, title) {
+function busRowHTML(S, T, row, p, title, red) {
   const all = [...new Set([...S, ...T])].sort((a, b) => a - b);
   const fanIn = T.length === 1 || S.length > 1;
   const hub = fanIn ? T[Math.floor((T.length - 1) / 2)] : S[0];
   const hl = all.some(x => x < hub), hr = all.some(x => x > hub);
   const lit = p.pass ? ' lit' : '';
-  const gate = '<span class="gate' + (p.pass ? ' pass' : '') + '" title="' + esc(title) + '">' + (p.pass ? '✓ ' : '') + p.cur + ' / ' + p.need + '</span>';
+  const gate = gateHTML(p, title, red ? 'red' : hub);
   return all.map(bi => {
     const role = bi < hub ? 'l' : bi > hub ? 'r' : 'm' + (hl ? ' hl' : '') + (hr ? ' hr' : '');
     const isHub = bi === hub;
@@ -182,10 +189,10 @@ function busRowHTML(S, T, row, p, title) {
 }
 
 /** 分支內的連線：上一層的節點（1～2 個）→ 標籤（解鎖進度）→ 這一層的節點（1～2 個），與一般的層間連線同形 */
-function laneConnHTML(bi, row, upCount, downCount, p, title) {
+function laneConnHTML(bi, row, upCount, downCount, p, title, red) {
   return '<div class="g-cell g-conn' + (p.pass ? ' lit' : '') + (bi === state.tab ? ' on-tab' : '') + '" style="grid-column:' + (bi + 2) + ';grid-row:' + row + '">' +
     '<i class="zone up u' + Math.min(2, Math.max(1, upCount)) + '"></i>' +
-    '<span class="gate' + (p.pass ? ' pass' : '') + '" title="' + esc(title) + '">' + (p.pass ? '✓ ' : '') + p.cur + ' / ' + p.need + '</span>' +
+    gateHTML(p, title, red ? 'red' : bi) +
     '<i class="zone dn d' + Math.min(2, Math.max(1, downCount)) + '"></i></div>';
 }
 
@@ -224,11 +231,11 @@ function extrasHTML(rows, slots) {
       T.forEach(bi => {
         const group = byLane.get(bi), first = group[0], p = extraProgress(first);
         const upCount = new Set(group.flatMap(e => e.unlock.from)).size;
-        h += laneConnHTML(bi, connRow, upCount, group.length, p, '第 ' + (fl - 1) + ' 層的「' + srcNames(first) + '」等級 ' + p.cur + ' / ' + p.need + '，才解鎖第 ' + fl + ' 層');
+        h += laneConnHTML(bi, connRow, upCount, group.length, p, '第 ' + (fl - 1) + ' 層的「' + srcNames(first) + '」等級 ' + p.cur + ' / ' + p.need + '，才解鎖第 ' + fl + ' 層', group.every(e => e.lane === null));
       });
     } else if (S.length) {
       const first = nodes[0], p = extraProgress(first);
-      h += busRowHTML(S, T, connRow, p, '「' + srcNames(first) + '」等級合計 ' + p.cur + ' 級，達 ' + p.need + ' 級才解鎖第 ' + fl + ' 層');
+      h += busRowHTML(S, T, connRow, p, '「' + srcNames(first) + '」等級合計 ' + p.cur + ' 級，達 ' + p.need + ' 級才解鎖第 ' + fl + ' 層', nodes.every(e => e.lane === null));
     }
 
     h += '<div class="g-num on-tab" style="grid-row:' + nodeRow + '"><span>' + fl + '</span><span class="sr">第 ' + fl + ' 層</span></div>';
