@@ -16,12 +16,22 @@ function costRowsHTML(full, cur) {
     '<div class="b-cost"><span class="lbl">目前已配</span>' + ptsHTML(cur, used) + '</div>';
 }
 
+/** 固定列卡片用的進度：每種珠子一格「已配 / 全點滿需要」，下面一條依比例填滿的細條 */
+function progressHTML(full, cur) {
+  const used = COLOR_ORDER.filter(k => full[k] > 0);
+  if (!used.length) return '<div class="b-prog"><span class="pt">0</span></div>';
+  return '<div class="b-prog" title="已配 / 全點滿需要">' + used.map(k =>
+    '<div class="bp c-' + k + '"><span class="bp-n"><span class="orb sm" aria-hidden="true"></span><span class="sr">' + CN[k] + '珠已配 </span>' +
+      '<b>' + cur[k] + '</b><span class="of"><span class="sr">，全點滿需要 </span>/ ' + full[k] + '</span></span>' +
+      '<i class="bp-bar" style="--p:' + Math.min(100, Math.round(cur[k] / full[k] * 100)) + '%"></i></div>').join('') + '</div>';
+}
+
 /** 固定列裡的四張卡片：左・資源／中・戰力／右・兵種／紅色天賦，寬度相同；沒有紅色天賦時只有三張 */
 export function renderSumStrip() {
   const cards = state.data.branches.map((b, bi) =>
-    '<section class="sum-mini" data-b="' + bi + '"><h2>' + esc(b.name) + '</h2>' + costRowsHTML(branchCost(b, false), branchCost(b, true)) + '</section>');
+    '<section class="sum-mini" data-b="' + bi + '"><h2>' + esc(b.name) + '</h2>' + progressHTML(branchCost(b, false), branchCost(b, true)) + '</section>');
   if (state.data.extras.some(e => e.lane === null)) {
-    cards.push('<section class="sum-mini red"><h2>紅色天賦</h2>' + costRowsHTML(freeCost(false), freeCost(true)) + '</section>');
+    cards.push('<section class="sum-mini red"><h2>紅色天賦</h2>' + progressHTML(freeCost(false), freeCost(true)) + '</section>');
   }
   const el = $('#sumstrip');
   el.style.setProperty('--n', cards.length);
