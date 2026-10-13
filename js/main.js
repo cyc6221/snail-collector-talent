@@ -35,7 +35,7 @@ $('#tabs').addEventListener('click', e => {
   window.scrollTo({ top: 0 });
 });
 
-/* ---------- 右上角選單（☰）：匯出／匯入、清空配點 ---------- */
+/* ---------- 右上角選單（☰）：首頁、切換外觀、匯出／匯入、清空配點 ---------- */
 const menuBtn = $('#btnMenu'), menuPop = $('#menuPop'), menuBox = $('#menu');
 const menuItems = () => [...menuPop.querySelectorAll('[role="menuitem"]')];
 function setMenu(open, focus) {
@@ -57,6 +57,13 @@ menuPop.addEventListener('keydown', e => {
 });
 // 匯出／匯入：先收起選單、焦點回到 ☰，對話框關閉後焦點才有地方回去（在對話框自己的處理之前執行）
 menuPop.addEventListener('click', e => { if (e.target.closest('#btnIO')) setMenu(false, 'button'); }, true);
+
+// 首頁：回到天賦配點頁的最上方（人在能力加總就先切回來，並且不要還原之前的捲動位置）
+$('#btnHome').addEventListener('click', () => {
+  setMenu(false, 'button');
+  if (view !== 'build') { scrollPos.build = 0; location.hash = '#/'; }
+  else window.scrollTo({ top: 0, behavior: smooth() });
+});
 
 $('#btnClear').addEventListener('click', () => confirmTwice('clear', () => {
   clearAlloc();
