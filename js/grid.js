@@ -119,9 +119,9 @@ export function gridHTML() {
   const ex = state.data.extras;
   const floors = [...new Set(ex.map(e => e.floor))].sort((a, b) => a - b);
   const lastRow = 2 * rows + 2 * floors.length;               // 最後一個節點列：一般層 2…2×層數，額外樓層每層再加 2
-  const redRanges = [];                                       // 紅色樓層佔的列：[連線列, 節點列]
+  const redRanges = [];                                       // 紅色樓層佔的列：[節點列, 節點列]（只包住卡片，上方的連線與標籤跟其他層一樣）
   floors.forEach((fl, k) => {
-    if (ex.filter(e => e.floor === fl).every(e => e.lane === null)) redRanges.push([2 * rows + 1 + 2 * k, 2 * rows + 2 + 2 * k]);
+    if (ex.filter(e => e.floor === fl).every(e => e.lane === null)) redRanges.push([2 * rows + 2 + 2 * k, 2 * rows + 2 + 2 * k]);
   });
   bs.forEach((b, bi) => {
     const segs = [];

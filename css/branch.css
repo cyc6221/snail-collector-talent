@@ -36,7 +36,7 @@ main { max-width: var(--page-w); margin: 0 auto; padding: 16px 16px 40px; }
 .g-band.seg-top { margin-top: -6px; border-radius: 16px 16px 0 0; }
 .g-band.seg-bot { margin-bottom: -6px; border-radius: 0 0 16px 16px; }
 .g-band.seg-top.seg-bot { border-radius: 16px; }
-.g-band-red { background: color-mix(in srgb, var(--red) var(--band-red-a), transparent); }
+.g-band-red { margin: -10px 0; background: color-mix(in srgb, var(--red) var(--band-red-a), var(--bg)); }   /* 上下各多出一點，卡片不貼著邊；用不透明的底色蓋住上下兩欄的淡色，不會疊出深色邊 */
 
 /* ---------- 層號 ---------- */
 .g-num { grid-column: 1; align-self: center; justify-self: center; }
