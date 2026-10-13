@@ -2,6 +2,15 @@
 /* ---------- 能力加總 ---------- */
 .summary { margin-top: 28px; }
 .summary > h2 { font-size: 22px; color: var(--accent); margin-bottom: 12px; }
+/* 標籤篩選列 */
+.tagbar { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+.tagbtn {
+  min-height: 34px; padding: 0 16px; border-radius: 999px; font-size: 14px; font-weight: 700;
+  border: 1px solid color-mix(in srgb, var(--tc) 55%, var(--line)); background: var(--surface); color: var(--ink);
+}
+.tagbtn:not([data-tag]) { --tc: var(--accent); }   /* 「全部」用主色；標籤按鈕的顏色來自 [data-tag] */
+.tagbtn:hover { background: color-mix(in srgb, var(--tc) 12%, var(--surface)); }
+.tagbtn[aria-pressed="true"] { background: var(--tc); border-color: var(--tc); color: var(--accent-ink); }
 .sum-grid { display: grid; gap: 16px; align-items: start; grid-template-columns: repeat(var(--n, 3), minmax(0, 1fr)); }   /* 桌機：所有卡片排成同一排 */
 @media (max-width: 999.98px) { .sum-grid { grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); } }
 .sum-card { background: var(--surface); border: 1px solid var(--line); border-top: 4px solid var(--bc, var(--line)); border-radius: 14px; padding: 12px 14px 14px; box-shadow: var(--shadow); min-width: 0; }

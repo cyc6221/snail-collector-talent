@@ -52,7 +52,8 @@ export const state = {
   data,
   alloc: saved ? saved.alloc : {},
   owned: saved ? saved.owned : defaultOwned(),
-  tab: 0
+  tab: 0,
+  tag: ''           // 能力加總頁目前篩選的標籤（空字串＝全部）；只在這次瀏覽有效
 };
 
 /* ---------- 變更通知：改完狀態呼叫 commit()（存檔＋重繪），只重繪呼叫 notify() ---------- */

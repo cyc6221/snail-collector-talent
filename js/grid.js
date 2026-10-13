@@ -1,5 +1,6 @@
 // 天賦網格：每一列是一層、每一欄是一個分支；節點卡片與層間連線
 import { COLOR_ORDER, CN, $, esc, fmtVal, nodeCost } from './util.js';
+import { tagChipsHTML } from './tags.js';
 import { state, lv, layerCap, layerProgress, extraProgress, unlockFlags, branchCost, freeCost, findNode } from './state.js';
 
 /** 各色點數；colors 指定要顯示哪幾色（沒有該色點數時顯示 0） */
@@ -53,7 +54,7 @@ function nodeHTML(n) {
       '" data-fk="dot:' + esc(n.id) + ':' + k + '" aria-label="' + esc(n.name) + ' 設為 ' + k + ' 級" aria-pressed="' + (k <= cur) + '"><i></i></button>';
   }
   const eff = n.effects.length ? n.effects.map(e =>
-    '<li><span class="e-stat">' + esc(e.stat) + '</span><span class="e-vals">' +
+    '<li><span class="e-stat">' + esc(e.stat) + tagChipsHTML(e.stat) + '</span><span class="e-vals">' +
       '<span class="e-per">每級 ' + fmtVal(e.per, e.unit, true) + '</span>' +
       '<span class="e-tot' + (cur ? '' : ' zero') + '">目前 <b>' + fmtVal(e.per * cur, e.unit, true) + '</b></span></span></li>'
   ).join('') : '<li class="muted">（無效果）</li>';

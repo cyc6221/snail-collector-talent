@@ -70,3 +70,13 @@ button { cursor: pointer; }
 /* 雙擊開啟（file://）時的提示 */
 .file-warn { padding: 12px 16px; background: var(--warn-soft); color: var(--warn-ink); border-bottom: 1px solid var(--line); font-size: 14px; line-height: 1.7; }
 .file-warn code { padding: 0 4px; border-radius: 4px; background: rgba(0, 0, 0, .08); }
+
+/* ---------- 標籤（能力名稱旁的小標籤）：蝸牛、兵種 ---------- */
+.tag {
+  --tc: var(--muted);
+  display: inline-block; margin-left: 6px; padding: 0 7px; border-radius: 999px; vertical-align: 1px;
+  border: 1px solid color-mix(in srgb, var(--tc) 55%, transparent); background: color-mix(in srgb, var(--tc) 14%, transparent);
+  color: var(--tc); font-size: 11px; font-weight: 700; line-height: 1.55; letter-spacing: .04em; white-space: nowrap;
+}
+[data-tag="snail"] { --tc: var(--tag-snail); }
+[data-tag="troop"] { --tc: var(--tag-troop); }

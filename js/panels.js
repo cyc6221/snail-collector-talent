@@ -3,6 +3,7 @@ import { COLORS, COLOR_ORDER, CN, MAX_OWNED, $, esc, fmtVal } from './util.js';
 import { state, save, lv, usedByColor, ownedNum } from './state.js';
 import { isArmed } from './rules.js';
 import { toast } from './toast.js';
+import { TAGS, tagChipsHTML } from './tags.js';
 
 /* ---------- 點數列 ---------- */
 export function buildPoints() {
@@ -83,17 +84,32 @@ function totalsOf(nodes) {
 }
 
 export function renderSummary() {
+  const tag = TAGS.find(t => t.id === state.tag);   // 篩選中的標籤（沒有＝全部）
   const list = m => {
-    if (!m.size) return '<p class="empty">尚未配點。</p>';
-    return '<ul>' + [...m.values()].map(o =>
-      '<li><span>' + esc(o.stat) + '</span><b>' + fmtVal(o.v, o.unit, true) + '</b></li>').join('') + '</ul>';
+    const rows = [...m.values()].filter(o => !tag || tag.stats.includes(o.stat));
+    if (!rows.length) return '<p class="empty">' + (m.size ? '沒有「' + esc(tag.name) + '」的能力。' : '尚未配點。') + '</p>';
+    return '<ul>' + rows.map(o =>
+      '<li><span>' + esc(o.stat) + tagChipsHTML(o.stat) + '</span><b>' + fmtVal(o.v, o.unit, true) + '</b></li>').join('') + '</ul>';
   };
+  const tagbar = '<div class="tagbar" role="group" aria-label="依標籤篩選">' +
+    [{ id: '', name: '全部' }].concat(TAGS).map(t =>
+      '<button type="button" class="tagbtn"' + (t.id ? ' data-tag="' + t.id + '"' : '') + ' data-tagf="' + t.id + '" aria-pressed="' + (t.id === state.tag) + '">' + esc(t.name) + '</button>').join('') + '</div>';
   const ex = state.data.extras, free = ex.filter(e => e.lane === null);   // 不屬於任何分支的額外節點（紅色天賦）
   const cards = state.data.branches.length + (free.length ? 1 : 0);
   $('#summary').innerHTML =
-    '<h2 id="sumH">能力加總</h2><div class="sum-grid" style="--n:' + cards + '">' +
+    '<h2 id="sumH">能力加總</h2>' + tagbar + '<div class="sum-grid" style="--n:' + cards + '">' +
     state.data.branches.map((b, bi) => '<div class="sum-card" data-b="' + bi + '"><h3>' + esc(b.name) + '</h3>' + list(totalsOf(b.layers.flatMap(l => l.nodes).concat(ex.filter(e => e.lane === bi)))) + '</div>').join('') +
     // 不屬於任何分支的額外節點（紅色天賦）獨立一項記錄，效果不與各分支相加；屬於某個分支的額外節點算在該分支裡
     (free.length ? '<div class="sum-card red"><h3>紅色天賦</h3>' + list(totalsOf(free)) + '</div>' : '') +
     '</div>';
 }
+
+// 標籤篩選：點一下切換，再點同一個回到「全部」
+$('#summary').addEventListener('click', e => {
+  const b = e.target.closest('[data-tagf]');
+  if (!b) return;
+  state.tag = b.dataset.tagf === state.tag ? '' : b.dataset.tagf;
+  renderSummary();
+  const again = $('#summary').querySelector('[data-tagf="' + state.tag + '"]');   // 重畫後把鍵盤焦點放回同一顆按鈕
+  if (again) again.focus({ preventScroll: true });
+});
