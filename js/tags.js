@@ -21,14 +21,15 @@ export const tagChipsHTML = stat => tagsOf(stat).map(t => '<span class="tag" dat
 export const SCENES = [
   { kind: '', names: ['物種戰爭', '神域戰鬥', '兵種演練', '神域單體戰', '蝸牛格鬥', '基因模擬訓練', '探索戰鬥'] },
   { kind: 'element', names: ['火元素', '水元素', '土元素', '風元素'] },
-  { kind: 'convert', names: ['轉'] }
+  { kind: 'convert', names: ['轉', '抽獎', '提煉', '催化', '基因進化', '變異'], onlyIf: '轉' }   // onlyIf：能力名稱要含這個字才標（只標 x 轉 x，不標「堅磐高地抽獎券產出速度」這類）
 ];
-const sceneKind = new Map(SCENES.flatMap(g => g.names.map(n => [n, g.kind])));
+const sceneKind = new Map(SCENES.flatMap(g => g.names.map(n => [n, g])));
 const sceneRe = new RegExp('(' + [...sceneKind.keys()].join('|') + ')');
 
 /** 能力名稱的 HTML：已跳脫，場景名稱包成 .scene 方框（元素另加 .scene-element 換顏色） */
 export const statHTML = stat => String(stat).split(sceneRe).map((part, i) => {
   if (!(i % 2)) return esc(part);
-  const kind = sceneKind.get(part);
-  return '<span class="scene' + (kind ? ' scene-' + kind : '') + '">' + esc(part) + '</span>';
+  const g = sceneKind.get(part);
+  if (g.onlyIf && !String(stat).includes(g.onlyIf)) return esc(part);
+  return '<span class="scene' + (g.kind ? ' scene-' + g.kind : '') + '">' + esc(part) + '</span>';
 }).join('');
