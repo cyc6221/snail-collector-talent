@@ -4,14 +4,19 @@
 .summary > h2 { font-size: 22px; color: var(--accent); margin-bottom: 12px; }
 .sum-grid { display: grid; gap: 16px; align-items: start; grid-template-columns: repeat(var(--n, 3), minmax(0, 1fr)); }   /* 桌機：所有卡片排成同一排 */
 @media (max-width: 999.98px) { .sum-grid { grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); } }
-.sum-card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 14px; box-shadow: var(--shadow); min-width: 0; }
-.sum-card { border-top: 4px solid var(--bc, var(--line)); }
-.sum-card h3 { font-family: var(--serif); font-size: 17px; margin-bottom: 8px; color: var(--bc-ink, var(--ink)); }
-.sum-card ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
-.sum-card li { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0 10px; padding-bottom: 5px; border-bottom: 1px dotted var(--line); }
-.sum-card li:last-child { border-bottom: 0; padding-bottom: 0; }
-.sum-card li b { color: var(--accent); font-variant-numeric: tabular-nums; }
-.sum-card .empty { color: var(--muted); font-size: 14px; }
+.sum-card { background: var(--surface); border: 1px solid var(--line); border-top: 4px solid var(--bc, var(--line)); border-radius: 14px; padding: 12px 14px 14px; box-shadow: var(--shadow); min-width: 0; }
+.sum-card.red { --bc: var(--red); --bc-ink: var(--red-ink); }
+.sum-card h3 {
+  margin-bottom: 8px; padding-bottom: 6px; border-bottom: 2px solid color-mix(in srgb, var(--bc, var(--line)) 45%, transparent);
+  font-family: var(--serif); font-size: 18px; letter-spacing: .06em; color: var(--bc-ink, var(--ink));
+}
+/* 每個能力一列：名稱在左、數值在右；單雙列淡淡交錯，滑過去會亮起 */
+.sum-card ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+.sum-card li { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 0 10px; padding: 5px 8px; border-radius: 8px; }
+.sum-card li:nth-child(odd) { background: color-mix(in srgb, var(--bc, var(--ink)) 7%, transparent); }
+.sum-card li:hover { background: color-mix(in srgb, var(--bc, var(--ink)) 15%, transparent); }
+.sum-card li b { color: var(--bc-ink, var(--accent)); font-size: 15px; font-variant-numeric: tabular-nums; }
+.sum-card .empty { padding: 14px 8px; border: 1px dashed var(--line); border-radius: 8px; color: var(--muted); font-size: 14px; text-align: center; }
 
 footer {
   max-width: var(--page-w); margin: 24px auto 0; padding: 20px 16px 40px;
@@ -19,5 +24,3 @@ footer {
   font-size: 13px; line-height: 1.7; color: var(--muted); text-align: center;
 }
 footer p + p { margin-top: 6px; }
-.sum-card.red { border-top: 4px solid var(--red); }
-.sum-card.red h3 { color: var(--red-ink); }
