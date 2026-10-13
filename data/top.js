@@ -73,7 +73,7 @@ window.SNAIL_DATA.top = {
       unlock: { from: ["pow-17a"], need: 5 },
       note: "",
       effects: [
-        { stat: "戰鬥首回合對敵人傷害", per: 1.2, unit: "%" },
+        { stat: "首回合對敵人傷害", per: 1.2, unit: "%" },
         { stat: "對敵人傷害", per: 0.6, unit: "%" },
       ]
     },
@@ -195,7 +195,7 @@ window.SNAIL_DATA.top = {
       unlock: { from: ["pow-21a"], need: 5 },
       note: "",
       effects: [
-        { stat: "戰鬥首回合對敵人傷害", per: 1.2, unit: "%" },
+        { stat: "首回合對敵人傷害", per: 1.2, unit: "%" },
         { stat: "對敵人傷害", per: 0.6, unit: "%" },
       ]
     },
@@ -322,7 +322,7 @@ window.SNAIL_DATA.top = {
       unlock: { from: ["pow-25a"], need: 5 },
       note: "",
       effects: [
-        { stat: "戰鬥首回合對敵人傷害", per: 1.2, unit: "%" },
+        { stat: "首回合對敵人傷害", per: 1.2, unit: "%" },
         { stat: "對敵人傷害", per: 0.6, unit: "%" },
       ]
     },
@@ -443,7 +443,7 @@ window.SNAIL_DATA.top = {
       unlock: { from: ["pow-29a"], need: 5 },
       note: "",
       effects: [
-        { stat: "戰鬥首回合對敵人傷害", per: 1.2, unit: "%" },
+        { stat: "首回合對敵人傷害", per: 1.2, unit: "%" },
         { stat: "對敵人傷害", per: 0.6, unit: "%" },
       ]
     },
@@ -561,7 +561,7 @@ window.SNAIL_DATA.top = {
       unlock: { from: ["pow-33a"], need: 5 },
       note: "",
       effects: [
-        { stat: "戰鬥首回合對敵人傷害", per: 1.2, unit: "%" },
+        { stat: "首回合對敵人傷害", per: 1.2, unit: "%" },
         { stat: "對敵人傷害", per: 0.6, unit: "%" },
       ]
     },
@@ -679,7 +679,7 @@ window.SNAIL_DATA.top = {
       unlock: { from: ["pow-37a"], need: 5 },
       note: "",
       effects: [
-        { stat: "戰鬥首回合對敵人傷害", per: 1.2, unit: "%" },
+        { stat: "首回合對敵人傷害", per: 1.2, unit: "%" },
         { stat: "對敵人傷害", per: 0.6, unit: "%" },
       ]
     },
