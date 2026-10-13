@@ -93,7 +93,8 @@ main { max-width: var(--page-w); margin: 0 auto; padding: 16px 16px 40px; }
 }
 /* 紅色天賦的連線：每個來源分支各出一條垂直線，在中間欄位匯合（橫線跨過欄位間距），再往下接到紅色節點 */
 .zone.ru { position: relative; background-image: linear-gradient(var(--lc), var(--lc)); background-size: var(--lw) 100%; background-position: center; }
-.zone.ru::after { content: ''; position: absolute; bottom: 0; height: var(--lw); background: var(--lc); }
+.zone.ru::after { content: ''; position: absolute; bottom: calc(50% - var(--lw) / 2); height: var(--lw); background: var(--lc); }   /* 橫線在這一格的正中間，跟標籤之間留一段距離 */
+.zone.ru-l, .zone.ru-r { background-size: var(--lw) 50%; background-position: center top; }   /* 兩側只畫到橫線為止 */
 .zone.ru-l::after { left: calc(50% - var(--lw) / 2); right: calc(var(--cg) / -2); }
 .zone.ru-r::after { right: calc(50% - var(--lw) / 2); left: calc(var(--cg) / -2); }
 .zone.ru-m::after { left: calc(50% - var(--lw) / 2); right: calc(50% - var(--lw) / 2); }
@@ -129,7 +130,8 @@ main { max-width: var(--page-w); margin: 0 auto; padding: 16px 16px 40px; }
 }
 /* 扇出：從中心欄位的線往下分岔到各欄位（橫線在區塊頂端） */
 .zone.rd { position: relative; background-image: linear-gradient(var(--lc), var(--lc)); background-size: var(--lw) 100%; background-position: center; }
-.zone.rd::after { content: ''; position: absolute; top: 0; height: var(--lw); background: var(--lc); }
+.zone.rd::after { content: ''; position: absolute; top: calc(50% - var(--lw) / 2); height: var(--lw); background: var(--lc); }
+.zone.rd-l, .zone.rd-r { background-size: var(--lw) 50%; background-position: center bottom; }   /* 兩側從橫線往下畫 */
 .zone.rd-l::after { left: calc(50% - var(--lw) / 2); right: calc(var(--cg) / -2); }
 .zone.rd-r::after { right: calc(50% - var(--lw) / 2); left: calc(var(--cg) / -2); }
 .zone.rd-m::after { left: calc(50% - var(--lw) / 2); right: calc(50% - var(--lw) / 2); }
