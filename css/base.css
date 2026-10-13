@@ -80,3 +80,10 @@ button { cursor: pointer; }
 }
 [data-tag="snail"] { --tc: var(--tag-snail); }
 [data-tag="troop"] { --tc: var(--tag-troop); }
+
+/* 場景名稱（例如「物種戰爭」）：在能力名稱裡用方框標出 */
+.scene {
+  display: inline-block; margin: 0 1px; padding: 0 5px; border-radius: 4px; line-height: 1.4;
+  border: 1px solid color-mix(in srgb, var(--ink) 50%, transparent); background: color-mix(in srgb, var(--ink) 7%, transparent);
+  font-weight: 700;
+}

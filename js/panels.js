@@ -3,7 +3,7 @@ import { COLORS, COLOR_ORDER, CN, MAX_OWNED, $, esc, fmtVal } from './util.js';
 import { state, save, lv, usedByColor, ownedNum } from './state.js';
 import { isArmed } from './rules.js';
 import { toast } from './toast.js';
-import { TAGS, tagChipsHTML } from './tags.js';
+import { TAGS, tagChipsHTML, statHTML } from './tags.js';
 
 /* ---------- 點數列 ---------- */
 export function buildPoints() {
@@ -89,7 +89,7 @@ export function renderSummary() {
     const rows = [...m.values()].filter(o => !tag || tag.stats.includes(o.stat));
     if (!rows.length) return '<p class="empty">' + (m.size ? '沒有「' + esc(tag.name) + '」的能力。' : '尚未配點。') + '</p>';
     return '<ul>' + rows.map(o =>
-      '<li><span>' + esc(o.stat) + tagChipsHTML(o.stat) + '</span><b>' + fmtVal(o.v, o.unit, true) + '</b></li>').join('') + '</ul>';
+      '<li><span>' + statHTML(o.stat) + tagChipsHTML(o.stat) + '</span><b>' + fmtVal(o.v, o.unit, true) + '</b></li>').join('') + '</ul>';
   };
   const tagbar = '<div class="tagbar" role="group" aria-label="依標籤篩選">' +
     [{ id: '', name: '全部' }].concat(TAGS).map(t =>
