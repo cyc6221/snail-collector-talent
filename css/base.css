@@ -94,3 +94,8 @@ button { cursor: pointer; }
   color: var(--scene-el);
   border-color: color-mix(in srgb, var(--scene-el) 65%, transparent); background: color-mix(in srgb, var(--scene-el) 14%, transparent);
 }
+/* 「轉」（資源類能力的 x 轉 x，例如藍轉紫）：另一種顏色 */
+.scene-convert {
+  color: var(--scene-cv);
+  border-color: color-mix(in srgb, var(--scene-cv) 65%, transparent); background: color-mix(in srgb, var(--scene-cv) 14%, transparent);
+}

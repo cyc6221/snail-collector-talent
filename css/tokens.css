@@ -26,6 +26,7 @@
   --b2: #2c4a7c; --b2-ink: #243d68;
   --tag-snail: #b8456f; --tag-troop: #6b7d22; --tag-home: #8a5a2b; --tag-tribe: #2a7fb0;   /* 標籤顏色：蝸牛、兵種、家園、部落 */
   --scene-el: #9a6a12;                          /* 場景「元素」的方框顏色 */
+  --scene-cv: #7b3fc4;                          /* 場景「轉」的方框顏色 */
   --band-a: 9%;               /* 分支欄位底色的濃度 */
   --band-red-a: 11%;          /* 紅色天賦橫條的濃度 */
   --page-w: 1560px;
@@ -61,6 +62,7 @@
   --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 4px 14px rgba(0, 0, 0, .25);
   --tag-snail: #ee7fa3; --tag-troop: #aebf5e; --tag-home: #d9a26a; --tag-tribe: #6fb7e6;
   --scene-el: #e3b341;
+  --scene-cv: #b58cf0;
   --band-a: 24%;
   --band-red-a: 22%;
 }

@@ -15,11 +15,12 @@ export const tagChipsHTML = stat => tagsOf(stat).map(t => '<span class="tag" dat
 
 /**
  * 場景名稱：出現在能力名稱裡時，會用方框標出來（例如「物種戰爭部隊對敵人傷害」的「物種戰爭」）。
- * 分組決定方框的顏色：kind 空字串＝一般場景（中性色），'element'＝元素（統一一種顏色）。要加場景就在對應的 names 多放一個名稱
+ * 分組決定方框的顏色：kind 空字串＝一般場景（中性色），'element'＝元素、'convert'＝「轉」（x 轉 x，各自統一一種顏色）。要加場景就在對應的 names 多放一個名稱
  */
 export const SCENES = [
   { kind: '', names: ['物種戰爭', '神域戰鬥', '兵種演練', '神域單體戰', '蝸牛格鬥', '基因模擬訓練', '探索戰鬥'] },
-  { kind: 'element', names: ['火元素', '水元素', '土元素', '風元素'] }
+  { kind: 'element', names: ['火元素', '水元素', '土元素', '風元素'] },
+  { kind: 'convert', names: ['轉'] }
 ];
 const sceneKind = new Map(SCENES.flatMap(g => g.names.map(n => [n, g.kind])));
 const sceneRe = new RegExp('(' + [...sceneKind.keys()].join('|') + ')');
