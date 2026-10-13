@@ -83,6 +83,7 @@ button { cursor: pointer; }
 [data-tag="home"] { --tc: var(--tag-home); }
 [data-tag="tribe"] { --tc: var(--tag-tribe); }
 [data-tag="shenxu"] { --tc: var(--tag-shenxu); }
+[data-tag="gene"] { --tc: var(--tag-gene); }
 
 /* 場景名稱（例如「物種戰爭」）：在能力名稱裡用方框標出 */
 .scene {
