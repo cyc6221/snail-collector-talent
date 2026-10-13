@@ -12,6 +12,7 @@
 .tagbtn:hover { background: color-mix(in srgb, var(--tc) 12%, var(--surface)); }
 .tagbtn[aria-pressed="true"] { background: var(--tc); border-color: var(--tc); color: var(--accent-ink); }
 .sum-grid { display: grid; gap: 16px; align-items: start; grid-template-columns: repeat(var(--n, 3), minmax(0, 1fr)); }   /* 桌機：所有卡片排成同一排 */
+@media (min-width: 1000px) { .sum-grid.has-red { grid-template-columns: repeat(var(--nb), minmax(0, 1fr)) minmax(0, .6fr); } }   /* 紅色天賦窄一點（約其他的六成），多出來的寬度由左中右平分 */
 @media (max-width: 999.98px) { .sum-grid { grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); } }
 .sum-card { background: var(--surface); border: 1px solid var(--line); border-top: 4px solid var(--bc, var(--line)); border-radius: 14px; padding: 12px 14px 14px; box-shadow: var(--shadow); min-width: 0; }
 .sum-card.red { --bc: var(--red); --bc-ink: var(--red-ink); }
