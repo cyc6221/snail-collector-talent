@@ -87,3 +87,8 @@ button { cursor: pointer; }
   border: 1px solid color-mix(in srgb, var(--ink) 50%, transparent); background: color-mix(in srgb, var(--ink) 7%, transparent);
   font-weight: 700;
 }
+/* 元素（火水土風）統一一種顏色，跟一般場景的中性色區分 */
+.scene-element {
+  color: var(--scene-el);
+  border-color: color-mix(in srgb, var(--scene-el) 65%, transparent); background: color-mix(in srgb, var(--scene-el) 14%, transparent);
+}

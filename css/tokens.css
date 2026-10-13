@@ -25,6 +25,7 @@
   --b1: #c9a66b; --b1-ink: #8c6a2f;
   --b2: #2c4a7c; --b2-ink: #243d68;
   --tag-snail: #b8456f; --tag-troop: #6b7d22;   /* 標籤顏色：蝸牛、兵種 */
+  --scene-el: #9a6a12;                          /* 場景「元素」的方框顏色 */
   --band-a: 9%;               /* 分支欄位底色的濃度 */
   --band-red-a: 11%;          /* 紅色天賦橫條的濃度 */
   --page-w: 1560px;
@@ -59,6 +60,7 @@
   --b2: #5a7fc0; --b2-ink: #7f9fd8;
   --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 4px 14px rgba(0, 0, 0, .25);
   --tag-snail: #ee7fa3; --tag-troop: #aebf5e;
+  --scene-el: #e3b341;
   --band-a: 24%;
   --band-red-a: 22%;
 }
