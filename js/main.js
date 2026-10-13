@@ -65,6 +65,9 @@ $('#btnHome').addEventListener('click', () => {
   else window.scrollTo({ top: 0, behavior: smooth() });
 });
 
+// GitHub 連結在新分頁開啟，選單順便收起來
+$('#btnGitHub').addEventListener('click', () => setMenu(false));
+
 $('#btnClear').addEventListener('click', () => confirmTwice('clear', () => {
   clearAlloc();
   setMenu(false, 'button');
