@@ -50,7 +50,7 @@ function nodeHTML(n) {
   const id = esc(n.id);
   return (
     '<article class="node c-' + n.color + '" data-n="' + id + '">' +
-      '<div class="n-top"><span class="orb" aria-hidden="true"></span><h3 class="n-name">' + esc(n.name) + '</h3>' +
+      '<div class="n-top"><h3 class="n-name">' + esc(n.name) + '</h3>' +
         costHTML(n) + '</div>' +
       (n.note ? '<details class="n-note"><summary>' + '備註' + '</summary><p>' + esc(n.note) + '</p></details>' : '') +
       '<ul class="effects">' + eff + '</ul>' +
