@@ -148,7 +148,7 @@ window.SNAIL_DATA.top = {
       unlock: { from: ["red-20a"], need: 3 },
       note: "",
       effects: [
-        { stat: "催化綠孢子轉藍孢子機率", per: 1, unit: "%" },
+        { stat: "催化綠孢子轉藍孢子", per: 1, unit: "%" },
       ]
     },
     {
@@ -177,7 +177,7 @@ window.SNAIL_DATA.top = {
       unlock: { from: ["res-21a"], need: 5 },
       note: "",
       effects: [
-        { stat: "催化紫孢子轉橘孢子機率", per: 0.3, unit: "%" },
+        { stat: "催化紫孢子轉橘孢子", per: 0.3, unit: "%" },
       ]
     },
     {
@@ -186,7 +186,7 @@ window.SNAIL_DATA.top = {
       unlock: { from: ["res-21a"], need: 5 },
       note: "",
       effects: [
-        { stat: "催化藍孢子轉紫孢子機率", per: 0.6, unit: "%" },
+        { stat: "催化藍孢子轉紫孢子", per: 0.6, unit: "%" },
       ]
     },
     {
@@ -225,7 +225,7 @@ window.SNAIL_DATA.top = {
       unlock: { from: ["res-22b", "res-22a"], need: 5 },
       note: "",
       effects: [
-        { stat: "催化獲得究極體源獸機率", per: 0.4, unit: "%" },
+        { stat: "催化獲得究極體源獸", per: 0.4, unit: "%" },
       ]
     },
     {
@@ -396,7 +396,7 @@ window.SNAIL_DATA.top = {
       unlock: { from: ["red-28a"], need: 3 },
       note: "",
       effects: [
-        { stat: "失落的鐘擺獲得雙倍藍色幸運加禮機率", per: 1, unit: "%" },
+        { stat: "失落的鐘擺獲得雙倍藍色幸運加禮", per: 1, unit: "%" },
       ]
     },
     {
@@ -425,7 +425,7 @@ window.SNAIL_DATA.top = {
       unlock: { from: ["res-29a"], need: 5 },
       note: "",
       effects: [
-        { stat: "失落的鐘擺獲得雙倍橘色幸運加禮機率", per: 1, unit: "%" },
+        { stat: "失落的鐘擺獲得雙倍橘色幸運加禮", per: 1, unit: "%" },
       ]
     },
     {
@@ -434,7 +434,7 @@ window.SNAIL_DATA.top = {
       unlock: { from: ["res-29a"], need: 5 },
       note: "",
       effects: [
-        { stat: "失落的鐘擺獲得雙倍紫色幸運加禮機率", per: 1, unit: "%" },
+        { stat: "失落的鐘擺獲得雙倍紫色幸運加禮", per: 1, unit: "%" },
       ]
     },
     {
@@ -473,7 +473,7 @@ window.SNAIL_DATA.top = {
       unlock: { from: ["res-30b", "res-30a"], need: 5 },
       note: "",
       effects: [
-        { stat: "失落的鐘擺橘色進擊成功機率", per: 0.5, unit: "%" },
+        { stat: "失落的鐘擺橘色進擊成功", per: 0.5, unit: "%" },
       ]
     },
     {
@@ -632,7 +632,7 @@ window.SNAIL_DATA.top = {
       unlock: { from: ["red-36a"], need: 3 },
       note: "",
       effects: [
-        { stat: "變異獲得綠因子轉藍因子機率", per: 0.6, unit: "%" },
+        { stat: "變異獲得綠因子轉藍因子", per: 0.6, unit: "%" },
       ]
     },
     {
@@ -661,7 +661,7 @@ window.SNAIL_DATA.top = {
       unlock: { from: ["res-37a"], need: 5 },
       note: "",
       effects: [
-        { stat: "變異獲得紫因子轉橘因子機率", per: 0.3, unit: "%" },
+        { stat: "變異獲得紫因子轉橘因子", per: 0.3, unit: "%" },
       ]
     },
     {
@@ -670,7 +670,7 @@ window.SNAIL_DATA.top = {
       unlock: { from: ["res-37a"], need: 5 },
       note: "",
       effects: [
-        { stat: "變異獲得藍因子轉紫因子機率", per: 0.4, unit: "%" },
+        { stat: "變異獲得藍因子轉紫因子", per: 0.4, unit: "%" },
       ]
     },
     {
@@ -709,7 +709,7 @@ window.SNAIL_DATA.top = {
       unlock: { from: ["res-38b", "res-38a"], need: 5 },
       note: "",
       effects: [
-        { stat: "變異獲得橘因子轉紅因子機率", per: 0.2, unit: "%" },
+        { stat: "變異獲得橘因子轉紅因子", per: 0.2, unit: "%" },
       ]
     },
     {

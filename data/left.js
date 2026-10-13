@@ -15,7 +15,7 @@ window.SNAIL_DATA.left = {
           id: "res-1a", name: "珠寶工匠", color: "blue", cost: 1, max: 5,
           note: "",
           effects: [
-            { stat: "抽獎綠珠轉藍珠機率", per: 1, unit: "%" },
+            { stat: "抽獎綠珠轉藍珠", per: 1, unit: "%" },
           ]
         },
       ]
@@ -28,14 +28,14 @@ window.SNAIL_DATA.left = {
           id: "res-2b", name: "珠寶大師", color: "orange", cost: 1, max: 5,
           note: "",
           effects: [
-            { stat: "抽獎紫珠轉橘珠機率", per: 1, unit: "%" },
+            { stat: "抽獎紫珠轉橘珠", per: 1, unit: "%" },
           ]
         },
         {
           id: "res-2a", name: "珠寶專家", color: "purple", cost: 1, max: 5,
           note: "",
           effects: [
-            { stat: "抽獎藍珠轉紫珠機率", per: 1, unit: "%" },
+            { stat: "抽獎藍珠轉紫珠", per: 1, unit: "%" },
           ]
         },
       ]
@@ -228,7 +228,7 @@ window.SNAIL_DATA.left = {
           id: "res-13a", name: "提煉學徒", color: "blue", cost: 6, max: 5,
           note: "",
           effects: [
-            { stat: "提煉綠建材轉藍建材機率", per: 1, unit: "%" },
+            { stat: "提煉綠建材轉藍建材", per: 1, unit: "%" },
           ]
         },
       ]
@@ -242,14 +242,14 @@ window.SNAIL_DATA.left = {
           note: "",
           gate: true,
           effects: [
-            { stat: "提煉紫建材轉橘建材機率", per: 1, unit: "%" },
+            { stat: "提煉紫建材轉橘建材", per: 1, unit: "%" },
           ]
         },
         {
           id: "res-14a", name: "提煉專家", color: "purple", cost: 6, max: 5,
           note: "",
           effects: [
-            { stat: "提煉藍建材轉紫建材機率", per: 1, unit: "%" },
+            { stat: "提煉藍建材轉紫建材", per: 1, unit: "%" },
           ]
         },
       ]
